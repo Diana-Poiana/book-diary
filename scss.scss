@@ -1,0 +1,370 @@
+@import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
+
+$font-color: #1f1b14;
+$btn-color: #d9d9d9;
+$accent-color: #ad9d85;
+$second-accent: #e0dad1;
+$bg: rgb(245, 243, 240);
+$white: #ffffff;
+
+body {
+  color: $font-color;
+  font-size: 16px;
+  font-family: 'Overpass', sans-serif;
+  font-weight: 400;
+  background-color: $bg;
+  line-height: 1.2;
+}
+
+.container {
+  padding: 0 20px;
+  margin: 0 auto;
+  max-width: 1680px;
+  width: 100%;
+}
+
+.btn {
+  color: $font-color;
+  background-color: $btn-color;
+  padding: 12px 0;
+  width: 152px;
+}
+
+.header {
+  &__content {
+    padding: 40px 0;
+  }
+
+  &__review-name {
+    font-size: 24px;
+    text-transform: uppercase;
+  }
+
+  &__book-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 68px;
+  }
+
+  &__review-author {
+    color: $accent-color;
+    font-size: 32px;
+    font-weight: 200;
+    text-transform: capitalize;
+    font-style: italic;
+  }
+}
+
+.review {
+
+  &__content {
+
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 20px;
+  }
+
+  &__item {
+    padding: 24px 32px;
+    border-radius: 4px;
+    background-color: $white;
+
+    &:nth-of-type(1) {
+      grid-row: span 2;
+    }
+
+    &:nth-of-type(2) {
+      grid-row: span 2;
+      grid-column: span 2;
+    }
+
+    &:nth-of-type(3) {
+      grid-row: span 2;
+    }
+
+    &:nth-of-type(4) {
+      grid-row: span 2;
+    }
+
+    &:nth-of-type(5) {
+      grid-row: span 2;
+    }
+
+    &:nth-of-type(7) {
+      grid-row: span 2;
+    }
+  }
+}
+
+.item {
+  position: relative;
+
+  &__name {
+    margin-bottom: 16px;
+  }
+
+  &__user-input {
+    font-size: 20px;
+  }
+
+  // 5
+
+  &.item__page {
+    position: relative;
+  }
+
+  &__page-content {
+    position: absolute;
+    right: 24px;
+    bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: $accent-color;
+    background-color: $bg;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+  }
+
+  &__page-text {
+    margin-bottom: 6px;
+  }
+
+  &__page-num {
+    font-size: 20px;
+  }
+
+  // 6
+
+  &__png {
+    position: absolute;
+    bottom: 24px;
+    right: 24px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+
+}
+
+.rating {
+  &__block:not(:last-child) {
+    margin-bottom: 24px;
+  }
+
+  &__description {
+    color: $accent-color;
+  }
+
+  &__stars {
+    padding: 0;
+    display: inline-block;
+    border: 0;
+  }
+}
+
+.setting {
+
+  &__input {
+    display: none;
+  }
+
+  &__label {
+    float: right;
+  }
+
+  &__half {
+    float: right;
+  }
+
+  &__label:before {
+    display: inline-block;
+    font-size: 35px;
+    padding: 5px;
+    cursor: pointer;
+    font-family: FontAwesome;
+    content: "\f005 ";
+    color: $bg;
+  }
+
+  &__half:before {
+    display: inline-block;
+    font-size: 35px;
+    padding: 5px;
+    cursor: pointer;
+    font-family: FontAwesome;
+    content: "\f089 ";
+    position: absolute;
+    padding-right: 0;
+    color: $bg;
+  }
+
+  &__label:hover~.setting__half:before,
+  &__label:hover~.setting__label:before,
+  &__half:hover~.setting__half:before,
+  &__half:hover~.setting__label:before {
+    color: black;
+  }
+
+  &__input:checked~.setting__label:before,
+  &__input:checked~.setting__half:before {
+    color: black
+  }
+}
+
+.plot {
+
+  &__input {
+    display: none;
+  }
+
+  &__label {
+    float: right;
+  }
+
+  &__half {
+    float: right;
+  }
+
+  &__label:before {
+    display: inline-block;
+    font-size: 35px;
+    padding: 5px;
+    cursor: pointer;
+    font-family: FontAwesome;
+    content: "\f005 ";
+    color: $bg;
+  }
+
+  &__half:before {
+    display: inline-block;
+    font-size: 35px;
+    padding: 5px;
+    cursor: pointer;
+    font-family: FontAwesome;
+    content: "\f089 ";
+    position: absolute;
+    padding-right: 0;
+    color: $bg;
+  }
+
+  &__label:hover~.plot__half:before,
+  &__label:hover~.plot__label:before,
+  &__half:hover~.plot__half:before,
+  &__half:hover~.plot__label:before {
+    color: black;
+  }
+
+  &__input:checked~.plot__label:before,
+  &__input:checked~.plot__half:before {
+    color: black
+  }
+}
+
+.overall {
+
+  &__input {
+    display: none;
+  }
+
+  &__label {
+    float: right;
+  }
+
+  &__half {
+    float: right;
+  }
+
+  &__label:before {
+    display: inline-block;
+    font-size: 35px;
+    padding: 5px;
+    cursor: pointer;
+    font-family: FontAwesome;
+    content: "\f005 ";
+    color: $bg;
+  }
+
+  &__half:before {
+    display: inline-block;
+    font-size: 35px;
+    padding: 5px;
+    cursor: pointer;
+    font-family: FontAwesome;
+    content: "\f089 ";
+    position: absolute;
+    padding-right: 0;
+    color: $bg;
+  }
+
+  &__label:hover~.overall__half:before,
+  &__label:hover~.overall__label:before,
+  &__half:hover~.overall__half:before,
+  &__half:hover~.overall__label:before {
+    color: black;
+  }
+
+  &__input:checked~.overall__label:before,
+  &__input:checked~.overall__half:before {
+    color: black
+  }
+}
+
+
+
+
+
+
+.notes {
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 104px;
+    left: 25px;
+    right: 25px;
+    height: 75%;
+    background: linear-gradient(to bottom, $second-accent, $second-accent 1px, transparent 1px, transparent);
+    background-size: 100% 43px;
+  }
+
+  &__name {
+    margin-bottom: 16px;
+  }
+
+  &__user-notes {
+    font-size: 20px;
+    line-height: 2.2;
+    display: flex;
+    align-items: flex-end;
+  }
+}
+
+.quotes {
+  &__content {
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 185px;
+      right: -10px;
+      width: 72px;
+      height: 50px;
+      background-image: url('../images/quotes.svg');
+      background-position: center center;
+      background-repeat: no-repeat;
+    }
+  }
+
+  &__name {
+    margin-bottom: 16px;
+  }
+
+  &__users-quote {
+    font-size: 20px;
+  }
+}

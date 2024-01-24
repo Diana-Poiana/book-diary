@@ -1,0 +1,278 @@
+@import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
+body {
+  color: #1f1b14;
+  font-size: 16px;
+  font-family: "Overpass", sans-serif;
+  font-weight: 400;
+  background-color: rgb(245, 243, 240);
+  line-height: 1.2;
+}
+
+.container {
+  padding: 0 20px;
+  margin: 0 auto;
+  max-width: 1680px;
+  width: 100%;
+}
+
+.btn {
+  color: #1f1b14;
+  background-color: #d9d9d9;
+  padding: 12px 0;
+  width: 152px;
+}
+
+.header__content {
+  padding: 40px 0;
+}
+.header__review-name {
+  font-size: 24px;
+  text-transform: uppercase;
+}
+.header__book-title {
+  font-family: "Cinzel Decorative", serif;
+  font-size: 68px;
+}
+.header__review-author {
+  color: #ad9d85;
+  font-size: 32px;
+  font-weight: 200;
+  text-transform: capitalize;
+  font-style: italic;
+}
+
+.review__content {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 20px;
+}
+.review__item {
+  padding: 24px 32px;
+  border-radius: 4px;
+  background-color: #ffffff;
+}
+.review__item:nth-of-type(1) {
+  grid-row: span 2;
+}
+.review__item:nth-of-type(2) {
+  grid-row: span 2;
+  grid-column: span 2;
+}
+.review__item:nth-of-type(3) {
+  grid-row: span 2;
+}
+.review__item:nth-of-type(4) {
+  grid-row: span 2;
+}
+.review__item:nth-of-type(5) {
+  grid-row: span 2;
+}
+.review__item:nth-of-type(7) {
+  grid-row: span 2;
+}
+
+.item {
+  position: relative;
+}
+.item__name {
+  margin-bottom: 16px;
+}
+.item__user-input {
+  font-size: 20px;
+}
+.item.item__page {
+  position: relative;
+}
+.item__page-content {
+  position: absolute;
+  right: 24px;
+  bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #ad9d85;
+  background-color: rgb(245, 243, 240);
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+}
+.item__page-text {
+  margin-bottom: 6px;
+}
+.item__page-num {
+  font-size: 20px;
+}
+.item__png {
+  position: absolute;
+  bottom: 24px;
+  right: 24px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.rating__block:not(:last-child) {
+  margin-bottom: 24px;
+}
+.rating__description {
+  color: #ad9d85;
+}
+.rating__stars {
+  padding: 0;
+  display: inline-block;
+  border: 0;
+}
+
+.setting__input {
+  display: none;
+}
+.setting__label {
+  float: right;
+}
+.setting__half {
+  float: right;
+}
+.setting__label:before {
+  display: inline-block;
+  font-size: 35px;
+  padding: 5px;
+  cursor: pointer;
+  font-family: FontAwesome;
+  content: "\f005";
+  color: rgb(245, 243, 240);
+}
+.setting__half:before {
+  display: inline-block;
+  font-size: 35px;
+  padding: 5px;
+  cursor: pointer;
+  font-family: FontAwesome;
+  content: "\f089";
+  position: absolute;
+  padding-right: 0;
+  color: rgb(245, 243, 240);
+}
+.setting__label:hover ~ .setting__half:before, .setting__label:hover ~ .setting__label:before, .setting__half:hover ~ .setting__half:before, .setting__half:hover ~ .setting__label:before {
+  color: black;
+}
+.setting__input:checked ~ .setting__label:before, .setting__input:checked ~ .setting__half:before {
+  color: black;
+}
+
+.plot__input {
+  display: none;
+}
+.plot__label {
+  float: right;
+}
+.plot__half {
+  float: right;
+}
+.plot__label:before {
+  display: inline-block;
+  font-size: 35px;
+  padding: 5px;
+  cursor: pointer;
+  font-family: FontAwesome;
+  content: "\f005";
+  color: rgb(245, 243, 240);
+}
+.plot__half:before {
+  display: inline-block;
+  font-size: 35px;
+  padding: 5px;
+  cursor: pointer;
+  font-family: FontAwesome;
+  content: "\f089";
+  position: absolute;
+  padding-right: 0;
+  color: rgb(245, 243, 240);
+}
+.plot__label:hover ~ .plot__half:before, .plot__label:hover ~ .plot__label:before, .plot__half:hover ~ .plot__half:before, .plot__half:hover ~ .plot__label:before {
+  color: black;
+}
+.plot__input:checked ~ .plot__label:before, .plot__input:checked ~ .plot__half:before {
+  color: black;
+}
+
+.overall__input {
+  display: none;
+}
+.overall__label {
+  float: right;
+}
+.overall__half {
+  float: right;
+}
+.overall__label:before {
+  display: inline-block;
+  font-size: 35px;
+  padding: 5px;
+  cursor: pointer;
+  font-family: FontAwesome;
+  content: "\f005";
+  color: rgb(245, 243, 240);
+}
+.overall__half:before {
+  display: inline-block;
+  font-size: 35px;
+  padding: 5px;
+  cursor: pointer;
+  font-family: FontAwesome;
+  content: "\f089";
+  position: absolute;
+  padding-right: 0;
+  color: rgb(245, 243, 240);
+}
+.overall__label:hover ~ .overall__half:before, .overall__label:hover ~ .overall__label:before, .overall__half:hover ~ .overall__half:before, .overall__half:hover ~ .overall__label:before {
+  color: black;
+}
+.overall__input:checked ~ .overall__label:before, .overall__input:checked ~ .overall__half:before {
+  color: black;
+}
+
+.notes {
+  position: relative;
+}
+.notes::after {
+  content: "";
+  position: absolute;
+  top: 104px;
+  left: 25px;
+  right: 25px;
+  height: 75%;
+  background: linear-gradient(to bottom, #e0dad1, #e0dad1 1px, transparent 1px, transparent);
+  background-size: 100% 43px;
+}
+.notes__name {
+  margin-bottom: 16px;
+}
+.notes__user-notes {
+  font-size: 20px;
+  line-height: 2.2;
+  display: flex;
+  align-items: flex-end;
+}
+
+.quotes__content {
+  position: relative;
+}
+.quotes__content::after {
+  content: "";
+  position: absolute;
+  top: 185px;
+  right: -10px;
+  width: 72px;
+  height: 50px;
+  background-image: url("../images/quotes.svg");
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+.quotes__name {
+  margin-bottom: 16px;
+}
+.quotes__users-quote {
+  font-size: 20px;
+}
