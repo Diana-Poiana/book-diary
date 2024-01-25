@@ -197,6 +197,114 @@ body {
   color: black;
 }
 
+.characters__input {
+  display: none;
+}
+.characters__label {
+  float: right;
+}
+.characters__half {
+  float: right;
+}
+.characters__label:before {
+  display: inline-block;
+  font-size: 35px;
+  padding: 5px;
+  cursor: pointer;
+  font-family: FontAwesome;
+  content: "\f005";
+  color: rgb(245, 243, 240);
+}
+.characters__half:before {
+  display: inline-block;
+  font-size: 35px;
+  padding: 5px;
+  cursor: pointer;
+  font-family: FontAwesome;
+  content: "\f089";
+  position: absolute;
+  padding-right: 0;
+  color: rgb(245, 243, 240);
+}
+.characters__label:hover ~ .characters__half:before, .characters__label:hover ~ .characters__label:before, .characters__half:hover ~ .characters__half:before, .characters__half:hover ~ .characters__label:before {
+  color: black;
+}
+.characters__input:checked ~ .characters__label:before, .characters__input:checked ~ .characters__half:before {
+  color: black;
+}
+
+.style__input {
+  display: none;
+}
+.style__label {
+  float: right;
+}
+.style__half {
+  float: right;
+}
+.style__label:before {
+  display: inline-block;
+  font-size: 35px;
+  padding: 5px;
+  cursor: pointer;
+  font-family: FontAwesome;
+  content: "\f005";
+  color: rgb(245, 243, 240);
+}
+.style__half:before {
+  display: inline-block;
+  font-size: 35px;
+  padding: 5px;
+  cursor: pointer;
+  font-family: FontAwesome;
+  content: "\f089";
+  position: absolute;
+  padding-right: 0;
+  color: rgb(245, 243, 240);
+}
+.style__label:hover ~ .style__half:before, .style__label:hover ~ .style__label:before, .style__half:hover ~ .style__half:before, .style__half:hover ~ .style__label:before {
+  color: black;
+}
+.style__input:checked ~ .style__label:before, .style__input:checked ~ .style__half:before {
+  color: black;
+}
+
+.engagement__input {
+  display: none;
+}
+.engagement__label {
+  float: right;
+}
+.engagement__half {
+  float: right;
+}
+.engagement__label:before {
+  display: inline-block;
+  font-size: 35px;
+  padding: 5px;
+  cursor: pointer;
+  font-family: FontAwesome;
+  content: "\f005";
+  color: rgb(245, 243, 240);
+}
+.engagement__half:before {
+  display: inline-block;
+  font-size: 35px;
+  padding: 5px;
+  cursor: pointer;
+  font-family: FontAwesome;
+  content: "\f089";
+  position: absolute;
+  padding-right: 0;
+  color: rgb(245, 243, 240);
+}
+.engagement__label:hover ~ .engagement__half:before, .engagement__label:hover ~ .engagement__label:before, .engagement__half:hover ~ .engagement__half:before, .engagement__half:hover ~ .engagement__label:before {
+  color: black;
+}
+.engagement__input:checked ~ .engagement__label:before, .engagement__input:checked ~ .engagement__half:before {
+  color: black;
+}
+
 .overall__input {
   display: none;
 }
@@ -210,7 +318,6 @@ body {
   display: inline-block;
   font-size: 35px;
   padding: 5px;
-  cursor: pointer;
   font-family: FontAwesome;
   content: "\f005";
   color: rgb(245, 243, 240);
@@ -219,15 +326,11 @@ body {
   display: inline-block;
   font-size: 35px;
   padding: 5px;
-  cursor: pointer;
   font-family: FontAwesome;
   content: "\f089";
   position: absolute;
   padding-right: 0;
   color: rgb(245, 243, 240);
-}
-.overall__label:hover ~ .overall__half:before, .overall__label:hover ~ .overall__label:before, .overall__half:hover ~ .overall__half:before, .overall__half:hover ~ .overall__label:before {
-  color: black;
 }
 .overall__input:checked ~ .overall__label:before, .overall__input:checked ~ .overall__half:before {
   color: black;

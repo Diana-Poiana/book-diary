@@ -166,7 +166,6 @@ body {
 }
 
 .setting {
-
   &__input {
     display: none;
   }
@@ -215,7 +214,6 @@ body {
 }
 
 .plot {
-
   &__input {
     display: none;
   }
@@ -263,8 +261,7 @@ body {
   }
 }
 
-.overall {
-
+.characters {
   &__input {
     display: none;
   }
@@ -299,11 +296,147 @@ body {
     color: $bg;
   }
 
-  &__label:hover~.overall__half:before,
-  &__label:hover~.overall__label:before,
-  &__half:hover~.overall__half:before,
-  &__half:hover~.overall__label:before {
+  &__label:hover~.characters__half:before,
+  &__label:hover~.characters__label:before,
+  &__half:hover~.characters__half:before,
+  &__half:hover~.characters__label:before {
     color: black;
+  }
+
+  &__input:checked~.characters__label:before,
+  &__input:checked~.characters__half:before {
+    color: black
+  }
+}
+
+.style {
+  &__input {
+    display: none;
+  }
+
+  &__label {
+    float: right;
+  }
+
+  &__half {
+    float: right;
+  }
+
+  &__label:before {
+    display: inline-block;
+    font-size: 35px;
+    padding: 5px;
+    cursor: pointer;
+    font-family: FontAwesome;
+    content: "\f005 ";
+    color: $bg;
+  }
+
+  &__half:before {
+    display: inline-block;
+    font-size: 35px;
+    padding: 5px;
+    cursor: pointer;
+    font-family: FontAwesome;
+    content: "\f089 ";
+    position: absolute;
+    padding-right: 0;
+    color: $bg;
+  }
+
+  &__label:hover~.style__half:before,
+  &__label:hover~.style__label:before,
+  &__half:hover~.style__half:before,
+  &__half:hover~.style__label:before {
+    color: black;
+  }
+
+  &__input:checked~.style__label:before,
+  &__input:checked~.style__half:before {
+    color: black
+  }
+}
+
+.engagement {
+  &__input {
+    display: none;
+  }
+
+  &__label {
+    float: right;
+  }
+
+  &__half {
+    float: right;
+  }
+
+  &__label:before {
+    display: inline-block;
+    font-size: 35px;
+    padding: 5px;
+    cursor: pointer;
+    font-family: FontAwesome;
+    content: "\f005 ";
+    color: $bg;
+  }
+
+  &__half:before {
+    display: inline-block;
+    font-size: 35px;
+    padding: 5px;
+    cursor: pointer;
+    font-family: FontAwesome;
+    content: "\f089 ";
+    position: absolute;
+    padding-right: 0;
+    color: $bg;
+  }
+
+  &__label:hover~.engagement__half:before,
+  &__label:hover~.engagement__label:before,
+  &__half:hover~.engagement__half:before,
+  &__half:hover~.engagement__label:before {
+    color: black;
+  }
+
+  &__input:checked~.engagement__label:before,
+  &__input:checked~.engagement__half:before {
+    color: black
+  }
+}
+
+.overall {
+
+  &__input {
+    display: none;
+  }
+
+  &__label {
+    float: right;
+  }
+
+  &__half {
+    float: right;
+  }
+
+  &__label:before {
+    display: inline-block;
+    font-size: 35px;
+    padding: 5px;
+    font-family: FontAwesome;
+    content: "\f005 ";
+    color: $bg;
+  }
+
+  &__half:before {
+    display: inline-block;
+    font-size: 35px;
+    padding: 5px;
+    font-family: FontAwesome;
+    content: "\f089 ";
+    position: absolute;
+    padding-right: 0;
+    color: $bg;
   }
 
   &__input:checked~.overall__label:before,
