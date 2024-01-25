@@ -14,6 +14,9 @@ window.addEventListener('DOMContentLoaded', () => {
   let engagementStars;
   let overallStars = 0;
 
+  // img input
+  const bookCoverInput = document.querySelector('.book-description__cover-input');
+  const bookCover = document.querySelector('.book-description__cover-img');
 
   // rating stars
   function getRating(inputs, startsVariable) {
@@ -46,6 +49,14 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  function loadBookCover() {
+    let userCover = bookCoverInput.files[0];
+    bookCover.src = URL.createObjectURL(userCover);
+    localStorage.setItem('bookCover', bookCover.src);
+  }
+
+  // bookCover.src = localStorage.getItem('bookCover');
+
   // event listeners
   settingRating.addEventListener('change', changeOverallRating);
   plotRating.addEventListener('change', changeOverallRating);
@@ -53,4 +64,8 @@ window.addEventListener('DOMContentLoaded', () => {
   styleRating.addEventListener('change', changeOverallRating);
   engagementRating.addEventListener('change', changeOverallRating);
 
+  bookCoverInput.addEventListener('change', loadBookCover);
+  bookCover.addEventListener('click', () => {
+    bookCoverInput.click();
+  });
 });
