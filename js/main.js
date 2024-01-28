@@ -40,51 +40,78 @@ window.addEventListener('DOMContentLoaded', () => {
   const bookCover = document.querySelector('.book-description__cover-img');
 
   // calendar
-
   const currentDate = new Date();
   const maxDate = currentDate.toISOString().split('T')[0];
   currentDate.setDate(currentDate.getDate() - 7);
   const minDate = currentDate.toISOString().split('T')[0];
+  // to update html calendar
+
+  // const startDateEntered = document.querySelector('.book-description__start-date');
+  // const finishDateEntered = document.querySelector('.book-description__finish-date');
 
   // local storage
 
+  let userData = {
+    input1: '',
+    input2: '',
+    input3: '',
+    input4: '',
+    input5: '',
+    input6: '',
+    input7: '',
+    input8: '',
+    input9: ''
+  };
+
   const allUserInputs = document.querySelectorAll('.item__user-input');
   const saveBtn = document.querySelector('.review__save-btn');
-  const userData = JSON.parse(localStorage.getItem('userData'));
+  // const userData = JSON.parse(localStorage.getItem('userData'));
 
   // local storage collecting data
 
-  function collectAllUserData() {
+  function collectUserData() {
     allUserInputs.forEach(input => {
       let dataAttribute = input.getAttribute('name');
 
       input.addEventListener('input', function () {
         userData[dataAttribute] = input.innerText;
-        updateLocalStorage();
+        localStorage.setItem(dataAttribute, JSON.stringify(userData[dataAttribute]));
       })
     });
   }
 
-  // local storage updating data
+  collectUserData();
 
-  function updateLocalStorage() {
-    localStorage.setItem('userData', JSON.stringify(userData));
-  }
 
   function applyUserData() {
-    allUserInputs.forEach(input => {
+    const storedUserData = {};
+    allUserInputs.forEach((input) => {
       let dataAttribute = input.getAttribute('name');
 
-      if (userData[dataAttribute] === '') {
+      const storedData = JSON.parse(localStorage.getItem(dataAttribute));
+
+      if (storedData === '' || storedData === 'null') {
         input.innerText = '...';
+        input.innerText = storedData;
+        storedUserData[dataAttribute] = storedData;
+
       } else {
-        input.innerText = userData[dataAttribute];
+        input.innerText = storedData;
+        storedUserData[dataAttribute] = storedData;
       }
     })
+    return storedUserData;
   }
 
-  collectAllUserData();
   applyUserData();
+
+
+  // function updateLocalStorage() {
+  //   localStorage.setItem('userData', JSON.stringify(userData));
+  //   console.log('LocalStorage updated:', userData);
+  // }
+
+
 
   // send all data to firebase
   function saveAllDataAndSendToFirebase() {
@@ -93,11 +120,11 @@ window.addEventListener('DOMContentLoaded', () => {
 
     if (userInfo && userInfo.uid) {
       const userID = userInfo.uid;
-
+      const userDataForFirebase = applyUserData();
       // Ensure that userData is defined and contains the necessary data
-      if (userData) {
+      if (userDataForFirebase) {
         // Assuming userData is an object with properties you want to save
-        set(ref(db, 'users/' + userID), userData)
+        set(ref(db, 'users/' + userID), userDataForFirebase)
           .then(() => {
             console.log('Данные успешно отправлены в Firebase!');
           })
@@ -113,14 +140,14 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 
 
-
-
-
+  // calendar
   // const startDate = datepicker('.book-description__start-date', {
   //   minDate: new Date(minDate),
   //   formatter: (input, date) => {
   //     const formattedDate = date.toLocaleDateString();
   //     input.value = formattedDate;
+  //     const startDateSaved = input.value;
+  //     localStorage.setItem('start-date', JSON.stringify(startDateSaved));
   //   }
   // });
 
@@ -128,8 +155,14 @@ window.addEventListener('DOMContentLoaded', () => {
   //   maxDate: new Date(maxDate), formatter: (input, date) => {
   //     const formattedDate = date.toLocaleDateString();
   //     input.value = formattedDate;
+  //     const finishDateSaved = input.value;
+  //     localStorage.setItem('finish-date', JSON.stringify(finishDateSaved));
   //   }
   // });
+
+
+  // startDateEntered.value = JSON.parse(localStorage.getItem('start-date'));
+  // finishDateEntered.value = JSON.parse(localStorage.getItem('finish-date'));
 
   // rating stars
   function getRating(inputs, startsVariable) {
@@ -141,6 +174,7 @@ window.addEventListener('DOMContentLoaded', () => {
     });
     return startsVariable;
   }
+
 
   function changeOverallRating() {
     settingStars = getRating(settingRating, settingStars);
@@ -211,6 +245,13 @@ window.addEventListener('DOMContentLoaded', () => {
         alert(error.message);
       });
   }
+
+
+
+
+
+
+
 
 
 
@@ -291,13 +332,13 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 
   try {
-    bookCoverInput.addEventListener('change', loadBookCover);
+    engagementRating.addEventListener('change', changeOverallRating);
   } catch (error) {
     console.log(error);
   }
 
   try {
-    engagementRating.addEventListener('change', changeOverallRating);
+    bookCoverInput.addEventListener('change', loadBookCover);
   } catch (error) {
     console.log(error);
   }
