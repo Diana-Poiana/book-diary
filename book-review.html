@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Review | Book Review</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Overpass:ital,wght@0,300;0,400;0,700;1,200&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/js-datepicker/dist/datepicker.min.css">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/scss.css">
+</head>
+
+<body>
+  <!-- header -->
+  <header class="header">
+    <div class="container">
+      <div class="header__content">
+        <p class="header__review-name">
+          book review
+        </p>
+        <p class="header__book-title" contenteditable="true">
+          title
+        </p>
+        <p class="header__review-author" contenteditable="true">
+          author
+        </p>
+      </div>
+    </div>
+  </header>
+  <!-- main -->
+  <main class="main">
+    <div class="container">
+      <section class="review__section">
+        <ul class="review__content">
+
+          <li class="review__item rating">
+            <div class="rating__content">
+
+              <div class="rating__block">
+                <p class="rating__name">
+                  Setting
+                </p>
+                <p class="rating__description">
+                  World-building, lore, atmosphere, etc.
+                </p>
+                <fieldset class="rating__stars" id="setting">
+                  <input class="setting__input" type="radio" id="setting-rating10" name="setting__rating" value="5" />
+                  <label class="setting__label" for="setting-rating10" title="5 stars"></label>
+                  <input class="setting__input" type="radio" id="setting-rating9" name="setting__rating" value="4.5" />
+                  <label class="setting__half" for="setting-rating9" title="4 1/2 stars"></label>
+                  <input class="setting__input" type="radio" id="setting-rating8" name="setting__rating" value="4" />
+                  <label class="setting__label" for="setting-rating8" title="4 stars"></label>
+                  <input class="setting__input" type="radio" id="setting-rating7" name="setting__rating" value="3.5" />
+                  <label class="setting__half" for="setting-rating7" title="3 1/2 stars"></label>
+                  <input class="setting__input" type="radio" id="setting-rating6" name="setting__rating" value="3" />
+                  <label class="setting__label" for="setting-rating6" title="3 stars"></label>
+                  <input class="setting__input" type="radio" id="setting-rating5" name="setting__rating" value="2.5" />
+                  <label class="setting__half" for="setting-rating5" title="2 1/2 stars"></label>
+                  <input class="setting__input" type="radio" id="setting-rating4" name="setting__rating" value="2" />
+                  <label class="setting__label" for="setting-rating4" title="2 stars"></label>
+                  <input class="setting__input" type="radio" id="setting-rating3" name="setting__rating" value="1.5" />
+                  <label class="setting__half" for="setting-rating3" title="1 1/2 stars"></label>
+                  <input class="setting__input" type="radio" id="setting-rating2" name="setting__rating" value="1" />
+                  <label class="setting__label" for="setting-rating2" title="1 star"></label>
+                  <input class="setting__input" type="radio" id="setting-rating1" name="setting__rating" value="0.5" />
+                  <label class="setting__half" for="setting-rating1" title="1/2 star"></label>
+                </fieldset>
+              </div>
+
+              <div class="rating__block">
+                <p class="rating__name">
+                  Plot
+                </p>
+                <p class="rating__description">
+                  Structure, arcs, pacing, climax, tension, resolution, etc.
+                </p>
+                <fieldset class="rating__stars" id="plot">
+                  <input class="plot__input" type="radio" id="plot-rating10" name="plot__rating" value="5" />
+                  <label class="plot__label" for="plot-rating10" title="5 stars"></label>
+                  <input class="plot__input" type="radio" id="plot-rating9" name="plot__rating" value="4.5" />
+                  <label class="plot__half" for="rplot-ating9" title="4 1/2 stars"></label>
+                  <input class="plot__input" type="radio" id="plot-rating8" name="plot__rating" value="4" />
+                  <label class="plot__label" for="plot-rating8" title="4 stars"></label>
+                  <input class="plot__input" type="radio" id="plot-rating7" name="plot__rating" value="3.5" />
+                  <label class="plot__half" for="plot-rating7" title="3 1/2 stars"></label>
+                  <input class="plot__input" type="radio" id="plot-rating6" name="plot__rating" value="3" />
+                  <label class="plot__label" for="plot-rating6" title="3 stars"></label>
+                  <input class="plot__input" type="radio" id="plot-rating5" name="plot__rating" value="2.5" />
+                  <label class="plot__half" for="plot-rating5" title="2 1/2 stars"></label>
+                  <input class="plot__input" type="radio" id="plot-rating4" name="plot__rating" value="2" />
+                  <label class="plot__label" for="plot-rating4" title="2 stars"></label>
+                  <input class="plot__input" type="radio" id="plot-rating3" name="plot__rating" value="1.5" />
+                  <label class="plot__half" for="plot-rating3" title="1 1/2 stars"></label>
+                  <input class="plot__input" type="radio" id="plot-rating2" name="plot__rating" value="1" />
+                  <label class="plot__label" for="plot-rating2" title="1 star"></label>
+                  <input class="plot__input" type="radio" id="plot-rating1" name="plot__rating" value="0.5" />
+                  <label class="plot__half" for="plot-rating1" title="1/2 star"></label>
+                </fieldset>
+
+              </div>
+
+              <div class="rating__block">
+                <p class="rating__name">
+                  Characters
+                </p>
+                <p class="rating__description">
+                  Development, relatability, depth, dynamics, arcs, etc
+                </p>
+                <fieldset class="rating__stars" id="characters">
+                  <input class="characters__input" type="radio" id="characters-rating10" name="characters__rating"
+                    value="5" />
+                  <label class="characters__label" for="characters-rating10" title="5 stars"></label>
+                  <input class="characters__input" type="radio" id="characters-rating9" name="characters__rating"
+                    value="4.5" />
+                  <label class="characters__half" for="rcharacters-ating9" title="4 1/2 stars"></label>
+                  <input class="characters__input" type="radio" id="characters-rating8" name="characters__rating"
+                    value="4" />
+                  <label class="characters__label" for="characters-rating8" title="4 stars"></label>
+                  <input class="characters__input" type="radio" id="characters-rating7" name="characters__rating"
+                    value="3.5" />
+                  <label class="characters__half" for="characters-rating7" title="3 1/2 stars"></label>
+                  <input class="characters__input" type="radio" id="characters-rating6" name="characters__rating"
+                    value="3" />
+                  <label class="characters__label" for="characters-rating6" title="3 stars"></label>
+                  <input class="characters__input" type="radio" id="characters-rating5" name="characters__rating"
+                    value="2.5" />
+                  <label class="characters__half" for="characters-rating5" title="2 1/2 stars"></label>
+                  <input class="characters__input" type="radio" id="characters-rating4" name="characters__rating"
+                    value="2" />
+                  <label class="characters__label" for="characters-rating4" title="2 stars"></label>
+                  <input class="characters__input" type="radio" id="characters-rating3" name="characters__rating"
+                    value="1.5" />
+                  <label class="characters__half" for="characters-rating3" title="1 1/2 stars"></label>
+                  <input class="characters__input" type="radio" id="characters-rating2" name="characters__rating"
+                    value="1" />
+                  <label class="characters__label" for="characters-rating2" title="1 star"></label>
+                  <input class="characters__input" type="radio" id="characters-rating1" name="characters__rating"
+                    value="0.5" />
+                  <label class="characters__half" for="characters-rating1" title="1/2 star"></label>
+                </fieldset>
+              </div>
+
+              <div class="rating__block">
+                <p class="rating__name">
+                  Style
+                </p>
+                <p class="rating__description">
+                  Writing, voice, point of view, narrator, etc.
+                </p>
+                <fieldset class="rating__stars" id="style">
+                  <input class="style__input" type="radio" id="style-rating10" name="style__rating" value="5" />
+                  <label class="style__label" for="style-rating10" title="5 stars"></label>
+                  <input class="style__input" type="radio" id="style-rating9" name="style__rating" value="4.5" />
+                  <label class="style__half" for="style-rating9" title="4 1/2 stars"></label>
+                  <input class="style__input" type="radio" id="style-rating8" name="style__rating" value="4" />
+                  <label class="style__label" for="style-rating8" title="4 stars"></label>
+                  <input class="style__input" type="radio" id="style-rating7" name="style__rating" value="3.5" />
+                  <label class="style__half" for="style-rating7" title="3 1/2 stars"></label>
+                  <input class="style__input" type="radio" id="style-rating6" name="style__rating" value="3" />
+                  <label class="style__label" for="style-rating6" title="3 stars"></label>
+                  <input class="style__input" type="radio" id="style-rating5" name="style__rating" value="2.5" />
+                  <label class="style__half" for="style-rating5" title="2 1/2 stars"></label>
+                  <input class="style__input" type="radio" id="style-rating4" name="style__rating" value="2" />
+                  <label class="style__label" for="style-rating4" title="2 stars"></label>
+                  <input class="style__input" type="radio" id="style-rating3" name="style__rating" value="1.5" />
+                  <label class="style__half" for="style-rating3" title="1 1/2 stars"></label>
+                  <input class="style__input" type="radio" id="style-rating2" name="style__rating" value="1" />
+                  <label class="style__label" for="style-rating2" title="1 star"></label>
+                  <input class="style__input" type="radio" id="style-rating1" name="style__rating" value="0.5" />
+                  <label class="style__half" for="style-rating1" title="1/2 star"></label>
+                </fieldset>
+              </div>
+
+              <div class="rating__block">
+                <p class="rating__name">
+                  Engagement
+                </p>
+                <p class="rating__description">
+                  Immersion, Enjoyment, themes, genre, tropes, etc.
+                </p>
+                <fieldset class="rating__stars" id="engagement">
+                  <input class="engagement__input" type="radio" id="engagement-rating10" name="engagement__rating"
+                    value="5" />
+                  <label class="engagement__label" for="engagement-rating10" title="5 stars"></label>
+                  <input class="engagement__input" type="radio" id="engagement-rating9" name="engagement__rating"
+                    value="4.5" />
+                  <label class="engagement__half" for="engagement-rating9" title="4 1/2 stars"></label>
+                  <input class="engagement__input" type="radio" id="engagement-rating8" name="engagement__rating"
+                    value="4" />
+                  <label class="engagement__label" for="engagement-rating8" title="4 stars"></label>
+                  <input class="engagement__input" type="radio" id="engagement-rating7" name="engagement__rating"
+                    value="3.5" />
+                  <label class="engagement__half" for="engagement-rating7" title="3 1/2 stars"></label>
+                  <input class="engagement__input" type="radio" id="engagement-rating6" name="engagement__rating"
+                    value="3" />
+                  <label class="engagement__label" for="engagement-rating6" title="3 stars"></label>
+                  <input class="engagement__input" type="radio" id="engagement-rating5" name="engagement__rating"
+                    value="2.5" />
+                  <label class="engagement__half" for="engagement-rating5" title="2 1/2 stars"></label>
+                  <input class="engagement__input" type="radio" id="engagement-rating4" name="engagement__rating"
+                    value="2" />
+                  <label class="engagement__label" for="engagement-rating4" title="2 stars"></label>
+                  <input class="engagement__input" type="radio" id="engagement-rating3" name="engagement__rating"
+                    value="1.5" />
+                  <label class="engagement__half" for="engagement-rating3" title="1 1/2 stars"></label>
+                  <input class="engagement__input" type="radio" id="engagement-rating2" name="engagement__rating"
+                    value="1" />
+                  <label class="engagement__label" for="engagement-rating2" title="1 star"></label>
+                  <input class="engagement__input" type="radio" id="engagement-rating1" name="engagement__rating"
+                    value="0.5" />
+                  <label class="engagement__half" for="engagement-rating1" title="1/2 star"></label>
+                </fieldset>
+              </div>
+
+              <div class="rating__block">
+                <p class="rating__name">
+                  Overall rating
+                </p>
+                <fieldset class="rating__stars" id="overall">
+                  <input class="overall__input" disabled="true" type="radio" id="overall-rating10"
+                    name="overall__rating" value="5" />
+                  <label class="overall__label" for="overall-rating10" title="5 stars"></label>
+                  <input class="overall__input" disabled="true" type="radio" id="overall-rating9" name="overall__rating"
+                    value="4.5" />
+                  <label class="overall__half" for="overall-ating9" title="4 1/2 stars"></label>
+                  <input class="overall__input" disabled="true" type="radio" id="overall-rating8" name="overall__rating"
+                    value="4" />
+                  <label class="overall__label" for="overall-rating8" title="4 stars"></label>
+                  <input class="overall__input" disabled="true" type="radio" id="overall-rating7" name="overall__rating"
+                    value="3.5" />
+                  <label class="overall__half" for="overall-rating7" title="3 1/2 stars"></label>
+                  <input class="overall__input" disabled="true" type="radio" id="overall-rating6" name="overall__rating"
+                    value="3" />
+                  <label class="overall__label" for="overall-rating6" title="3 stars"></label>
+                  <input class="overall__input" disabled="true" type="radio" id="overall-rating5" name="overall__rating"
+                    value="2.5" />
+                  <label class="overall__half" for="overall-rating5" title="2 1/2 stars"></label>
+                  <input class="overall__input" disabled="true" type="radio" id="overall-rating4" name="overall__rating"
+                    value="2" />
+                  <label class="overall__label" for="overall-rating4" title="2 stars"></label>
+                  <input class="overall__input" disabled="true" type="radio" id="overall-rating3" name="overall__rating"
+                    value="1.5" />
+                  <label class="overall__half" for="overall-rating3" title="1 1/2 stars"></label>
+                  <input class="overall__input" disabled="true" type="radio" id="overall-rating2" name="overall__rating"
+                    value="1" />
+                  <label class="overall__label" for="overall-rating2" title="1 star"></label>
+                  <input class="overall__input" disabled="true" type="radio" id="overall-rating1" name="overall__rating"
+                    value="0.5" />
+                  <label class="overall__half" for="overall-rating1" title="1/2 star"></label>
+                </fieldset>
+              </div>
+
+            </div>
+          </li>
+
+          <li class="review__item notes">
+            <div class="notes__content">
+              <p class="notes__name">
+                Thoughts and notes
+              </p>
+              <p class="notes__user-notes item__user-input" name="input1" contenteditable="true">
+                <img class="notes__png" src="images/star.png" alt="star">
+                Your thoughts and notes here
+                <img class="notes__png" src="images/star.png" alt="star">
+              </p>
+            </div>
+          </li>
+
+          <li class="review__item book-description">
+            <div class="book-description__content">
+              <div class="book-description__cover">
+                <label class="book-description__cover-label" for="cover-input">Book cover here</label>
+                <input class="book-description__cover-input" name="cover-input" type="file">
+                <img class="book-description__cover-img">
+              </div>
+
+              <div class="book-description__dates">
+                <label class="book-description__start" for="start-date">
+                  Start date
+                  <input class="book-description__start-date" type="text" placeholder="Enter start date">
+                </label>
+
+
+                <label class="book-description__finish" for="finish-date">
+                  Finish date
+                  <input class="book-description__finish-date" type="text" placeholder="Enter finish date">
+                </label>
+
+              </div>
+
+              <p class="book-description__format-name">
+                Format
+                <span class="book-description__format-input item__user-input" name="input2" contenteditable="true">
+                  Ebook
+                </span>
+              </p>
+
+              <p class="book-description__genre-name">
+                Genre
+                <span class="book-description__genre-input item__user-input" name="input3" contenteditable="true">
+                  Mystery, Thriller, Contemporary, Adult, Humor, Romance
+                </span>
+              </p>
+            </div>
+          </li>
+
+          <li class="review__item item">
+            <div class="item__content">
+              <p class="item__name">
+                Quotes to remember
+              </p>
+              <p class="item__user-input" name="input4" contenteditable="true">
+                ...
+              </p>
+            </div>
+          </li>
+
+          <li class="review__item item">
+            <div class="item__content item__page">
+              <p class="item__name">
+                Most surprising moment
+              </p>
+              <p class="item__user-input" name="input5" contenteditable="true">
+                ...
+              </p>
+              <div class="item__page-content">
+                <p class="item__page-text" contenteditable="true">
+                  page
+                </p>
+                <p class="item__page-num item__user-input" name="input6" contenteditable="true">
+                  ##
+                </p>
+              </div>
+            </div>
+          </li>
+
+          <li class="review__item item">
+            <div class="item__content">
+              <p class="item__name">
+                Favourite character
+              </p>
+              <p class="item__user-input" name="input7" contenteditable="true">
+                ...
+              </p>
+              <img class="item__png" src="images/heart.png" alt="clown">
+            </div>
+          </li>
+
+          <li class="review__item">
+            <div class="item__content">
+              <p class="item__name">
+                The ending
+              </p>
+              <p class="item__user-input" name="input8" contenteditable="true">
+                Liked it? Why? Why not? How should it have ended?
+              </p>
+            </div>
+          </li>
+
+          <li class="review__item item">
+            <div class="item__content">
+              <p class="item__name">
+                Least favourite character
+              </p>
+              <p class="item__user-input" name="input9" contenteditable="true">
+                ...
+              </p>
+              <img class="item__png" src="images/clown.png" alt=heart">
+            </div>
+          </li>
+
+        </ul>
+
+        <button class="review__save-btn btn" type="submit">
+          Save
+        </button>
+      </section>
+    </div>
+  </main>
+  <script src="https://unpkg.com/js-datepicker"></script>
+  <script type="module" src="js/main.js"></script>
+</body>
+
+</html>
