@@ -1,4 +1,4 @@
-import { db, ref, dbref, set, get, auth, child, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification } from './firebaseConfiguration.js';
+import { db, ref, dbref, set, get, auth, child, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, storage, sRef, uploadBytesResumable, getDownloadURL } from './firebaseConfiguration.js';
 
 window.addEventListener('DOMContentLoaded', () => {
 
@@ -48,31 +48,26 @@ window.addEventListener('DOMContentLoaded', () => {
   const calendarStartDay = document.querySelector('.book-description__start-date');
   const calendarFinishDay = document.querySelector('.book-description__finish-date');
 
+  const savedStart = localStorage.getItem('start-date');
+  const savedFinish = localStorage.getItem('finish-date');
+  const savedImg = localStorage.getItem(bookCover);
+
   // local storage
 
-  let userData = {
-    input1: '',
-    input2: '',
-    input3: '',
-    input4: '',
-    input5: '',
-    input6: '',
-    input7: '',
-    input8: '',
-    input9: ''
-  };
+  let userData = {};
 
   const allUserInputs = document.querySelectorAll('[data-name]');
-  console.log(allUserInputs);
   const saveBtn = document.querySelector('.review__save-btn');
   // const userData = JSON.parse(localStorage.getItem('userData'));
 
-  // local storage collecting data
 
+
+
+
+  // local storage collecting data
   function collectUserData() {
     allUserInputs.forEach(input => {
       let dataAttribute = input.getAttribute('data-name');
-      console.log(dataAttribute);
       input.addEventListener('input', function () {
         if (input.innerText === '') {
           userData[dataAttribute] = '...';
@@ -86,14 +81,18 @@ window.addEventListener('DOMContentLoaded', () => {
 
   collectUserData();
 
-
+  // local storage applying data
   function applyUserData() {
     const storedUserData = {};
     allUserInputs.forEach((input) => {
       let dataAttribute = input.getAttribute('data-name');
       const storedData = JSON.parse(localStorage.getItem(dataAttribute));
-      input.innerText = storedData;
-      storedUserData[dataAttribute] = storedData;
+      if (storedData === null) {
+        input.innerText = input.innerText;
+      } else {
+        input.innerText = storedData;
+        storedUserData[dataAttribute] = storedData;
+      }
 
     })
     return storedUserData;
@@ -101,21 +100,34 @@ window.addEventListener('DOMContentLoaded', () => {
 
   applyUserData();
 
+  function getUserAuthorizationInfo() {
+    const userInfoString = sessionStorage.getItem('user-creds');
+    const userInfo = JSON.parse(userInfoString);
+    const userID = userInfo.uid;
+    return userID;
+  }
+
 
   // send all data to firebase
   function saveAllDataAndSendToFirebase() {
-    const userInfoString = sessionStorage.getItem('user-creds');
-    const userInfo = JSON.parse(userInfoString);
+    const userID = getUserAuthorizationInfo();
+    // const userInfoString = sessionStorage.getItem('user-creds');
+    // const userInfo = JSON.parse(userInfoString);
 
-    if (userInfo && userInfo.uid) {
-      const userID = userInfo.uid;
+
+
+    uploadImgToFirebase(userID);
+
+    if (userID) {
+
       const userDataForFirebase = applyUserData();
 
       if (userDataForFirebase) {
 
-        set(ref(db, 'users/' + userID), { userDataForFirebase })
+        set(ref(db, 'users/' + userID), { userDataForFirebase, savedStart, savedFinish })
           .then(() => {
-            console.log('SEND!!!');
+            console.log('SENT!!!');
+            // window.location.href = 'savedData.html?userId=' + userID;
           })
           .catch((error) => {
             console.error('Error', error);
@@ -141,6 +153,7 @@ window.addEventListener('DOMContentLoaded', () => {
           localStorage.setItem('start-date', JSON.stringify(savedStart));
         }
       });
+
     }
   }
 
@@ -204,18 +217,79 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 
   // book cover upload
-  function loadBookCover() {
-    let userCover = bookCoverInput.files[0];
-    bookCover.src = URL.createObjectURL(userCover);
-    localStorage.setItem('bookCover', bookCover.src);
+  // function loadBookCover() {
+  //   let userCover = bookCoverInput.files[0];
+  //   bookCover.src = URL.createObjectURL(userCover);
+  //   localStorage.setItem('bookCover', bookCover.src);
+  // }
+
+  if (localStorage.getItem('bookCover') && bookCover) {
+    bookCover.src = localStorage.getItem('bookCover');
   }
 
-  // bookCover.src = localStorage.getItem('bookCover');
+  // loading img to html
+  let files = [];
+  let reader = new FileReader();
+
+  if (bookCoverInput) {
+    bookCoverInput.addEventListener('change', (e) => {
+      files = e.target.files;
+      console.log(files);
+      reader.readAsDataURL(files[0]);
+    });
+
+    bookCover.onclick = function () {
+      bookCoverInput.click();
+    }
+  }
+
+  reader.addEventListener('load', () => {
+    bookCover.src = reader.result;
+    localStorage.setItem('bookCover', bookCover.src);
+  });
+
+  // loading img to firebase (storage(img) + realtime database(img url))
+  function uploadImgToFirebase() {
+    let imgToUpload = files[0];
+    let imgName = bookCoverInput.value;
+
+    const storageRef = sRef(storage, 'Images/' + imgName);
+    const uploadTask = uploadBytesResumable(storageRef, imgToUpload);
+
+    uploadTask.on('state_change', (snapshot) => {
+      console.log('image uploaded');
+    }, (error) => {
+      console.log('image not uploaded');
+    }, () => {
+      getDownloadURL(uploadTask.snapshot.ref)
+        .then((downloadURL) => {
+          SaveURLtoRealtimeDB(downloadURL);
+        })
+    }
+    )
+  }
+
+  function SaveURLtoRealtimeDB(URL) {
+    const userID = getUserAuthorizationInfo();
+    let allowedName;
+    let name = bookCoverInput.value;
+
+    allowedName = removeUnallowedDigits(name);
+
+    set(ref(db, 'users/' + userID + '/imagesLinks/' + allowedName), {
+      ImageName: name,
+      ImgUrl: URL
+    });
+  }
+
+
+  function removeUnallowedDigits(name) {
+    return name.replace(/[.#$[\]]/g, '_');
+  };
 
 
 
-  // firebase
-
+  // firebase autho
 
   if (sessionStorage.getItem('user-creds')) {
     if (logInBtntoHide && userTextToShowAfterAutho) {
@@ -252,15 +326,6 @@ window.addEventListener('DOMContentLoaded', () => {
         alert(error.message);
       });
   }
-
-
-
-
-
-
-
-
-
 
   // sign in existing user
   function loginUser(e) {
@@ -311,8 +376,6 @@ window.addEventListener('DOMContentLoaded', () => {
     loader.style.display = 'flex';
   }
 
-
-
   // event listeners
   try {
     settingRating.addEventListener('change', changeOverallRating);
@@ -344,25 +407,22 @@ window.addEventListener('DOMContentLoaded', () => {
     console.log(error);
   }
 
-  try {
-    bookCoverInput.addEventListener('change', loadBookCover);
-  } catch (error) {
-    console.log(error);
-  }
+  // try {
+  //   bookCoverInput.addEventListener('change', loadBookCover);
+  // } catch (error) {
+  //   console.log(error);
+  // }
 
-  try {
-    bookCoverInput.addEventListener('change', loadBookCover);
-    bookCover.addEventListener('click', () => {
-      bookCoverInput.click();
-    });
-  } catch (error) {
-    console.log(error);
-  }
+  // try {
+  //   bookCoverInput.addEventListener('change', loadBookCover);
+  //   bookCover.addEventListener('click', () => {
+  //     bookCoverInput.click();
+  //   });
+  // } catch (error) {
+  //   console.log(error);
+  // }
 
-
-
-
-
+  // autho
   try {
     hidePasswordBtn.addEventListener('click', togglePasswordVisability);
   } catch (error) {
@@ -382,10 +442,10 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 
 
-
+  //save all data
   try {
     saveBtn.addEventListener('click', () => {
-      saveAllDataAndSendToFirebase();
+      saveAllDataAndSendToFirebase(savedStart, savedFinish);
     });
   } catch (error) {
     console.log(error);

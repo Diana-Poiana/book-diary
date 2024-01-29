@@ -1,6 +1,7 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
 import { getDatabase, get, set, ref, child } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+import { getStorage, ref as sRef, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDGBV9s_-L23g0rCM9N48IvZVuhRaWMyX4",
@@ -16,5 +17,7 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase();
 const auth = getAuth(app);
 const dbref = ref(db);
+const storage = getStorage();
 
-export { app, db, auth, set, get, ref, dbref, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, child };
+
+export { app, db, auth, set, get, ref, dbref, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, child, sRef, uploadBytesResumable, getDownloadURL, storage };
