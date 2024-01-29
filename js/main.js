@@ -45,9 +45,8 @@ window.addEventListener('DOMContentLoaded', () => {
   currentDate.setDate(currentDate.getDate() - 7);
   const minDate = currentDate.toISOString().split('T')[0];
   // to update html calendar
-
-  // const startDateEntered = document.querySelector('.book-description__start-date');
-  // const finishDateEntered = document.querySelector('.book-description__finish-date');
+  const calendarStartDay = document.querySelector('.book-description__start-date');
+  const calendarFinishDay = document.querySelector('.book-description__finish-date');
 
   // local storage
 
@@ -63,7 +62,8 @@ window.addEventListener('DOMContentLoaded', () => {
     input9: ''
   };
 
-  const allUserInputs = document.querySelectorAll('.item__user-input');
+  const allUserInputs = document.querySelectorAll('[data-name]');
+  console.log(allUserInputs);
   const saveBtn = document.querySelector('.review__save-btn');
   // const userData = JSON.parse(localStorage.getItem('userData'));
 
@@ -71,10 +71,14 @@ window.addEventListener('DOMContentLoaded', () => {
 
   function collectUserData() {
     allUserInputs.forEach(input => {
-      let dataAttribute = input.getAttribute('name');
-
+      let dataAttribute = input.getAttribute('data-name');
+      console.log(dataAttribute);
       input.addEventListener('input', function () {
-        userData[dataAttribute] = input.innerText;
+        if (input.innerText === '') {
+          userData[dataAttribute] = '...';
+        } else {
+          userData[dataAttribute] = input.innerText;
+        }
         localStorage.setItem(dataAttribute, JSON.stringify(userData[dataAttribute]));
       })
     });
@@ -86,31 +90,16 @@ window.addEventListener('DOMContentLoaded', () => {
   function applyUserData() {
     const storedUserData = {};
     allUserInputs.forEach((input) => {
-      let dataAttribute = input.getAttribute('name');
-
+      let dataAttribute = input.getAttribute('data-name');
       const storedData = JSON.parse(localStorage.getItem(dataAttribute));
+      input.innerText = storedData;
+      storedUserData[dataAttribute] = storedData;
 
-      if (storedData === '' || storedData === 'null') {
-        input.innerText = '...';
-        input.innerText = storedData;
-        storedUserData[dataAttribute] = storedData;
-
-      } else {
-        input.innerText = storedData;
-        storedUserData[dataAttribute] = storedData;
-      }
     })
     return storedUserData;
   }
 
   applyUserData();
-
-
-  // function updateLocalStorage() {
-  //   localStorage.setItem('userData', JSON.stringify(userData));
-  //   console.log('LocalStorage updated:', userData);
-  // }
-
 
 
   // send all data to firebase
@@ -121,48 +110,66 @@ window.addEventListener('DOMContentLoaded', () => {
     if (userInfo && userInfo.uid) {
       const userID = userInfo.uid;
       const userDataForFirebase = applyUserData();
-      // Ensure that userData is defined and contains the necessary data
+
       if (userDataForFirebase) {
-        // Assuming userData is an object with properties you want to save
-        set(ref(db, 'users/' + userID), userDataForFirebase)
+
+        set(ref(db, 'users/' + userID), { userDataForFirebase })
           .then(() => {
-            console.log('Данные успешно отправлены в Firebase!');
+            console.log('SEND!!!');
           })
           .catch((error) => {
-            console.error('Ошибка при отправке данных в Firebase:', error);
+            console.error('Error', error);
           });
       } else {
-        console.error('Ошибка: userData не определен.');
+        console.error('Error: userData does not exist.');
       }
     } else {
-      console.error('Ошибка: Невозможно получить информацию о пользователе из sessionStorage.');
+      console.error('Error: Невозможно получить информацию о пользователе из sessionStorage.');
     }
   }
 
 
-  // calendar
-  // const startDate = datepicker('.book-description__start-date', {
-  //   minDate: new Date(minDate),
-  //   formatter: (input, date) => {
-  //     const formattedDate = date.toLocaleDateString();
-  //     input.value = formattedDate;
-  //     const startDateSaved = input.value;
-  //     localStorage.setItem('start-date', JSON.stringify(startDateSaved));
-  //   }
-  // });
+  // datepicker
+  function getStartDate() {
+    if (calendarStartDay) {
+      const startDate = datepicker(calendarStartDay, {
+        minDate: new Date(minDate),
+        formatter: (input, date) => {
+          const formattedDate = date.toLocaleDateString();
+          input.value = formattedDate;
+          const savedStart = input.value;
+          localStorage.setItem('start-date', JSON.stringify(savedStart));
+        }
+      });
+    }
+  }
 
-  // const finishDate = datepicker('.book-description__finish-date', {
-  //   maxDate: new Date(maxDate), formatter: (input, date) => {
-  //     const formattedDate = date.toLocaleDateString();
-  //     input.value = formattedDate;
-  //     const finishDateSaved = input.value;
-  //     localStorage.setItem('finish-date', JSON.stringify(finishDateSaved));
-  //   }
-  // });
+  function getFinishDate() {
+    if (calendarFinishDay) {
+      const finishDate = datepicker(calendarFinishDay, {
+        maxDate: new Date(maxDate), formatter: (input, date) => {
+          const formattedDate = date.toLocaleDateString();
+          input.value = formattedDate;
+          const savedFinish = input.value;
+          localStorage.setItem('finish-date', JSON.stringify(savedFinish));
+        }
+      });
+    }
+  }
 
+  function checkIfDatesExist() {
+    if (localStorage.getItem('start-date') && calendarStartDay) {
+      calendarStartDay.value = JSON.parse(localStorage.getItem('start-date'));
+    }
 
-  // startDateEntered.value = JSON.parse(localStorage.getItem('start-date'));
-  // finishDateEntered.value = JSON.parse(localStorage.getItem('finish-date'));
+    if (localStorage.getItem('finish-date') && calendarFinishDay) {
+      calendarFinishDay.value = JSON.parse(localStorage.getItem('finish-date'));
+    }
+  }
+
+  checkIfDatesExist();
+  getStartDate();
+  getFinishDate();
 
   // rating stars
   function getRating(inputs, startsVariable) {
