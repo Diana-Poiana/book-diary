@@ -50,7 +50,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
   const savedStart = localStorage.getItem('start-date');
   const savedFinish = localStorage.getItem('finish-date');
-  const savedImg = localStorage.getItem(bookCover);
 
   // local storage
 
@@ -58,11 +57,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
   const allUserInputs = document.querySelectorAll('[data-name]');
   const saveBtn = document.querySelector('.review__save-btn');
-  // const userData = JSON.parse(localStorage.getItem('userData'));
-
-
-
-
 
   // local storage collecting data
   function collectUserData() {
@@ -93,13 +87,13 @@ window.addEventListener('DOMContentLoaded', () => {
         input.innerText = storedData;
         storedUserData[dataAttribute] = storedData;
       }
-
     })
     return storedUserData;
   }
 
   applyUserData();
 
+  // get users ID to be able save data under his ID
   function getUserAuthorizationInfo() {
     const userInfoString = sessionStorage.getItem('user-creds');
     const userInfo = JSON.parse(userInfoString);
@@ -107,14 +101,9 @@ window.addEventListener('DOMContentLoaded', () => {
     return userID;
   }
 
-
   // send all data to firebase
   function saveAllDataAndSendToFirebase() {
     const userID = getUserAuthorizationInfo();
-    // const userInfoString = sessionStorage.getItem('user-creds');
-    // const userInfo = JSON.parse(userInfoString);
-
-
 
     uploadImgToFirebase(userID);
 
@@ -139,7 +128,6 @@ window.addEventListener('DOMContentLoaded', () => {
       console.error('Error: Невозможно получить информацию о пользователе из sessionStorage.');
     }
   }
-
 
   // datepicker
   function getStartDate() {
@@ -185,19 +173,19 @@ window.addEventListener('DOMContentLoaded', () => {
   getFinishDate();
 
   // rating stars
-  function getRating(inputs, startsVariable) {
+  function getRating(inputs, starsVariable) {
     const inputArray = Array.from(inputs.children);
     inputArray.forEach((elem) => {
       if (elem.hasAttribute('type', 'radio') && elem.checked) {
-        startsVariable = +elem.value;
+        starsVariable = +elem.value;
+        localStorage.setItem(elem.name, starsVariable);
       }
     });
-    return startsVariable;
+    return starsVariable;
   }
 
-
   function changeOverallRating() {
-    settingStars = getRating(settingRating, settingStars);
+    settingStars = getRating(settingRating, settingStars); // берем сам блок рейтинга и звезды из формулы
     plotStars = getRating(plotRating, plotStars);
     charactersStars = getRating(charactersRating, charactersStars);
     styleStars = getRating(styleRating, styleStars);
@@ -216,16 +204,56 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // book cover upload
-  // function loadBookCover() {
-  //   let userCover = bookCoverInput.files[0];
-  //   bookCover.src = URL.createObjectURL(userCover);
-  //   localStorage.setItem('bookCover', bookCover.src);
-  // }
+  function getRatingFromLocalStorage() {
 
-  if (localStorage.getItem('bookCover') && bookCover) {
-    bookCover.src = localStorage.getItem('bookCover');
+    if (localStorage.getItem('setting__rating') && localStorage.getItem('plot__rating') && localStorage.getItem('characters__rating') && localStorage.getItem('style__rating') && localStorage.getItem('engagement__rating')) {
+      let settingLocalStorageStars = localStorage.getItem('setting__rating');
+      let plotLocalStorageStars = localStorage.getItem('plot__rating');
+      let charactersLocalStorageStars = localStorage.getItem('characters__rating');
+      let styleLocalStorageStars = localStorage.getItem('style__rating');
+      let engagementLocalStorageStars = localStorage.getItem('engagement__rating');
+
+      const settingArray = Array.from(settingRating.children);
+      settingArray.forEach((input) => {
+        if (input.value === settingLocalStorageStars) {
+          input.setAttribute('checked', true);
+        }
+      })
+
+      const plotArray = Array.from(plotRating.children);
+      plotArray.forEach((input) => {
+        if (input.value === plotLocalStorageStars) {
+          input.setAttribute('checked', true);
+        }
+      })
+
+      const charactersArray = Array.from(charactersRating.children);
+      charactersArray.forEach((input) => {
+        if (input.value === charactersLocalStorageStars) {
+          input.setAttribute('checked', true);
+        }
+      })
+
+      const styleArray = Array.from(styleRating.children);
+      styleArray.forEach((input) => {
+        if (input.value === styleLocalStorageStars) {
+          input.setAttribute('checked', true);
+        }
+      })
+
+      const engagementArray = Array.from(engagementRating.children);
+      engagementArray.forEach((input) => {
+        if (input.value === engagementLocalStorageStars) {
+          input.setAttribute('checked', true);
+        }
+      })
+
+      changeOverallRating();
+    }
   }
+
+  getRatingFromLocalStorage();
+
 
   // loading img to html
   let files = [];
@@ -248,7 +276,11 @@ window.addEventListener('DOMContentLoaded', () => {
     localStorage.setItem('bookCover', bookCover.src);
   });
 
-  // loading img to firebase (storage(img) + realtime database(img url))
+  if (localStorage.getItem('bookCover') && bookCover) {
+    bookCover.src = localStorage.getItem('bookCover');
+  }
+
+  // loading img to firebase (img to storage + img url to realtime database)
   function uploadImgToFirebase() {
     let imgToUpload = files[0];
     let imgName = bookCoverInput.value;
@@ -265,8 +297,7 @@ window.addEventListener('DOMContentLoaded', () => {
         .then((downloadURL) => {
           SaveURLtoRealtimeDB(downloadURL);
         })
-    }
-    )
+    })
   }
 
   function SaveURLtoRealtimeDB(URL) {
@@ -282,12 +313,9 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-
   function removeUnallowedDigits(name) {
     return name.replace(/[.#$[\]]/g, '_');
   };
-
-
 
   // firebase autho
 
@@ -406,21 +434,6 @@ window.addEventListener('DOMContentLoaded', () => {
   } catch (error) {
     console.log(error);
   }
-
-  // try {
-  //   bookCoverInput.addEventListener('change', loadBookCover);
-  // } catch (error) {
-  //   console.log(error);
-  // }
-
-  // try {
-  //   bookCoverInput.addEventListener('change', loadBookCover);
-  //   bookCover.addEventListener('click', () => {
-  //     bookCoverInput.click();
-  //   });
-  // } catch (error) {
-  //   console.log(error);
-  // }
 
   // autho
   try {
