@@ -54,6 +54,10 @@ window.addEventListener('DOMContentLoaded', () => {
   // local storage
 
   let userData = {};
+  let files = [];
+  let reader = new FileReader();
+
+  let rating = [];
 
   const allUserInputs = document.querySelectorAll('[data-name]');
   const saveBtn = document.querySelector('.review__save-btn');
@@ -103,6 +107,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   // send all data to firebase
   function saveAllDataAndSendToFirebase() {
+
     const userID = getUserAuthorizationInfo();
 
     uploadImgToFirebase(userID);
@@ -113,7 +118,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
       if (userDataForFirebase) {
 
-        set(ref(db, 'users/' + userID), { userDataForFirebase, savedStart, savedFinish })
+        set(ref(db, 'users/' + userID), { userDataForFirebase, savedStart, savedFinish, rating })
           .then(() => {
             console.log('SENT!!!');
             // window.location.href = 'savedData.html?userId=' + userID;
@@ -175,6 +180,7 @@ window.addEventListener('DOMContentLoaded', () => {
   // rating stars
   function getRating(inputs, starsVariable) {
     const inputArray = Array.from(inputs.children);
+
     inputArray.forEach((elem) => {
       if (elem.hasAttribute('type', 'radio') && elem.checked) {
         starsVariable = +elem.value;
@@ -185,7 +191,7 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 
   function changeOverallRating() {
-    settingStars = getRating(settingRating, settingStars); // берем сам блок рейтинга и звезды из формулы
+    settingStars = getRating(settingRating, settingStars);
     plotStars = getRating(plotRating, plotStars);
     charactersStars = getRating(charactersRating, charactersStars);
     styleStars = getRating(styleRating, styleStars);
@@ -195,6 +201,8 @@ window.addEventListener('DOMContentLoaded', () => {
       overallStars = (settingStars + plotStars + charactersStars + styleStars + engagementStars) / 5;
     }
 
+    rating = [{ settingStars }, { plotStars }, { charactersStars }, { styleStars }, { engagementStars }];
+    console.log(rating);
     let result = Math.round(overallStars * 2) / 2;
     const overallInputs = Array.from(overallRating.children);
     overallInputs.forEach((elem) => {
@@ -203,6 +211,9 @@ window.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+
+  console.log(rating);
 
   function getRatingFromLocalStorage() {
 
@@ -256,8 +267,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
   // loading img to html
-  let files = [];
-  let reader = new FileReader();
+
 
   if (bookCoverInput) {
     bookCoverInput.addEventListener('change', (e) => {
