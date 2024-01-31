@@ -8,18 +8,16 @@ window.addEventListener('DOMContentLoaded', () => {
   const emailInput = document.getElementById('email');
   const phoneInput = document.getElementById('phone');
   const passwordInput = document.getElementById('password');
-
+  const signUpBtn = document.querySelector('.form__button');
+  const loader = document.querySelector('.form__loader');
+  // toggle password visability
   const hidePasswordBtn = document.querySelector('.form__hide-button');
   const btnTextInner = document.querySelector('.form__btn-txt');
   const showSvg = document.querySelector('.form__show-svg');
   const hideSvg = document.querySelector('.form__hide-svg');
-
+  // if user authorized - hide some buttons
   const logInBtntoHide = document.querySelector('.list-of-books__autorization-btn');
   const userTextToShowAfterAutho = document.querySelector('.list-of-books__authorization-done');
-
-  const signUpBtn = document.querySelector('.form__button');
-  const loader = document.querySelector('.form__loader');
-
   // rating stars
   const settingRating = document.getElementById('setting');
   const plotRating = document.getElementById('plot');
@@ -27,18 +25,15 @@ window.addEventListener('DOMContentLoaded', () => {
   const styleRating = document.getElementById('style');
   const engagementRating = document.getElementById('engagement');
   const overallRating = document.getElementById('overall');
-
   let settingStars;
   let plotStars;
   let charactersStars;
   let styleStars;
   let engagementStars;
   let overallStars = 0;
-
   // img input
   const bookCoverInput = document.querySelector('.book-description__cover-input');
   const bookCover = document.querySelector('.book-description__cover-img');
-
   // calendar
   const currentDate = new Date();
   const maxDate = currentDate.toISOString().split('T')[0];
@@ -48,91 +43,14 @@ window.addEventListener('DOMContentLoaded', () => {
   const calendarStartDay = document.querySelector('.book-description__start-date');
   const calendarFinishDay = document.querySelector('.book-description__finish-date');
 
-  const savedStart = localStorage.getItem('start-date');
-  const savedFinish = localStorage.getItem('finish-date');
-
   // local storage
-
   let userData = {};
   let files = [];
   let reader = new FileReader();
-
   let rating = [];
-
+  // to collectall input data
   const allUserInputs = document.querySelectorAll('[data-name]');
   const saveBtn = document.querySelector('.review__save-btn');
-
-  // local storage collecting data
-  function collectUserData() {
-    allUserInputs.forEach(input => {
-      let dataAttribute = input.getAttribute('data-name');
-      input.addEventListener('input', function () {
-        if (input.innerText === '') {
-          userData[dataAttribute] = '...';
-        } else {
-          userData[dataAttribute] = input.innerText;
-        }
-        localStorage.setItem(dataAttribute, JSON.stringify(userData[dataAttribute]));
-      })
-    });
-  }
-
-  collectUserData();
-
-  // local storage applying data
-  function applyUserData() {
-    const storedUserData = {};
-    allUserInputs.forEach((input) => {
-      let dataAttribute = input.getAttribute('data-name');
-      const storedData = JSON.parse(localStorage.getItem(dataAttribute));
-      if (storedData === null) {
-        input.innerText = input.innerText;
-      } else {
-        input.innerText = storedData;
-        storedUserData[dataAttribute] = storedData;
-      }
-    })
-    return storedUserData;
-  }
-
-  applyUserData();
-
-  // get users ID to be able save data under his ID
-  function getUserAuthorizationInfo() {
-    const userInfoString = sessionStorage.getItem('user-creds');
-    const userInfo = JSON.parse(userInfoString);
-    const userID = userInfo.uid;
-    return userID;
-  }
-
-  // send all data to firebase
-  function saveAllDataAndSendToFirebase() {
-
-    const userID = getUserAuthorizationInfo();
-
-    uploadImgToFirebase(userID);
-
-    if (userID) {
-
-      const userDataForFirebase = applyUserData();
-
-      if (userDataForFirebase) {
-
-        set(ref(db, 'users/' + userID), { userDataForFirebase, savedStart, savedFinish, rating })
-          .then(() => {
-            console.log('SENT!!!');
-            // window.location.href = 'savedData.html?userId=' + userID;
-          })
-          .catch((error) => {
-            console.error('Error', error);
-          });
-      } else {
-        console.error('Error: userData does not exist.');
-      }
-    } else {
-      console.error('Error: Невозможно получить информацию о пользователе из sessionStorage.');
-    }
-  }
 
   // datepicker
   function getStartDate() {
@@ -146,9 +64,9 @@ window.addEventListener('DOMContentLoaded', () => {
           localStorage.setItem('start-date', JSON.stringify(savedStart));
         }
       });
-
     }
   }
+
 
   function getFinishDate() {
     if (calendarFinishDay) {
@@ -163,7 +81,9 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  function checkIfDatesExist() {
+
+
+  function checkIfDateExistAndApplyIt() {
     if (localStorage.getItem('start-date') && calendarStartDay) {
       calendarStartDay.value = JSON.parse(localStorage.getItem('start-date'));
     }
@@ -173,10 +93,9 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  checkIfDatesExist();
+  checkIfDateExistAndApplyIt();
   getStartDate();
   getFinishDate();
-
   // rating stars
   function getRating(inputs, starsVariable) {
     const inputArray = Array.from(inputs.children);
@@ -202,7 +121,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     rating = [{ settingStars }, { plotStars }, { charactersStars }, { styleStars }, { engagementStars }];
-    console.log(rating);
+
     let result = Math.round(overallStars * 2) / 2;
     const overallInputs = Array.from(overallRating.children);
     overallInputs.forEach((elem) => {
@@ -211,9 +130,6 @@ window.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
-
-
-  console.log(rating);
 
   function getRatingFromLocalStorage() {
 
@@ -265,10 +181,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   getRatingFromLocalStorage();
 
-
   // loading img to html
-
-
   if (bookCoverInput) {
     bookCoverInput.addEventListener('change', (e) => {
       files = e.target.files;
@@ -290,55 +203,22 @@ window.addEventListener('DOMContentLoaded', () => {
     bookCover.src = localStorage.getItem('bookCover');
   }
 
-  // loading img to firebase (img to storage + img url to realtime database)
-  function uploadImgToFirebase() {
-    let imgToUpload = files[0];
-    let imgName = bookCoverInput.value;
-
-    const storageRef = sRef(storage, 'Images/' + imgName);
-    const uploadTask = uploadBytesResumable(storageRef, imgToUpload);
-
-    uploadTask.on('state_change', (snapshot) => {
-      console.log('image uploaded');
-    }, (error) => {
-      console.log('image not uploaded');
-    }, () => {
-      getDownloadURL(uploadTask.snapshot.ref)
-        .then((downloadURL) => {
-          SaveURLtoRealtimeDB(downloadURL);
-        })
-    })
-  }
-
-  function SaveURLtoRealtimeDB(URL) {
-    const userID = getUserAuthorizationInfo();
-    let allowedName;
-    let name = bookCoverInput.value;
-
-    allowedName = removeUnallowedDigits(name);
-
-    set(ref(db, 'users/' + userID + '/imagesLinks/' + allowedName), {
-      ImageName: name,
-      ImgUrl: URL
-    });
-  }
-
-  function removeUnallowedDigits(name) {
-    return name.replace(/[.#$[\]]/g, '_');
-  };
-
   // firebase autho
+  // checking if logged in
 
-  if (sessionStorage.getItem('user-creds')) {
-    if (logInBtntoHide && userTextToShowAfterAutho) {
-      logInBtntoHide.style.display = 'none';
-      const userInfoString = sessionStorage.getItem('user-creds');
-      const userInfo = JSON.parse(userInfoString);
-      const userEmail = userInfo.email;
-      const userEmailToShow = userEmail.split('@');
-      userTextToShowAfterAutho.textContent = `Hello, ${userEmailToShow[0]}`;
+  function checkIfLoggedIn() {
+    if (sessionStorage.getItem('user-creds')) {
+      if (logInBtntoHide && userTextToShowAfterAutho) {
+        logInBtntoHide.style.display = 'none';
+        const userInfoString = sessionStorage.getItem('user-creds');
+        const userInfo = JSON.parse(userInfoString);
+        const userEmail = userInfo.email;
+        const userEmailToShow = userEmail.split('@');
+        userTextToShowAfterAutho.textContent = `Hello, ${userEmailToShow[0]}`;
+      }
     }
   }
+  checkIfLoggedIn();
 
   //create a new user
   function createNewUser(e) {
@@ -379,10 +259,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 phone: snapshot.val().phone
               }));
               sessionStorage.setItem('user-creds', JSON.stringify(credentials.user));
-
               window.location.href = 'index.html';
-
-
             }
           });
       })
@@ -412,6 +289,125 @@ window.addEventListener('DOMContentLoaded', () => {
   function showLoader() {
     signUpBtn.setAttribute('disabled', true);
     loader.style.display = 'flex';
+  }
+
+  // local storage collecting data
+  function collectUserData() {
+    allUserInputs.forEach(input => {
+      let dataAttribute = input.getAttribute('data-name');
+      input.addEventListener('input', function () {
+        if (input.innerText === '') {
+          userData[dataAttribute] = '...';
+        } else {
+          userData[dataAttribute] = input.innerText;
+        }
+        localStorage.setItem(dataAttribute, JSON.stringify(userData[dataAttribute]));
+      })
+    });
+  }
+
+  collectUserData();
+
+  // local storage applying data
+  function applyUserData() {
+    const storedUserData = {};
+    allUserInputs.forEach((input) => {
+      let dataAttribute = input.getAttribute('data-name');
+      const storedData = JSON.parse(localStorage.getItem(dataAttribute));
+      if (storedData === null) {
+        input.innerText = input.innerText;
+      } else {
+        input.innerText = storedData;
+        storedUserData[dataAttribute] = storedData;
+      }
+    })
+    return storedUserData;
+  }
+
+  applyUserData();
+
+
+  // loading img to firebase (img to storage + img url to realtime database)
+  function uploadImgToFirebase() {
+    let imgToUpload = files[0];
+    let imgName = bookCoverInput.value;
+
+    const storageRef = sRef(storage, 'Images/' + imgName);
+    const uploadTask = uploadBytesResumable(storageRef, imgToUpload);
+
+    uploadTask.on('state_change', (snapshot) => {
+      console.log('image uploaded');
+    }, (error) => {
+      console.log('image not uploaded');
+    }, () => {
+      getDownloadURL(uploadTask.snapshot.ref)
+        .then((downloadURL) => {
+          SaveURLtoRealtimeDB(downloadURL);
+        })
+    })
+  }
+
+  function SaveURLtoRealtimeDB(URL) {
+    const userID = getUserAuthorizationInfo();
+    let allowedName;
+    let name = bookCoverInput.value;
+
+    allowedName = removeUnallowedDigits(name);
+
+    set(ref(db, 'users/' + userID + '/imagesLinks/' + allowedName), {
+      ImageName: name,
+      ImgUrl: URL
+    });
+  }
+
+  function removeUnallowedDigits(name) {
+    return name.replace(/[.#$[\]]/g, '_');
+  };
+
+  // get users ID to be able save data under his ID
+  function getUserAuthorizationInfo() {
+    if (sessionStorage.getItem('user-creds')) {
+      const userInfoString = sessionStorage.getItem('user-creds');
+      const userInfo = JSON.parse(userInfoString);
+      const userID = userInfo.uid;
+      return userID;
+    }
+  }
+
+
+  // send all data to firebase
+  function saveAllDataAndSendToFirebase() {
+
+    const userID = getUserAuthorizationInfo();
+    // const bookTitle = document.querySelector('.header__book-title');
+    // let bookName = bookTitle.textContent;
+
+
+    uploadImgToFirebase(userID);
+
+    const savedStart = localStorage.getItem('start-date');
+    const savedFinish = localStorage.getItem('finish-date');
+
+    if (userID) {
+      const userDataForFirebase = applyUserData();
+      if (userDataForFirebase) {
+        set(ref(db, 'users/' + userID), { userDataForFirebase, savedStart, savedFinish, rating })
+          .then(() => {
+            console.log('SENT!!!');
+            localStorage.clear();
+
+            window.location.href = 'index.html';
+            // window.location.href = 'book-review.html?userId=' + userID;
+          })
+          .catch((error) => {
+            console.error('Error', error);
+          });
+      } else {
+        console.error('Error: userData does not exist.');
+      }
+    } else {
+      console.error('Error: Невозможно получить информацию о пользователе из sessionStorage.');
+    }
   }
 
   // event listeners
@@ -468,10 +464,68 @@ window.addEventListener('DOMContentLoaded', () => {
   //save all data
   try {
     saveBtn.addEventListener('click', () => {
-      saveAllDataAndSendToFirebase(savedStart, savedFinish);
+      saveAllDataAndSendToFirebase();
     });
   } catch (error) {
     console.log(error);
   }
+
+
+
+
+
+  function createNewReview() {
+
+    const listOfReviews = document.querySelector('.list-of-books__list');
+    let newReviewInner = `<li class="list-of-books__item">
+    <div class="list-of-books__img-container">
+    <a class="list-of-books__link-to-review" href="savedData.html?userId=5WWvghNTkRQhzjj8zKjWXm6Z0H33">
+      <p class="list-of-books__cover-text">
+        Book cover here
+      </p>
+    </a>
+    <img class="list-of-books__cover-img" src="" alt="">
+  </div>
+  <div class="list-of-books__description">
+    <p class="list-of-books__book-name">
+      Book Name
+      <span class="list-of-books__book-raiting">
+        (0.0)
+      </span>
+    </p>
+    <p class="list-of-books__book-author">
+      Author
+    </p>
+  </div>
+  </li>`;
+    listOfReviews.insertAdjacentHTML('beforeend', newReviewInner);
+  }
+
+
+
+
+  // getting users data from firebase
+  function applyUserProfileDataFromFB() {
+    const userID = getUserAuthorizationInfo();
+
+
+
+    get(child(dbref, 'users/' + userID))
+      .then((snapshot) => {
+        let userDataFromFirebase = [];
+
+        snapshot.forEach(childSnapshot => {
+          userDataFromFirebase.push(childSnapshot.val());
+        })
+      })
+  }
+
+  applyUserProfileDataFromFB();
+
+
+
+
+
+
 
 });
