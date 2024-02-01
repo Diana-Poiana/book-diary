@@ -582,6 +582,11 @@ body {
     align-items: center;
   }
 
+  &__autorization-btn {
+    margin-left: auto;
+    margin-right: 20px;
+  }
+
   &__name {
     font-size: 32px;
     font-weight: 400;

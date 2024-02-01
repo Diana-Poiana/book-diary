@@ -28,12 +28,15 @@
             <h2 class="list-of-books__name">
               list of books
             </h2>
+            <p class="list-of-books__authorization-done">
+              Please, log in or sign up
+            </p>
+            <p class="list-of-books__message">
+
+            </p>
             <a class="list-of-books__autorization-btn btn" href="authorization.html">
               Login/SignUp
             </a>
-            <p class="list-of-books__authorization-done">
-              ddd
-            </p>
           </div>
           <a class="list-of-books__add-review btn" href="book-review.html">
             Add new review
@@ -42,7 +45,7 @@
           <ul class="list-of-books__list">
             <li class="list-of-books__item">
               <div class="list-of-books__img-container">
-                <a class="list-of-books__link-to-review" href="savedData.html?userId=5WWvghNTkRQhzjj8zKjWXm6Z0H33">
+                <a class="list-of-books__link-to-review" href="#">
                   <p class="list-of-books__cover-text">
                     Book cover here
                   </p>
@@ -64,10 +67,11 @@
 
             <li class="list-of-books__item">
               <div class="list-of-books__img-container">
-                <p class="list-of-books__cover-text">
-                  Book cover here
-                </p>
-                <img class="list-of-books__cover-img" src="" alt="">
+                <a class="list-of-books__link-to-review" href="#">
+                  <p class="list-of-books__cover-text">
+                    Book cover here
+                  </p>
+                  <img class="list-of-books__cover-img" src="" alt="">
               </div>
               <div class="list-of-books__description">
                 <p class="list-of-books__book-name">
@@ -79,10 +83,11 @@
                 <p class="list-of-books__book-author">
                   Author
                 </p>
+                </a>
               </div>
             </li>
 
-            <li class="list-of-books__item">
+            <!-- <li class="list-of-books__item">
               <div class="list-of-books__img-container">
                 <p class="list-of-books__cover-text">
                   Book cover here
@@ -160,7 +165,7 @@
                   Author
                 </p>
               </div>
-            </li>
+            </li> -->
           </ul>
         </div>
       </section>
@@ -168,9 +173,10 @@
     </div>
   </main>
   <script type="module" src="https://unpkg.com/js-datepicker"></script>
-  <script type="module" src="js/authorizationFunctionality.js"></script>
 
-  <!-- <script type="module" src="js/review.js"></script> -->
+  <script type="module" src="js/userAuthorization.js"></script>
+
+  <script type="module" src="js/newReviewCreating.js"></script>
 </body>
 
 </html>

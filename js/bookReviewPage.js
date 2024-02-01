@@ -1,8 +1,5 @@
 import { db, ref, dbref, set, get, auth, child, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, storage, sRef, uploadBytesResumable, getDownloadURL } from './firebaseConfiguration.js';
-import { getUserAuthorizationInfo } from './firebaseFunctionality.js';
-
-
-
+import { getUserAuthorizationInfo } from './firebaseSaveSendData.js';
 
 
 // rating stars html elements
