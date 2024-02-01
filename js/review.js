@@ -56,4 +56,64 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
 
+
+
+
+
+
+
+  function createNewReview() {
+
+    const listOfReviews = document.querySelector('.list-of-books__list');
+    let newReviewInner = `<li class="list-of-books__item">
+    <div class="list-of-books__img-container">
+    <a class="list-of-books__link-to-review" href="savedData.html?userId=5WWvghNTkRQhzjj8zKjWXm6Z0H33">
+      <p class="list-of-books__cover-text">
+        Book cover here
+      </p>
+    </a>
+    <img class="list-of-books__cover-img" src="" alt="">
+  </div>
+  <div class="list-of-books__description">
+    <p class="list-of-books__book-name">
+      Book Name
+      <span class="list-of-books__book-raiting">
+        (0.0)
+      </span>
+    </p>
+    <p class="list-of-books__book-author">
+      Author
+    </p>
+  </div>
+  </li>`;
+    listOfReviews.insertAdjacentHTML('beforeend', newReviewInner);
+  }
+
+
+
+
+  // getting users data from firebase
+  function applyUserProfileDataFromFB() {
+    const userID = getUserAuthorizationInfo();
+
+
+
+    get(child(dbref, 'users/' + userID))
+      .then((snapshot) => {
+        let userDataFromFirebase = [];
+
+        snapshot.forEach(childSnapshot => {
+          userDataFromFirebase.push(childSnapshot.val());
+        })
+      })
+  }
+
+  applyUserProfileDataFromFB();
+
+
+
+
+
+
+
 });
