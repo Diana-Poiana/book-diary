@@ -22,8 +22,6 @@ function checkIfReviewExsist() {
   }
 }
 
-
-
 function createNewReview() {
   if (newURL && title && author) {
     const listOfReviews = document.querySelector('.list-of-books__list');
@@ -52,8 +50,10 @@ function createNewReview() {
   }
 }
 
-createNewReview();
+// createNewReview();
 
-window.addEventListener('onload', () => {
-  checkIfReviewExsist();
-});
+// window.addEventListener('onload', () => {
+//   checkIfReviewExsist();
+// });
+
+// export { createNewReview };

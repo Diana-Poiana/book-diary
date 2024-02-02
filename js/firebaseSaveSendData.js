@@ -100,8 +100,8 @@ async function saveAllDataAndSendToFirebase() {
     if (userDataForFirebase) {
       const sanitizedTitle = title.replace(/[.#$[\]]/g, '_');
       const sanitizedAuthor = author.replace(/[.#$[\]]/g, '_');
-      const newURL = `/reviews/${sanitizedTitle}-${sanitizedAuthor}`;
-
+      const newURL = `/book-review/${sanitizedTitle}-${sanitizedAuthor}`;
+      console.log(newURL);
       await set(ref(db, `users/${userID}${newURL}`), {
         userDataForFirebase,
         savedStart,
@@ -110,7 +110,6 @@ async function saveAllDataAndSendToFirebase() {
         newURL,
         imgURL, // Include the image URL in the database entry
       });
-
       console.log('Data succesfully sent!');
       localStorage.clear();
       sessionStorage.setItem('newURL', newURL);
