@@ -1,5 +1,5 @@
 import { db, ref, dbref, set, get, auth, child, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, storage, sRef, uploadBytesResumable, getDownloadURL } from './firebaseConfiguration.js';
-import { getUserAuthorizationInfo, uploadImgToFirebase } from './firebaseSaveSendData.js';
+import { getUserAuthorizationInfo } from './firebaseSaveSendData.js';
 
 
 // rating stars html elements
@@ -16,9 +16,6 @@ let charactersStars;
 let styleStars;
 let engagementStars;
 let overallStars = 0;
-// img input
-const bookCoverInput = document.querySelector('.book-description__cover-input');
-const bookCover = document.querySelector('.book-description__cover-img');
 // calendars
 const currentDate = new Date();
 const maxDate = currentDate.toISOString().split('T')[0];
@@ -29,8 +26,6 @@ const calendarStartDay = document.querySelector('.book-description__start-date')
 const calendarFinishDay = document.querySelector('.book-description__finish-date');
 // for storage
 let userData = {};
-let files = [];
-let reader = new FileReader();
 let rating = {};
 // to collect all input data
 const allUserInputs = document.querySelectorAll('[data-name]');
@@ -130,12 +125,7 @@ function getRatingFromLocalStorage() {
   }
 }
 
-// book cover
-function checkBookCoverExists() {
-  if (localStorage.getItem('bookCover') && bookCover) {
-    bookCover.src = localStorage.getItem('bookCover');
-  }
-}
+
 
 // datepicker setting
 function setDatepickerStartDate() {
@@ -212,7 +202,7 @@ function applyUserData() {
 
 getRatingFromLocalStorage();
 
-checkBookCoverExists();
+
 
 setDatepickerStartDate();
 setDatepickerFinishDate();
