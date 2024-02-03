@@ -9,7 +9,6 @@ const bookTitle = document.querySelector('.header__book-title');
 const bookAuthor = document.querySelector('.header__book-author');
 
 
-let rating = {};
 
 
 
@@ -48,8 +47,7 @@ async function saveAllDataAndSendToFirebase() {
   const userID = getUserAuthorizationInfo();
   const imgURL = await uploadImgToFirebase(); // Wait for the image upload to complete
 
-  const savedStart = localStorage.getItem('start-date');
-  const savedFinish = localStorage.getItem('finish-date');
+
 
   if (userID) {
     const userDataForFirebase = applyUserData();

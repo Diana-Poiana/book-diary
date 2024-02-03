@@ -27,6 +27,10 @@ const calendarFinishDay = document.querySelector('.book-description__finish-date
 // for storage
 let userData = {};
 let rating = {};
+let dates = {};
+
+let savedStart;
+let savedFinish;
 // to collect all input data
 const allUserInputs = document.querySelectorAll('[data-name]');
 
@@ -66,6 +70,7 @@ function changeOverallRating() {
   if (settingStars && plotStars && charactersStars && styleStars && engagementStars) {
     overallStars = (settingStars + plotStars + charactersStars + styleStars + engagementStars) / 5;
   }
+  console.log(rating);
 
   // round the overall star value and applying css styles to fill the stars
   let result = Math.round(overallStars * 2) / 2;
@@ -125,8 +130,6 @@ function getRatingFromLocalStorage() {
   }
 }
 
-
-
 // datepicker setting
 function setDatepickerStartDate() {
   if (calendarStartDay) {
@@ -136,8 +139,13 @@ function setDatepickerStartDate() {
       formatter: (input, date) => {
         const formattedDate = date.toLocaleDateString();
         input.value = formattedDate;
-        const savedStart = input.value;
+      },
+      onSelect: (input, date) => {
+        const formattedDate = date.toLocaleDateString();
+        input.value = formattedDate;
+        savedStart = input.value;
         localStorage.setItem('start-date', savedStart);
+        updateDates();
       }
     });
   }
@@ -151,22 +159,32 @@ function setDatepickerFinishDate() {
       formatter: (input, date) => {
         const formattedDate = date.toLocaleDateString();
         input.value = formattedDate;
-        const savedFinish = input.value;
+      },
+      onSelect: (input, date) => {
+        const formattedDate = date.toLocaleDateString();
+        input.value = formattedDate;
+        savedFinish = input.value;
         localStorage.setItem('finish-date', savedFinish);
-
+        updateDates();
       }
     });
   }
 }
 
-function checkIfDatesAlreadySaved() {
-  if (localStorage.getItem('start-date') && calendarStartDay) {
+function updateDates() {
+  if (localStorage.getItem('start-date')) {
     calendarStartDay.value = localStorage.getItem('start-date');
+    savedStart = calendarStartDay.value;
   }
 
-  if (localStorage.getItem('finish-date') && calendarFinishDay) {
+  if (localStorage.getItem('finish-date')) {
     calendarFinishDay.value = localStorage.getItem('finish-date');
+    savedFinish = calendarFinishDay.value;
   }
+
+  dates['savedStart'] = savedStart;
+  dates['savedFinish'] = savedFinish;
+  console.log(dates);
 }
 
 // local storage collecting data
@@ -180,6 +198,8 @@ function collectUserData() {
         userData[dataAttribute] = input.innerText;
       }
       localStorage.setItem(dataAttribute, JSON.stringify(userData[dataAttribute]));
+      userData[dataAttribute] = input.innerText;
+      console.log(userData);
     })
   });
 }
@@ -197,6 +217,7 @@ function applyUserData() {
       storedUserData[dataAttribute] = storedData;
     }
   })
+  console.log(storedUserData);
   return storedUserData;
 }
 
@@ -206,12 +227,10 @@ getRatingFromLocalStorage();
 
 setDatepickerStartDate();
 setDatepickerFinishDate();
-checkIfDatesAlreadySaved();
+updateDates();
 
 collectUserData();
 applyUserData();
-
-
 
 
 
@@ -227,7 +246,7 @@ engagementRating.addEventListener('change', changeOverallRating);
 
 
 
-console.log(rating, userData);
+
 
 
 export { applyUserData };
