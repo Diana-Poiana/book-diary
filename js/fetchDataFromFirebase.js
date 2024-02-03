@@ -3,6 +3,7 @@ import { db, ref, dbref, set, get, auth, child, createUserWithEmailAndPassword, 
 // import { createNewReview } from './newReviewCreating.js';
 
 
+
 function getUserAuthorizationInfo() {
   if (sessionStorage.getItem('user-creds')) {
     const userInfoString = sessionStorage.getItem('user-creds');
@@ -31,74 +32,61 @@ async function applyUserProfileDataFromFB() {
   }
 }
 
+
+
 // Usage example
 async function fetchData() {
   getUserAuthorizationInfo();
   const userInfoFromDatabase = await applyUserProfileDataFromFB();
-
+  console.log(userInfoFromDatabase)
   const reviewsFromDB = userInfoFromDatabase[0];
   const imagesFromDB = userInfoFromDatabase[1];
 
-  console.log(imagesFromDB);
+  console.log(reviewsFromDB);
 
+  const objectNames = Object.keys(reviewsFromDB);
 
-
-  const objectNames = Object.keys(reviewsFromDB); // название-автор, название-автор в массиве
-  console.log(objectNames); // ["COCO-PEPE", "Chris-ROMAN"]
-
-  const separatedNames = objectNames.map(name => name.split(",")); // делим массив автор-название
-
-  separatedNames.forEach((innerArray, i) => {
-    // динамическая деструктуризация для каждой книги
-    const [title, author] = innerArray[0].split("-");
-
-    createNewReview(author, title);
+  objectNames.forEach((propertyName, i) => {
+    const [title, author] = propertyName.split("-");
+    const { imgURL, newURL } = reviewsFromDB[propertyName];
 
     console.log(`Author of book ${i + 1}:`, author);
     console.log(`Title of book ${i + 1}:`, title);
+    console.log(`Image URL:`, imgURL);
+    console.log(`New URL:`, newURL);
+
+    createNewReview(author, title, imgURL, newURL);
   });
-
-
 }
 
-fetchData();
-
-
-
-function createNewReview(author, title) {
-
+function createNewReview(author, title, imgURL, newURL) {
   const listOfReviews = document.querySelector('.list-of-books__list');
   let newReviewInner = `<li class="list-of-books__item">
     <div class="list-of-books__img-container">
-    <a class="list-of-books__link-to-review" href="#">
-      <p class="list-of-books__cover-text">
-        Book cover here
+      <a class="list-of-books__link-to-review" href="${newURL}">
+        <p class="list-of-books__cover-text">
+          Book cover here
+        </p>
+      </a>
+      <img class="list-of-books__cover-img" src="${imgURL}" alt="">
+    </div>
+    <div class="list-of-books__description">
+      <p class="list-of-books__book-name">
+        ${title}
+        <span class="list-of-books__book-raiting">
+          (0.0)
+        </span>
       </p>
-    </a>
-    <img class="list-of-books__cover-img" src="" alt="">
-  </div>
-  <div class="list-of-books__description">
-    <p class="list-of-books__book-name">
-      ${title}
-      <span class="list-of-books__book-raiting">
-        (0.0)
-      </span>
-    </p>
-    <p class="list-of-books__book-author">
-      ${author}
-    </p>
-  </div>
+      <p class="list-of-books__book-author">
+        ${author}
+      </p>
+    </div>
   </li>`;
   listOfReviews.insertAdjacentHTML('beforeend', newReviewInner);
 }
 
-
-
-
-
-
-
-
+// Вызовите функцию fetchData
+fetchData();
 
 
 

@@ -1,5 +1,5 @@
 import { db, ref, dbref, set, get, auth, child, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, storage, sRef, uploadBytesResumable, getDownloadURL } from './firebaseConfiguration.js';
-import { getUserAuthorizationInfo } from './firebaseSaveSendData.js';
+import { getUserAuthorizationInfo, uploadImgToFirebase } from './firebaseSaveSendData.js';
 
 
 // rating stars html elements
@@ -31,37 +31,48 @@ const calendarFinishDay = document.querySelector('.book-description__finish-date
 let userData = {};
 let files = [];
 let reader = new FileReader();
-let rating = [];
+let rating = {};
 // to collect all input data
 const allUserInputs = document.querySelectorAll('[data-name]');
 
 
 // rating setting
 function getRating(inputs, starsVariable) {
+  // which block with inputs is chosen for rating? (for example: book style rating)
   const inputArray = Array.from(inputs.children);
 
+  // checking which input is checked and setting stars value to our stars variable
   inputArray.forEach((elem) => {
     if (elem.hasAttribute('type', 'radio') && elem.checked) {
       starsVariable = +elem.value;
       localStorage.setItem(elem.name, starsVariable);
     }
   });
+  //returning stars variable (for example: book style rating stars)
   return starsVariable;
 }
 
 function changeOverallRating() {
-  settingStars = getRating(settingRating, settingStars);
+  // onclick by any stars rating
+  settingStars = getRating(settingRating, settingStars); // which block and how many stars choose user
   plotStars = getRating(plotRating, plotStars);
   charactersStars = getRating(charactersRating, charactersStars);
   styleStars = getRating(styleRating, styleStars);
   engagementStars = getRating(engagementRating, engagementStars);
 
+  // saving star values in object for database
+  rating['settingStars'] = settingStars;
+  rating['plotStars'] = plotStars;
+  rating['charactersStars'] = charactersStars;
+  rating['styleStars'] = styleStars;
+  rating['engagementStars'] = engagementStars;
+
+  // if we have all starts, count overall stars value
   if (settingStars && plotStars && charactersStars && styleStars && engagementStars) {
     overallStars = (settingStars + plotStars + charactersStars + styleStars + engagementStars) / 5;
   }
 
-  rating = [{ settingStars }, { plotStars }, { charactersStars }, { styleStars }, { engagementStars }];
-
+  // round the overall star value and applying css styles to fill the stars
   let result = Math.round(overallStars * 2) / 2;
   const overallInputs = Array.from(overallRating.children);
   overallInputs.forEach((elem) => {
@@ -131,11 +142,12 @@ function setDatepickerStartDate() {
   if (calendarStartDay) {
     const startDate = datepicker(calendarStartDay, {
       minDate: new Date(minDate),
+      maxDate: new Date(maxDate),
       formatter: (input, date) => {
         const formattedDate = date.toLocaleDateString();
         input.value = formattedDate;
         const savedStart = input.value;
-        localStorage.setItem('start-date', JSON.stringify(savedStart));
+        localStorage.setItem('start-date', savedStart);
       }
     });
   }
@@ -144,11 +156,14 @@ function setDatepickerStartDate() {
 function setDatepickerFinishDate() {
   if (calendarFinishDay) {
     const finishDate = datepicker(calendarFinishDay, {
-      maxDate: new Date(maxDate), formatter: (input, date) => {
+      minDate: new Date(minDate),
+      maxDate: new Date(maxDate),
+      formatter: (input, date) => {
         const formattedDate = date.toLocaleDateString();
         input.value = formattedDate;
         const savedFinish = input.value;
-        localStorage.setItem('finish-date', JSON.stringify(savedFinish));
+        localStorage.setItem('finish-date', savedFinish);
+
       }
     });
   }
@@ -156,11 +171,11 @@ function setDatepickerFinishDate() {
 
 function checkIfDatesAlreadySaved() {
   if (localStorage.getItem('start-date') && calendarStartDay) {
-    calendarStartDay.value = JSON.parse(localStorage.getItem('start-date'));
+    calendarStartDay.value = localStorage.getItem('start-date');
   }
 
   if (localStorage.getItem('finish-date') && calendarFinishDay) {
-    calendarFinishDay.value = JSON.parse(localStorage.getItem('finish-date'));
+    calendarFinishDay.value = localStorage.getItem('finish-date');
   }
 }
 
@@ -206,6 +221,11 @@ checkIfDatesAlreadySaved();
 collectUserData();
 applyUserData();
 
+
+
+
+
+
 // event listeners
 
 settingRating.addEventListener('change', changeOverallRating);
@@ -214,23 +234,10 @@ charactersRating.addEventListener('change', changeOverallRating);
 styleRating.addEventListener('change', changeOverallRating);
 engagementRating.addEventListener('change', changeOverallRating);
 
-bookCoverInput.addEventListener('change', (e) => {
-  files = e.target.files;
-  console.log(files);
-  reader.readAsDataURL(files[0]);
-});
-
-bookCover.onclick = function () {
-  bookCoverInput.click();
-}
-
-reader.addEventListener('load', () => {
-  bookCover.src = reader.result;
-  localStorage.setItem('bookCover', bookCover.src);
-});
 
 
 
+console.log(rating, userData);
 
 
 export { applyUserData };

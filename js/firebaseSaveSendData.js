@@ -9,10 +9,13 @@ const bookCover = document.querySelector('.book-description__cover-img');
 const bookTitle = document.querySelector('.header__book-title');
 const bookAuthor = document.querySelector('.header__book-author');
 
-let userData = {};
 let files = [];
 let reader = new FileReader();
 let rating = [];
+
+
+
+
 
 // get users ID to be able save data under his ID
 function getUserAuthorizationInfo() {
@@ -24,37 +27,74 @@ function getUserAuthorizationInfo() {
   }
 }
 
-// loading img to firebase (img to storage + img url to realtime database)
-function uploadImgToFirebase() {
-  return new Promise((resolve, reject) => {
-    let imgToUpload = files[0];
-    let imgName = bookCoverInput.value;
 
-    const storageRef = sRef(storage, 'Images/' + imgName);
-    const uploadTask = uploadBytesResumable(storageRef, imgToUpload);
 
-    uploadTask.on(
-      'state_change',
-      (snapshot) => {
-        console.log('image uploaded');
-      },
-      (error) => {
-        console.log('image not uploaded');
-        reject(error);
-      },
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref)
-          .then((downloadURL) => {
-            SaveURLtoRealtimeDB(downloadURL);
-            resolve(downloadURL); // Resolve the promise with the download URL
-          })
-          .catch((error) => {
-            reject(error);
-          });
-      }
-    );
-  });
+
+bookCoverInput.addEventListener('change', (e) => {
+  files = e.target.files;
+  console.log(files);
+  console.log(files[0]['name']);
+  reader.readAsDataURL(files[0]);
+  uploadImgToFirebase();
+});
+
+bookCover.onclick = function () {
+  bookCoverInput.click();
 }
+
+reader.addEventListener('load', () => {
+  bookCover.src = reader.result;
+  localStorage.setItem('bookCover', bookCover.src);
+});
+
+
+
+
+function getImgName() {
+  let imgToUpload = files[0];
+  const { name } = files[0];
+  const imgName = name;
+  console.log(imgName);
+  return imgName;
+}
+
+
+
+
+
+
+// loading img to firebase (img to storage + img url to realtime database)
+async function uploadImgToFirebase() {
+
+  let imgToUpload = files[0];
+  const imgName = getImgName();
+  console.log(imgName);
+  console.log(imgToUpload);
+
+  const metaData = {
+    contentType: imgToUpload.type
+  }
+
+  const storageRef = sRef(storage, 'Images/' + imgName);
+  const uploadTask = uploadBytesResumable(storageRef, imgToUpload, metaData);
+
+  uploadTask.on('state_change', (snapshot) => {
+    console.log('image uploaded');
+  }, (error) => {
+    console.log('image not uploaded');
+  }, () => {
+    getDownloadURL(uploadTask.snapshot.ref)
+      .then((downloadURL) => {
+        SaveURLtoRealtimeDB(downloadURL);
+        console.log(downloadURL);// Resolve the promise with the download URL
+      })
+      .catch((error) => {
+        console.log('error');
+      });
+  }
+  );
+};
+
 
 function SaveURLtoRealtimeDB(URL) {
   const userID = getUserAuthorizationInfo();
@@ -133,4 +173,4 @@ saveBtn.addEventListener('click', () => {
     })
 });
 
-export { getUserAuthorizationInfo };
+export { getUserAuthorizationInfo, uploadImgToFirebase };

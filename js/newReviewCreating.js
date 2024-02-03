@@ -1,5 +1,4 @@
 
-
 const newURL = sessionStorage.getItem('newURL');
 const title = sessionStorage.getItem('title');
 const author = sessionStorage.getItem('author');
@@ -50,10 +49,8 @@ function createNewReview() {
   }
 }
 
-// createNewReview();
+createNewReview();
 
-// window.addEventListener('onload', () => {
-//   checkIfReviewExsist();
-// });
-
-// export { createNewReview };
+window.addEventListener('onload', () => {
+  checkIfReviewExsist();
+});
