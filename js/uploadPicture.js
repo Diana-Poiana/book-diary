@@ -18,11 +18,12 @@ async function uploadImgToFirebase() {
     }
 
     const imgToUpload = files[0];
+    const name = imgToUpload.name;
     const metaData = {
       contentType: imgToUpload.type,
     };
 
-    const storageRef = sRef(storage, 'Images/');
+    const storageRef = sRef(storage, 'Images/' + name);
     const uploadTask = uploadBytesResumable(storageRef, imgToUpload, metaData);
 
     uploadTask.on(

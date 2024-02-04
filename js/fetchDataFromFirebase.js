@@ -38,43 +38,45 @@ async function applyUserProfileDataFromFB() {
 async function fetchData() {
   getUserAuthorizationInfo();
   const userInfoFromDatabase = await applyUserProfileDataFromFB();
-  console.log(userInfoFromDatabase)
-  const reviewsFromDB = userInfoFromDatabase[0];
-  const imagesFromDB = userInfoFromDatabase[1];
 
-  console.log(reviewsFromDB);
+  userInfoFromDatabase.forEach((review) => {
+    const userDataToFetch = Object.entries(review);
+    console.log(userDataToFetch);
+    // imgURL
+    const imgURL = userDataToFetch[1][1];
+    console.log(imgURL);
+    // rating
+    const ratings = userDataToFetch[2][1];
+    const sum = Object.values(ratings).reduce((accumulator, currentValue) => {
+      return accumulator + currentValue;
+    }, 0);
+    const rating = sum / 5;
+    // title
+    const title = userDataToFetch[3][1]['input1'];
 
-  const objectNames = Object.keys(reviewsFromDB);
+    // author
+    const author = userDataToFetch[3][1]['input2'];
 
-  objectNames.forEach((propertyName, i) => {
-    const [title, author] = propertyName.split("-");
-    const { imgURL, newURL } = reviewsFromDB[propertyName];
-
-    console.log(`Author of book ${i + 1}:`, author);
-    console.log(`Title of book ${i + 1}:`, title);
-    console.log(`Image URL:`, imgURL);
-    console.log(`New URL:`, newURL);
-
-    createNewReview(author, title, imgURL, newURL);
+    createNewReview(author, title, imgURL, rating);
   });
 }
 
-function createNewReview(author, title, imgURL, newURL) {
+function createNewReview(author, title, imgURL, rating) {
   const listOfReviews = document.querySelector('.list-of-books__list');
   let newReviewInner = `<li class="list-of-books__item">
     <div class="list-of-books__img-container">
-      <a class="list-of-books__link-to-review" href="${newURL}">
+      <a class="list-of-books__link-to-review" href="book-review.html">
         <p class="list-of-books__cover-text">
           Book cover here
         </p>
       </a>
-      <img class="list-of-books__cover-img" src="${imgURL}" alt="">
+      <img class="list-of-books__cover-img" src="${imgURL}" alt="book cover">
     </div>
     <div class="list-of-books__description">
       <p class="list-of-books__book-name">
         ${title}
         <span class="list-of-books__book-raiting">
-          (0.0)
+          (${rating})
         </span>
       </p>
       <p class="list-of-books__book-author">
