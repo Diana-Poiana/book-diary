@@ -80,6 +80,7 @@ function changeOverallRating() {
       elem.checked = true;
     }
   });
+  return rating;
 }
 
 function getRatingFromLocalStorage() {
@@ -185,6 +186,7 @@ function updateDates() {
   dates['savedStart'] = savedStart;
   dates['savedFinish'] = savedFinish;
   console.log(dates);
+  return dates;
 }
 
 // local storage collecting data
@@ -223,17 +225,12 @@ function applyUserData() {
 
 getRatingFromLocalStorage();
 
-
-
 setDatepickerStartDate();
 setDatepickerFinishDate();
 updateDates();
 
 collectUserData();
 applyUserData();
-
-
-
 
 // event listeners
 
@@ -243,10 +240,4 @@ charactersRating.addEventListener('change', changeOverallRating);
 styleRating.addEventListener('change', changeOverallRating);
 engagementRating.addEventListener('change', changeOverallRating);
 
-
-
-
-
-
-
-export { applyUserData };
+export { applyUserData, updateDates, changeOverallRating };

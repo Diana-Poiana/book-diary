@@ -1,5 +1,6 @@
 import { db, ref, dbref, set, get, auth, child, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, storage, sRef, uploadBytesResumable, getDownloadURL } from './firebaseConfiguration.js';
-import { applyUserData } from './bookReviewPage.js';
+import { applyUserData, updateDates, changeOverallRating } from './bookReviewPage.js';
+import { uploadImgToFirebase } from './uploadPicture.js';
 
 const saveBtn = document.querySelector('.review__save-btn');
 
@@ -7,8 +8,6 @@ const saveBtn = document.querySelector('.review__save-btn');
 
 const bookTitle = document.querySelector('.header__book-title');
 const bookAuthor = document.querySelector('.header__book-author');
-
-
 
 
 
@@ -24,12 +23,8 @@ function getUserAuthorizationInfo() {
   }
 }
 
-
-
-
-
 function checkTitleAndAuthor() {
-  if (bookTitle.textContent === 'null' || bookAuthor.textContent === 'null') {
+  if (bookTitle.textContent === 'title' || bookTitle.textContent === '' || bookAuthor.textContent === 'author' || bookAuthor.textContent === '') {
     alert('Please enter the title and author of the book');
   } else {
     const title = bookTitle.textContent;
@@ -39,52 +34,56 @@ function checkTitleAndAuthor() {
 }
 
 // send all data to firebase
-async function saveAllDataAndSendToFirebase() {
+function saveAllDataAndSendToFirebase() {
 
-  const namingProperties = checkTitleAndAuthor();
-  const { title, author } = namingProperties;
+  return new Promise(async function (resolve, reject) {
+    try {
+      const userDataForFirebase = await applyUserData();
+      const dates = await updateDates();
+      const rating = await changeOverallRating();
+      const userID = await getUserAuthorizationInfo();
+      const { title, author } = await checkTitleAndAuthor();
+      const downloadURL = await uploadImgToFirebase();
 
-  const userID = getUserAuthorizationInfo();
-  const imgURL = await uploadImgToFirebase(); // Wait for the image upload to complete
+      if (dates['savedStart'] === undefined || dates['savedFinish'] === undefined) {
+        alert("Please enter start and finish dates");
+        throw new Error('Some values are undefined');
+      }
 
+      if (rating.settingStars === undefined || rating.plotStars === undefined || rating.charactersStars === undefined || rating.styleStars === undefined || rating.engagementStars === undefined) {
+        alert("Please enter your rating for this book");
+        throw new Error('Some values are undefined');
+      }
 
-
-  if (userID) {
-    const userDataForFirebase = applyUserData();
-    if (userDataForFirebase) {
-      const sanitizedTitle = title.replace(/[.#$[\]]/g, '_');
-      const sanitizedAuthor = author.replace(/[.#$[\]]/g, '_');
-      const newURL = `/book-review/${sanitizedTitle}-${sanitizedAuthor}`;
-      console.log(newURL);
-      await set(ref(db, `users/${userID}${newURL}`), {
-        userDataForFirebase,
-        savedStart,
-        savedFinish,
-        rating,
-        newURL,
-        imgURL, // Include the image URL in the database entry
-      });
-      console.log('Data succesfully sent!');
-      localStorage.clear();
-      sessionStorage.setItem('newURL', newURL);
-      sessionStorage.setItem('author', author);
-      sessionStorage.setItem('title', title);
-    } else {
-      console.error('Error: userData does not exist.');
+      resolve({ userDataForFirebase, dates, rating, userID, title, author, downloadURL });
+    } catch (error) {
+      reject(error);
     }
-  } else {
-    console.error('Error: Невозможно получить информацию о пользователе из sessionStorage.');
-  }
+  })
+    .then(({ userDataForFirebase, dates, rating, userID, title, author, downloadURL }) => {
+      return set(ref(db, `users/${userID}/${title}-${author}`), {
+        userDataForFirebase,
+        dates,
+        rating,
+        userID,
+        downloadURL
+      });
+    })
+    .then(() => {
+      console.log('all sent! =)');
+      localStorage.clear();
+      window.location.href = 'index.html';
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
 }
+
 
 //save all data
 
-// saveBtn.addEventListener('click', () => {
-//   saveAllDataAndSendToFirebase()
-//     .then((newURL) => {
-//       window.location.href = 'index.html';
-//       return newURL;
-//     })
-// });
+saveBtn.addEventListener('click', () => {
+  saveAllDataAndSendToFirebase();
+});
 
 export { getUserAuthorizationInfo };

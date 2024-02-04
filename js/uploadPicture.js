@@ -9,58 +9,47 @@ const bookCover = document.querySelector('.book-description__cover-img');
 let files = [];
 let reader = new FileReader();
 
-
-function checkBookCoverExists() {
-  if (localStorage.getItem('bookCover') && bookCover) {
-    bookCover.src = localStorage.getItem('bookCover');
-  }
-}
-
-// function getImgName(file) {
-//   let imgToUpload = files[0];
-//   const { name } = files[0];
-//   const imgName = name;
-//   console.log(imgName);
-//   return imgName;
-// }
-
-
 // loading img to firebase (img to storage + img url to realtime database)
 async function uploadImgToFirebase() {
+  return new Promise((resolve, reject) => {
+    if (files.length === 0) {
+      alert('No file selected for upload.');  // Resolve with null if no file is selected
+      return;
+    }
 
-  let imgToUpload = files[0];
+    const imgToUpload = files[0];
+    const metaData = {
+      contentType: imgToUpload.type,
+    };
 
-  const metaData = {
-    contentType: imgToUpload.type
-  }
+    const storageRef = sRef(storage, 'Images/');
+    const uploadTask = uploadBytesResumable(storageRef, imgToUpload, metaData);
 
-  const storageRef = sRef(storage, 'Images/');
-  const uploadTask = uploadBytesResumable(storageRef, imgToUpload, metaData);
-
-  uploadTask.on('state_change', (snapshot) => {
-    console.log('image uploaded');
-  }, (error) => {
-    console.log('image not uploaded');
-  }, () => {
-    getDownloadURL(uploadTask.snapshot.ref)
-      .then((downloadURL) => {
-        SaveURLtoRealtimeDB(downloadURL);
-        console.log(downloadURL);
-      })
-      .catch(() => {
-        console.log('error');
-      });
-  }
-  );
-};
-
+    uploadTask.on(
+      'state_change',
+      (snapshot) => {
+        console.log('image uploaded');
+      },
+      (error) => {
+        console.log('image not uploaded');
+        reject(error);
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref)
+          .then((downloadURL) => {
+            SaveURLtoRealtimeDB(downloadURL);
+            resolve(downloadURL);
+          })
+          .catch((error) => {
+            reject((error));
+          });
+      }
+    );
+  });
+}
 
 function SaveURLtoRealtimeDB(URL) {
   const userID = getUserAuthorizationInfo();
-  // let allowedName;
-  // let name = bookCoverInput.value;
-
-  // allowedName = removeUnallowedDigits(name);
 
   set(ref(db, `users/${userID}/imageLink/`), {
     // ImageName: name,
@@ -68,31 +57,19 @@ function SaveURLtoRealtimeDB(URL) {
   });
 }
 
-// function removeUnallowedDigits(name) {
-//   return name.replace(/[.#$[\]]/g, '_');
-// };
-
-
-
 // event listeners
-
-
 bookCoverInput.addEventListener('change', (e) => {
   files = e.target.files;
   console.log(files[0]['name']);
   reader.readAsDataURL(files[0]);
-  // const name = getImgName(files[0]);
-  uploadImgToFirebase();
+
+  reader.addEventListener('load', () => {
+    bookCover.src = reader.result;
+  });
 });
 
 bookCover.onclick = function () {
   bookCoverInput.click();
 }
 
-reader.addEventListener('load', () => {
-  bookCover.src = reader.result;
-  localStorage.setItem('bookCover', bookCover.src);
-});
-
-
-checkBookCoverExists();
+export { uploadImgToFirebase };
