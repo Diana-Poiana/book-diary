@@ -38,7 +38,7 @@ async function uploadImgToFirebase() {
       () => {
         getDownloadURL(uploadTask.snapshot.ref)
           .then((downloadURL) => {
-            SaveURLtoRealtimeDB(downloadURL);
+            // SaveURLtoRealtimeDB(downloadURL);
             resolve(downloadURL);
           })
           .catch((error) => {
@@ -49,14 +49,14 @@ async function uploadImgToFirebase() {
   });
 }
 
-function SaveURLtoRealtimeDB(URL) {
-  const userID = getUserAuthorizationInfo();
+// function SaveURLtoRealtimeDB(URL) {
+//   const userID = getUserAuthorizationInfo();
 
-  set(ref(db, `users/${userID}/imageLink/`), {
-    // ImageName: name,
-    ImgUrl: URL
-  });
-}
+//   set(ref(db, `users/${userID}`), {
+//     // ImageName: name,
+//     ImgUrl: URL
+//   });
+// }
 
 // event listeners
 bookCoverInput.addEventListener('change', (e) => {

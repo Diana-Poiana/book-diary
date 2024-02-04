@@ -45,11 +45,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const userInfo = JSON.parse(userInfoString);
         const userEmail = userInfo.email;
         const userEmailToShow = userEmail.split('@');
-        // userEmailToShow.toUpperCase();
         userTextToShowAfterAutho.textContent = `Hello, ${userEmailToShow[0]}`;
       }
     }
   }
+
+
 
   //create a new user
   function createNewUser(e) {

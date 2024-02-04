@@ -444,12 +444,12 @@ body {
   justify-content: space-between;
   align-items: center;
 }
-.list-of-books__authorization-done {
-  margin-left: auto;
+.list-of-books__text-wrapper {
+  display: flex;
+  flex-direction: column;
 }
-.list-of-books__autorization-btn {
-  margin-left: auto;
-  margin-right: 20px;
+.list-of-books__authorization-done {
+  margin-bottom: 20px;
 }
 .list-of-books__name {
   font-size: 32px;

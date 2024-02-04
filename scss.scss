@@ -582,13 +582,13 @@ body {
     align-items: center;
   }
 
-  &__authorization-done {
-    margin-left: auto;
+  &__text-wrapper {
+    display: flex;
+    flex-direction: column;
   }
 
-  &__autorization-btn {
-    margin-left: auto;
-    margin-right: 20px;
+  &__authorization-done {
+    margin-bottom: 20px;
   }
 
   &__name {
