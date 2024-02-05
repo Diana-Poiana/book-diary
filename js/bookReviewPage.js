@@ -162,7 +162,8 @@ function setDatepickerStartDate() {
         savedStart = input.value;
         localStorage.setItem('start-date', savedStart);
         updateDates();
-      }
+      },
+      container: document.querySelector('.book-description__start-date'),
     });
   }
 }
@@ -182,7 +183,8 @@ function setDatepickerFinishDate() {
         savedFinish = input.value;
         localStorage.setItem('finish-date', savedFinish);
         updateDates();
-      }
+      },
+      container: document.querySelector('.book-description__dates'),
     });
   }
 }
@@ -433,9 +435,6 @@ function createNewReview(author, title, imgURL, rating) {
     let newReviewInner = `<li class="list-of-books__item">
     <div class="list-of-books__img-container">
       <a class="list-of-books__link-to-review" id="${title}" href="#">
-        <p class="list-of-books__cover-text">
-          Book cover here
-        </p>
       </a>
       <img class="list-of-books__cover-img" src="${imgURL}" alt="book cover">
     </div>

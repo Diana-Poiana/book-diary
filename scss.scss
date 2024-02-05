@@ -39,34 +39,67 @@ body {
   &__review-name {
     font-size: 24px;
     text-transform: uppercase;
+
+    @media(max-width: 576px) {
+      font-size: 18px;
+    }
   }
 
   &__book-title {
     font-family: 'Cinzel Decorative', serif;
     font-size: 68px;
+
+    @media(max-width: 768px) {
+      font-size: 42px;
+    }
+
+    @media(max-width: 576px) {
+      font-size: 32px;
+    }
   }
 
-  &__review-author {
+  &__book-author {
     color: $accent-color;
     font-size: 32px;
     font-weight: 200;
     text-transform: capitalize;
     font-style: italic;
+
+    @media(max-width: 576px) {
+      font-size: 24px;
+    }
   }
 }
 
 .review {
 
-  &__content {
 
+  &__content {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     gap: 40px;
     margin-bottom: 20px;
+
+    @media (max-width: 1600px) {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    @media (max-width: 1200px) {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    @media (max-width: 800px) {
+      grid-template-columns: 1fr;
+    }
   }
 
   &__item {
     padding: 24px 32px;
+
+    @media(max-width: 576px) {
+      padding: 20px 20px;
+    }
+
     border-radius: 4px;
     background-color: $white;
 
@@ -94,6 +127,94 @@ body {
     &:nth-of-type(7) {
       grid-row: span 2;
     }
+
+    @media (max-width: 1600px) {
+      &:nth-of-type(1) {
+        grid-row: span 1;
+      }
+
+      &:nth-of-type(2) {
+        grid-row: span 1;
+        grid-column: auto;
+      }
+
+      &:nth-of-type(3) {
+        grid-row: span 1;
+      }
+
+      &:nth-of-type(4) {
+        grid-row: auto;
+      }
+
+      &:nth-of-type(5) {
+        grid-row: auto;
+      }
+
+      &:nth-of-type(7) {
+        grid-row: auto;
+        grid-column: span 2;
+      }
+    }
+
+    @media (max-width: 1200px) {
+      &:nth-of-type(2) {
+        min-height: 400px;
+        grid-row: span 2;
+        grid-column: 2 span;
+      }
+
+
+      &:nth-of-type(3) {
+        grid-row: 1;
+        grid-column: 2;
+      }
+
+      &:nth-of-type(7) {
+        grid-row: 2 span;
+        grid-column: auto;
+      }
+    }
+
+    @media (max-width: 800px) {
+      &:nth-of-type(1) {
+        grid-row: auto;
+        grid-column: auto;
+      }
+
+      &:nth-of-type(2) {
+        grid-row: auto;
+        grid-column: auto;
+      }
+
+      &:nth-of-type(3) {
+        grid-row: auto;
+        grid-column: auto;
+      }
+
+      &:nth-of-type(4) {
+        grid-row: auto;
+        grid-column: auto;
+      }
+
+      &:nth-of-type(5) {
+        grid-row: auto;
+        grid-column: auto;
+      }
+
+      &:nth-of-type(6) {
+        grid-row: auto;
+        grid-column: auto;
+      }
+
+      &:nth-of-type(7) {
+        grid-row: auto;
+        grid-column: auto;
+      }
+    }
+  }
+
+  &__save-btn {
+    margin: 20px 0 50px 0;
   }
 }
 
@@ -127,6 +248,16 @@ body {
     width: 80px;
     height: 80px;
     border-radius: 50%;
+
+    @media (max-width: 1600px) {
+      right: 10px;
+      bottom: 10px;
+    }
+
+    @media (max-width: 576px) {
+      width: 60px;
+      height: 60px;
+    }
   }
 
   &__page-text {
@@ -472,6 +603,13 @@ body {
 }
 
 .book-description {
+
+  &__content {
+    @media (max-width: 800px) {
+      text-align: center;
+    }
+  }
+
   &__cover {
     width: 246px;
     height: 376px;
@@ -485,6 +623,19 @@ body {
     justify-content: center;
     align-items: center;
     color: $accent-color;
+
+    @media (max-width: 1200px) {
+      left: 20%;
+    }
+
+    @media (max-width: 800px) {
+      transform: rotate(0deg);
+      top: 0;
+      left: 0;
+      margin: 0 auto;
+      height: 300px;
+      margin-bottom: 40px;
+    }
   }
 
   &__cover-label {
@@ -493,7 +644,7 @@ body {
 
   &__cover-input {
     width: 246px;
-    height: 376px;
+    height: 300px;
     opacity: 0;
   }
 
@@ -507,12 +658,39 @@ body {
     display: flex;
     justify-content: space-between;
     margin-bottom: 50px;
+
+    @media (max-width: 800px) {
+      justify-content: space-evenly;
+    }
+  }
+
+  &__start-date,
+  &__finish-date {
+    position: relative;
   }
 
   &__start,
   &__finish {
+    position: relative;
     width: 140px;
     line-height: 2;
+  }
+
+  .qs-datepicker-container {
+    left: -80px !important;
+  }
+
+  @media(max-width: 400px) {
+
+    &__start,
+    &__finish {
+      width: 100px;
+    }
+
+    &__start-date,
+    &__finish-date {
+      width: 100px;
+    }
   }
 
   &__start>input,
@@ -522,11 +700,16 @@ body {
     color: $font-color;
     font-size: 20px;
     font-weight: 700;
+
+    @media (max-width: 440px) {
+      font-size: 12px;
+      text-align: center;
+    }
   }
 
   &__format-name,
   &__genre-name {
-    margin-bottom: 48px;
+    margin-bottom: 35px;
   }
 
   &__format-input,
@@ -573,6 +756,12 @@ body {
     display: grid;
     grid-template-columns: 1fr 1fr;
     row-gap: 50px;
+    column-gap: 50px;
+    align-items: stretch;
+
+    @media (max-width: 992px) {
+      grid-template-columns: 1fr;
+    }
   }
 
   &__authorization {
@@ -580,6 +769,10 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    @media (max-width: 576px) {
+      flex-direction: column;
+    }
   }
 
   &__text-wrapper {
@@ -596,6 +789,11 @@ body {
     font-weight: 400;
     letter-spacing: 5px;
     text-transform: uppercase;
+
+    @media (max-width: 576px) {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
   }
 
   &__add-review {
@@ -616,20 +814,36 @@ body {
     align-items: center;
     color: $accent-color;
     margin-right: 25px;
+
+    @media (max-width: 576px) {
+      width: 100px;
+      height: 100px;
+    }
   }
 
   &__link-to-review {
     position: absolute;
-    opacity: 0;
     width: 190px;
     height: 190px;
     cursor: pointer;
+    z-index: 40;
+
+    @media (max-width: 576px) {
+      width: 100px;
+      height: 100px;
+    }
   }
 
   &__cover-img {
     width: 190px;
     height: 190px;
     object-fit: cover;
+    z-index: 20;
+
+    @media (max-width: 576px) {
+      width: 100px;
+      height: 100px;
+    }
   }
 
   &__book-name {
@@ -637,11 +851,23 @@ body {
     font-style: italic;
     color: $accent-color;
     margin-bottom: 16px;
+
+    @media (max-width: 992px) {
+      font-size: 24px;
+    }
+
+    @media (max-width: 576px) {
+      font-size: 18px;
+    }
   }
 
   &__book-author {
     font-size: 20px;
     font-weight: 700;
+
+    @media (max-width: 576px) {
+      font-size: 16px;
+    }
   }
 }
 
