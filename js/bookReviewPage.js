@@ -38,6 +38,16 @@ const allUserInputs = document.querySelectorAll('[data-name]');
 
 
 
+function checkHowManyReviews() {
+  const reviewsNumber = document.querySelectorAll('.list-of-books__item');
+  console.log(reviewsNumber.length);
+}
+
+
+
+
+
+
 
 
 // rating setting
@@ -493,13 +503,17 @@ function checkReviewName() {
 //   const dataaaa = populateHtmlReview();
 // }
 
-
+const messageForUser = document.querySelector('.list-of-books__message');
 let arrayToUse;
 
 async function populateHtmlReview(data) {
 
   const bookTitle = checkReviewName();
-  console.log(data);
+  console.log(data.length);
+  if (data.length === 0 && sessionStorage.getItem('user-creds')) {
+    messageForUser.style.display = 'flex';
+    messageForUser.textContent = 'You do not have any reviews'
+  }
 
   data.forEach((array) => {
     const userDataToApply = Object.entries(array);
@@ -564,7 +578,7 @@ function createPageFromData(arrayToUse) {
 
 
 
-
+checkHowManyReviews();
 
 
 
