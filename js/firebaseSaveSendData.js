@@ -1,6 +1,6 @@
 import { db, ref, dbref, set, get, auth, child, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, storage, sRef, uploadBytesResumable, getDownloadURL } from './firebaseConfiguration.js';
-import { applyUserData, updateDates, changeOverallRating } from './bookReviewPage.js';
-import { uploadImgToFirebase } from './uploadPicture.js';
+import { applyUserData, updateDates, changeOverallRating, uploadImgToFirebase } from './bookReviewPage.js';
+
 
 const saveBtn = document.querySelector('.review__save-btn');
 
@@ -8,7 +8,6 @@ const saveBtn = document.querySelector('.review__save-btn');
 
 const bookTitle = document.querySelector('.header__book-title');
 const bookAuthor = document.querySelector('.header__book-author');
-
 
 
 
@@ -81,9 +80,11 @@ function saveAllDataAndSendToFirebase() {
 
 
 //save all data
+if (saveBtn) {
+  saveBtn.addEventListener('click', () => {
+    saveAllDataAndSendToFirebase();
+  });
+}
 
-saveBtn.addEventListener('click', () => {
-  saveAllDataAndSendToFirebase();
-});
 
 export { getUserAuthorizationInfo };

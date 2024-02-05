@@ -39,7 +39,7 @@
               </a>
             </div>
           </div>
-          <a class="list-of-books__add-review btn" href="new-book-review.html">
+          <a class="list-of-books__add-review btn" href="book-review.html">
             Add new review
           </a>
 
@@ -98,7 +98,10 @@
 
   <script type="module" src="js/userAuthorization.js"></script>
   <script type="module" src="js/fetchDataFromFirebase.js"></script>
-  <script type="module" src="js/newReviewCreating.js"></script>
+  <script>
+    window.onload = localStorage.clear();
+    window.onload = sessionStorage.removeItem('pageToOpen');
+  </script>
 </body>
 
 </html>

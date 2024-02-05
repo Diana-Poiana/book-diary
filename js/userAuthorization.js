@@ -19,6 +19,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const logInBtntoHide = document.querySelector('.list-of-books__autorization-btn');
   const userTextToShowAfterAutho = document.querySelector('.list-of-books__authorization-done');
 
+
+  // const listOfReviews = document.querySelector('.list-of-books__list');
   // toggle password visabillity
   function togglePasswordVisability() {
     if (passwordInput.getAttribute('type') == 'password') {

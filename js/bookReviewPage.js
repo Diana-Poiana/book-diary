@@ -2,6 +2,8 @@ import { db, ref, dbref, set, get, auth, child, createUserWithEmailAndPassword, 
 import { getUserAuthorizationInfo } from './firebaseSaveSendData.js';
 
 
+// CREATE REVIEW
+
 // rating stars html elements
 const settingRating = document.getElementById('setting');
 const plotRating = document.getElementById('plot');
@@ -33,6 +35,9 @@ let savedStart;
 let savedFinish;
 // to collect all input data
 const allUserInputs = document.querySelectorAll('[data-name]');
+
+
+
 
 
 // rating setting
@@ -172,15 +177,17 @@ function setDatepickerFinishDate() {
   }
 }
 
-function updateDates() {
-  if (localStorage.getItem('start-date')) {
-    calendarStartDay.value = localStorage.getItem('start-date');
-    savedStart = calendarStartDay.value;
+function updateDates(start, finish) {
+  if (start) {
+    calendarStartDay.value = start;
+    savedStart = start;
+    localStorage.setItem('start-date', savedStart);
   }
 
-  if (localStorage.getItem('finish-date')) {
-    calendarFinishDay.value = localStorage.getItem('finish-date');
-    savedFinish = calendarFinishDay.value;
+  if (finish) {
+    calendarFinishDay.value = finish;
+    savedFinish = finish;
+    localStorage.setItem('finish-date', savedFinish);
   }
 
   dates['savedStart'] = savedStart;
@@ -212,8 +219,9 @@ function applyUserData() {
   allUserInputs.forEach((input) => {
     let dataAttribute = input.getAttribute('data-name');
     const storedData = JSON.parse(localStorage.getItem(dataAttribute));
-    if (storedData === null) {
-      input.innerText = input.innerText;
+    if (storedData === null || storedData === undefined) {
+      storedUserData[dataAttribute] = input.innerText;
+      input.innerText = storedUserData[dataAttribute];
     } else {
       input.innerText = storedData;
       storedUserData[dataAttribute] = storedData;
@@ -222,6 +230,64 @@ function applyUserData() {
   console.log(storedUserData);
   return storedUserData;
 }
+
+
+
+
+
+
+
+
+// picture uploading
+
+const bookCoverInput = document.querySelector('.book-description__cover-input');
+const bookCover = document.querySelector('.book-description__cover-img');
+
+let files = [];
+let reader = new FileReader();
+
+// loading img to firebase (
+async function uploadImgToFirebase() {
+  return new Promise((resolve, reject) => {
+    if (files.length === 0) {
+      alert('No file selected for upload.');  // Resolve with null if no file is selected
+      return;
+    }
+
+    const imgToUpload = files[0];
+    const name = imgToUpload.name;
+    const metaData = {
+      contentType: imgToUpload.type,
+    };
+
+    const storageRef = sRef(storage, 'Images/' + name);
+    const uploadTask = uploadBytesResumable(storageRef, imgToUpload, metaData);
+
+    uploadTask.on(
+      'state_change',
+      (snapshot) => {
+        console.log('image uploaded');
+      },
+      (error) => {
+        console.log('image not uploaded');
+        reject(error);
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref)
+          .then((downloadURL) => {
+            resolve(downloadURL);
+          })
+          .catch((error) => {
+            reject((error));
+          });
+      }
+    );
+  });
+}
+
+
+
+
 
 getRatingFromLocalStorage();
 
@@ -234,10 +300,277 @@ applyUserData();
 
 // event listeners
 
-settingRating.addEventListener('change', changeOverallRating);
-plotRating.addEventListener('change', changeOverallRating);
-charactersRating.addEventListener('change', changeOverallRating);
-styleRating.addEventListener('change', changeOverallRating);
-engagementRating.addEventListener('change', changeOverallRating);
+try {
+  settingRating.addEventListener('change', changeOverallRating);
+} catch (error) {
+  console.log(error);
+}
 
-export { applyUserData, updateDates, changeOverallRating };
+try {
+  plotRating.addEventListener('change', changeOverallRating);
+} catch (error) {
+  console.log(error);
+}
+
+try {
+  charactersRating.addEventListener('change', changeOverallRating);
+} catch (error) {
+  console.log(error);
+}
+
+try {
+  styleRating.addEventListener('change', changeOverallRating);
+} catch (error) {
+  console.log(error);
+}
+
+try {
+  engagementRating.addEventListener('change', changeOverallRating);
+} catch (error) {
+  console.log(error);
+}
+
+if (bookCoverInput) {
+  bookCoverInput.addEventListener('change', (e) => {
+    files = e.target.files;
+    console.log(files[0]['name']);
+    reader.readAsDataURL(files[0]);
+
+    reader.addEventListener('load', () => {
+      bookCover.src = reader.result;
+    });
+  });
+
+  bookCover.onclick = function () {
+    bookCoverInput.click();
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+// UPLOAD EXCISTING REVIEW
+/// LIST BOOK
+
+
+
+// getting users data from firebase to create list of books
+
+async function applyUserProfileDataFromFB() {
+  try {
+    let userDataFromFirebase = [];
+    const userID = getUserAuthorizationInfo();
+    const snapshot = await get(child(dbref, 'users/' + userID));
+
+    snapshot.forEach(childSnapshot => {
+      userDataFromFirebase.push(childSnapshot.val());
+    });
+
+
+    return userDataFromFirebase;
+  } catch (error) {
+    console.error('Error fetching user data:', error);
+    return [];
+  }
+}
+
+async function fetchData() {
+  try {
+    const userInfoFromDatabase = await applyUserProfileDataFromFB();
+    createReviewToSee(userInfoFromDatabase);
+    populateHtmlReview(userInfoFromDatabase);
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+}
+
+function createReviewToSee(userInfoFromDatabase) {
+  userInfoFromDatabase.forEach((review) => {
+    const userDataToFetch = Object.entries(review);
+
+    // imgURL
+    const imgURL = userDataToFetch[1][1];
+
+    // rating
+    const ratings = userDataToFetch[2][1];
+    const sum = Object.values(ratings).reduce((accumulator, currentValue) => {
+      return accumulator + currentValue;
+    }, 0);
+    const rating = sum / 5;
+    // title
+    const title = userDataToFetch[3][1]['input1'];
+
+    // author
+    const author = userDataToFetch[3][1]['input2'];
+
+    createNewReview(author, title, imgURL, rating);
+  });
+}
+
+function createNewReview(author, title, imgURL, rating) {
+
+  if (listOfReviews) {
+
+    let newReviewInner = `<li class="list-of-books__item">
+    <div class="list-of-books__img-container">
+      <a class="list-of-books__link-to-review" id="${title}" href="#">
+        <p class="list-of-books__cover-text">
+          Book cover here
+        </p>
+      </a>
+      <img class="list-of-books__cover-img" src="${imgURL}" alt="book cover">
+    </div>
+    <div class="list-of-books__description">
+      <p class="list-of-books__book-name">
+        ${title}
+        <span class="list-of-books__book-raiting">
+          (${rating})
+        </span>
+      </p>
+      <p class="list-of-books__book-author">
+        ${author}
+      </p>
+    </div>
+  </li>`;
+
+    listOfReviews.insertAdjacentHTML('beforeend', newReviewInner);
+    checkWhichBookClicked();
+  }
+
+
+  return { author, title, imgURL, rating };
+}
+
+
+
+
+
+
+function checkWhichBookClicked() {
+  const linksToReviews = document.querySelectorAll('.list-of-books__link-to-review');
+  const lastLink = linksToReviews[linksToReviews.length - 1];
+
+  lastLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    console.log(e.target);
+    console.log(e.target.id);
+    sessionStorage.setItem('pageToOpen', e.target.id);
+    window.location.href = 'book-review.html';
+  });
+}
+
+fetchData();
+
+
+
+// UPLOAD EXCISTING REVIEW
+
+const listOfReviews = document.querySelector('.list-of-books__list');
+
+
+
+const reviewName = checkReviewName();
+console.log(reviewName);
+
+function checkReviewName() {
+  let bookTitle;
+  if (sessionStorage.getItem('pageToOpen')) {
+    bookTitle = sessionStorage.getItem('pageToOpen');
+  }
+  return bookTitle;
+}
+
+// if (reviewName) {
+//   const dataaaa = populateHtmlReview();
+// }
+
+
+let arrayToUse;
+
+async function populateHtmlReview(data) {
+
+  const bookTitle = checkReviewName();
+  console.log(data);
+
+  data.forEach((array) => {
+    const userDataToApply = Object.entries(array);
+    const title = userDataToApply[3][1]['input1'];
+
+    if (bookTitle === title) {
+      arrayToUse = userDataToApply;
+      createPageFromData(arrayToUse);
+    }
+  });
+}
+
+
+function createPageFromData(arrayToUse) {
+  console.log('Creating page with data:', arrayToUse);
+
+  const { savedStart, savedFinish } = arrayToUse[0][1];
+  console.log(savedStart, savedFinish);
+
+  updateDates(savedStart, savedFinish);
+
+
+  const imgURL = arrayToUse[1][1];
+  console.log(imgURL);
+
+  bookCover.src = imgURL;
+
+  const { settingStars, charactersStars, plotStars, engagementStars, styleStars } = arrayToUse[2][1];
+  console.log(settingStars, charactersStars, plotStars, engagementStars, styleStars);
+
+  localStorage.setItem('setting__rating', settingStars);
+  localStorage.setItem('plot__rating', plotStars);
+  localStorage.setItem('characters__rating', charactersStars);
+  localStorage.setItem('style__rating', styleStars);
+  localStorage.setItem('engagement__rating', engagementStars);
+
+  getRatingFromLocalStorage();
+
+  const textInputs = arrayToUse[3][1];
+  console.log(textInputs);
+
+  let arrayOfValues = Object.keys(textInputs);
+  console.log(arrayOfValues.length);
+
+
+  const userInputs = document.querySelectorAll('[data-name]');
+
+  userInputs.forEach((input, i) => {
+    let key = `input${i + 1}`;
+
+    if (key === input.getAttribute('data-name')) {
+      input.textContent = textInputs[key];
+    }
+  })
+
+}
+
+
+// UPLOAD REVIEW
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+export { applyUserData, updateDates, changeOverallRating, uploadImgToFirebase };
