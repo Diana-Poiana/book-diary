@@ -971,19 +971,19 @@ body {
   margin-bottom: 30px;
 }
 
-// .authorization__link:focus {
-//   outline: 2px solid rgb(11, 7, 239);
-//   outline-offset: 1px;
-// }
+.authorization__link:focus {
+  outline: 2px solid rgb(11, 7, 239);
+  outline-offset: 1px;
+}
 
-// .authorization__link:active {
-//   outline: transparent;
-//   box-shadow: 5px 5px 5px rgba(128, 128, 128, 0.5);
-// }
+.authorization__link:active {
+  outline: transparent;
+  box-shadow: 5px 5px 5px rgba(128, 128, 128, 0.5);
+}
 
-// .authorization__link:hover {
-//   background-color: rgba(86, 85, 85, 0.03);
-// }
+.authorization__link:hover {
+  background-color: rgba(86, 15, 227, 0.03);
+}
 
 .authorization__svg {
   width: 32px;
