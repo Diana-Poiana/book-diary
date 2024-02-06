@@ -253,6 +253,20 @@ body {
   background-size: contain;
 }
 
+.rating__block:nth-child(5) {
+  position: relative;
+  margin-bottom: 56px;
+}
+.rating__block:nth-child(5)::after {
+  content: "";
+  display: block;
+  width: 100%;
+  bottom: -5px;
+  position: relative;
+  height: 1px;
+  background-image: linear-gradient(90deg, rgb(245, 243, 240), rgb(245, 243, 240) 75%, transparent 75%, transparent 100%);
+  background-size: 15px 1px;
+}
 .rating__block:not(:last-child) {
   margin-bottom: 24px;
 }
@@ -495,8 +509,8 @@ body {
 .notes__user-notes {
   font-size: 20px;
   line-height: 2.2;
+  position: relative;
   display: flex;
-  align-items: flex-end;
 }
 
 @media (max-width: 800px) {
