@@ -603,8 +603,8 @@ body {
 .quotes__content::after {
   content: "";
   position: absolute;
-  top: 185px;
-  right: -10px;
+  bottom: 20px;
+  right: 20px;
   width: 72px;
   height: 50px;
   background-image: url("../images/quotes.svg");
