@@ -31,6 +31,20 @@ body {
   width: 152px;
 }
 
+.btn:focus {
+  outline: 2px solid rgb(11, 7, 239);
+  outline-offset: 1px;
+}
+
+.btn:hover {
+  background-color: rgba(217, 217, 217, 0.7);
+}
+
+.btn:active {
+  outline: transparent;
+  transform: translateY(1px);
+}
+
 .header {
   &__content {
     padding: 40px 0;
@@ -214,6 +228,9 @@ body {
   }
 
   &__save-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin: 20px 0 50px 0;
   }
 }
@@ -780,6 +797,12 @@ body {
     flex-direction: column;
   }
 
+  &__authorization-btn {
+    @media(max-width: 576px) {
+      margin: 0 auto;
+    }
+  }
+
   &__authorization-done {
     margin-bottom: 20px;
   }
@@ -799,6 +822,11 @@ body {
   &__add-review {
     display: block;
     margin-bottom: 32px;
+
+    @media(max-width: 576px) {
+      margin: 0 auto;
+      margin-bottom: 42px;
+    }
   }
 
   &__item {
@@ -831,6 +859,12 @@ body {
     @media (max-width: 576px) {
       width: 100px;
       height: 100px;
+    }
+  }
+
+  &__cover-text {
+    @media(max-width: 576px) {
+      text-align: center;
     }
   }
 
@@ -984,6 +1018,11 @@ body {
   align-items: center;
   margin: 0 auto;
   height: calc(100vh - 162px);
+
+  @media (max-width: 992px) {
+    height: auto;
+    padding: 60px 20px;
+  }
 }
 
 .signup-page__inner,
@@ -1098,6 +1137,10 @@ body {
 }
 
 .form__button {
+  display: flex;
+  padding: 20px 0;
+  justify-content: center;
+  align-items: center;
   color: #ffffff;
   background-color: #000000;
   width: 100%;
@@ -1105,27 +1148,27 @@ body {
   margin-bottom: 8px;
 }
 
-// .form__button:focus {
-//   outline: 2px solid rgb(11, 7, 239);
-//   outline-offset: 1px;
-// }
+.form__button:focus {
+  outline: 2px solid rgb(11, 7, 239);
+  outline-offset: 1px;
+}
 
-// .form__button:active {
-//   outline: transparent;
-//   transform: translateY(1px);
-// }
+.form__button:active {
+  outline: transparent;
+  transform: translateY(1px);
+}
 
-// .form__button:hover {
-//   background-color: rgba(0, 0, 0, 0.7);
-// }
+.form__button:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+}
 
-// .form__button[disabled] {
-//   cursor: not-allowed;
-// }
+.form__button[disabled] {
+  cursor: not-allowed;
+}
 
-// .form__button[disabled]:active {
-//   transform: translateY(0);
-// }
+.form__button[disabled]:active {
+  transform: translateY(0);
+}
 
 .form__loader {
   display: none;
@@ -1158,6 +1201,30 @@ body {
   to {
     transform: rotate(0deg);
   }
+}
+
+.review__loader {
+  display: none;
+  position: relative;
+  margin-left: 15px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: conic-gradient(rgb(133, 129, 129), transparent);
+  animation: rotating 1s linear infinite;
+
+}
+
+.review__loader::before {
+  content: '';
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  position: absolute;
+  background-color: $btn-color;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .main__privacy-policy {

@@ -1,5 +1,5 @@
-import { db, ref, dbref, set, get, auth, child, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, storage, sRef, uploadBytesResumable, getDownloadURL } from './firebaseConfiguration.js';
-import { getUserAuthorizationInfo } from './firebaseSaveSendData.js';
+import { dbref, get, child, storage, sRef, uploadBytesResumable, getDownloadURL } from './firebaseConfiguration.js';
+import { getUserAuthorizationInfo, hideLoader } from './firebaseSaveSendData.js';
 
 
 // CREATE REVIEW
@@ -26,31 +26,26 @@ const minDate = currentDate.toISOString().split('T')[0];
 // calendar html elements
 const calendarStartDay = document.querySelector('.book-description__start-date');
 const calendarFinishDay = document.querySelector('.book-description__finish-date');
+// to collect all input data
+const allUserInputs = document.querySelectorAll('[data-name]');
+// picture uploading
+const bookCoverInput = document.querySelector('.book-description__cover-input');
+const bookCover = document.querySelector('.book-description__cover-img');
+let files = [];
+let reader = new FileReader();
 // for storage
 let userData = {};
 let rating = {};
 let dates = {};
-
 let savedStart;
 let savedFinish;
-// to collect all input data
-const allUserInputs = document.querySelectorAll('[data-name]');
+// excisting reviews
+const listOfReviews = document.querySelector('.list-of-books__list');
+let arrayToUse;
+const messageForUser = document.querySelector('.list-of-books__message');
+const reviewPlaceholders = document.querySelectorAll('.list-of-books__placeholder');
 
-
-
-function checkHowManyReviews() {
-  const reviewsNumber = document.querySelectorAll('.list-of-books__item');
-  console.log(reviewsNumber.length);
-}
-
-
-
-
-
-
-
-
-// rating setting
+// rating 
 function getRating(inputs, starsVariable) {
   // which block with inputs is chosen for rating? (for example: book style rating)
   const inputArray = Array.from(inputs.children);
@@ -146,7 +141,7 @@ function getRatingFromLocalStorage() {
   }
 }
 
-// datepicker setting
+// datepicker
 function setDatepickerStartDate() {
   if (calendarStartDay) {
     const startDate = datepicker(calendarStartDay, {
@@ -243,26 +238,12 @@ function applyUserData() {
   return storedUserData;
 }
 
-
-
-
-
-
-
-
-// picture uploading
-
-const bookCoverInput = document.querySelector('.book-description__cover-input');
-const bookCover = document.querySelector('.book-description__cover-img');
-
-let files = [];
-let reader = new FileReader();
-
 // loading img to firebase (
 async function uploadImgToFirebase() {
   return new Promise((resolve, reject) => {
     if (files.length === 0) {
       alert('No file selected for upload.');  // Resolve with null if no file is selected
+      hideLoader();
       return;
     }
 
@@ -297,10 +278,6 @@ async function uploadImgToFirebase() {
   });
 }
 
-
-
-
-
 getRatingFromLocalStorage();
 
 setDatepickerStartDate();
@@ -311,7 +288,6 @@ collectUserData();
 applyUserData();
 
 // event listeners
-
 try {
   settingRating.addEventListener('change', changeOverallRating);
 } catch (error) {
@@ -358,25 +334,10 @@ if (bookCoverInput) {
   }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 // UPLOAD EXCISTING REVIEW
 /// LIST BOOK
 
-
-
 // getting users data from firebase to create list of books
-
 async function applyUserProfileDataFromFB() {
   try {
     let userDataFromFirebase = [];
@@ -459,11 +420,6 @@ function createNewReview(author, title, imgURL, rating) {
   return { author, title, imgURL, rating };
 }
 
-
-
-
-
-
 function checkWhichBookClicked() {
   const linksToReviews = document.querySelectorAll('.list-of-books__link-to-review');
   const lastLink = linksToReviews[linksToReviews.length - 1];
@@ -482,14 +438,6 @@ fetchData();
 
 
 // UPLOAD EXCISTING REVIEW
-
-const listOfReviews = document.querySelector('.list-of-books__list');
-
-
-
-const reviewName = checkReviewName();
-console.log(reviewName);
-
 function checkReviewName() {
   let bookTitle;
   if (sessionStorage.getItem('pageToOpen')) {
@@ -498,20 +446,17 @@ function checkReviewName() {
   return bookTitle;
 }
 
-// if (reviewName) {
-//   const dataaaa = populateHtmlReview();
-// }
-
-const messageForUser = document.querySelector('.list-of-books__message');
-let arrayToUse;
-
 async function populateHtmlReview(data) {
 
   const bookTitle = checkReviewName();
   console.log(data.length);
   if (data.length === 0 && sessionStorage.getItem('user-creds')) {
     messageForUser.style.display = 'flex';
-    messageForUser.textContent = 'You do not have any reviews'
+    messageForUser.textContent = 'You do not have any reviews';
+  } else {
+    reviewPlaceholders.forEach((reviewPlaceholder) => {
+      reviewPlaceholder.style.display = 'none';
+    })
   }
 
   data.forEach((array) => {
@@ -524,7 +469,6 @@ async function populateHtmlReview(data) {
     }
   });
 }
-
 
 function createPageFromData(arrayToUse) {
   console.log('Creating page with data:', arrayToUse);
@@ -569,21 +513,5 @@ function createPageFromData(arrayToUse) {
   })
 
 }
-
-
-// UPLOAD REVIEW
-
-
-
-
-
-checkHowManyReviews();
-
-
-
-
-
-
-
 
 export { applyUserData, updateDates, changeOverallRating, uploadImgToFirebase };

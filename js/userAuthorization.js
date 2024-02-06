@@ -1,4 +1,4 @@
-import { db, ref, dbref, set, get, auth, child, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, storage, sRef, uploadBytesResumable, getDownloadURL } from './firebaseConfiguration.js';
+import { db, ref, dbref, set, get, auth, child, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification } from './firebaseConfiguration.js';
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -19,8 +19,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const logInBtntoHide = document.querySelector('.list-of-books__autorization-btn');
   const userTextToShowAfterAutho = document.querySelector('.list-of-books__authorization-done');
 
+  //loader
+  function showLoader() {
+    signUpBtn.setAttribute('disabled', true);
+    loader.style.display = 'flex';
+  }
 
-  // const listOfReviews = document.querySelector('.list-of-books__list');
   // toggle password visabillity
   function togglePasswordVisability() {
     if (passwordInput.getAttribute('type') == 'password') {
@@ -51,9 +55,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
   }
-
-
-
 
   //create a new user
   function createNewUser(e) {
@@ -101,12 +102,6 @@ document.addEventListener('DOMContentLoaded', () => {
       .catch((error) => {
         alert(error.message);
       });
-  }
-
-  //loader
-  function showLoader() {
-    signUpBtn.setAttribute('disabled', true);
-    loader.style.display = 'flex';
   }
 
   checkIfLoggedIn();

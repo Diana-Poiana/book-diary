@@ -44,14 +44,11 @@
           </a>
 
           <ul class="list-of-books__list">
-            <!-- <li class="list-of-books__item">
+            <li class="list-of-books__item list-of-books__placeholder">
               <div class="list-of-books__img-container">
-                <a class="list-of-books__link-to-review" href="#">
-                  <p class="list-of-books__cover-text">
-                    Book cover here
-                  </p>
-                </a>
-                <img class="list-of-books__cover-img" src="" alt="">
+                <p class="list-of-books__cover-text">
+                  Book cover here
+                </p>
               </div>
               <div class="list-of-books__description">
                 <p class="list-of-books__book-name">
@@ -66,13 +63,11 @@
               </div>
             </li>
 
-            <li class="list-of-books__item">
+            <li class="list-of-books__item list-of-books__placeholder">
               <div class="list-of-books__img-container">
-                <a class="list-of-books__link-to-review" href="#">
-                  <p class="list-of-books__cover-text">
-                    Book cover here
-                  </p>
-                  <img class="list-of-books__cover-img" src="" alt="">
+                <p class="list-of-books__cover-text">
+                  Book cover here
+                </p>
               </div>
               <div class="list-of-books__description">
                 <p class="list-of-books__book-name">
@@ -86,7 +81,7 @@
                 </p>
                 </a>
               </div>
-            </li> -->
+            </li>
 
           </ul>
         </div>
@@ -97,7 +92,7 @@
   <script type="module" src="https://unpkg.com/js-datepicker"></script>
 
   <script type="module" src="js/userAuthorization.js"></script>
-  <script type="module" src="js/fetchDataFromFirebase.js"></script>
+  <script type="module" src="js/firebaseSaveSendData.js"></script>
   <script>
     window.onload = localStorage.clear();
     window.onload = sessionStorage.removeItem('pageToOpen');
