@@ -242,6 +242,7 @@ body {
   margin-bottom: 6px;
 }
 .item__page-num {
+  width: 60px;
   font-size: 20px;
 }
 .item__png {
@@ -290,7 +291,7 @@ body {
 }
 .setting__label:before {
   display: inline-block;
-  font-size: 35px;
+  font-size: 45px;
   padding: 5px;
   cursor: pointer;
   font-family: FontAwesome;
@@ -299,7 +300,7 @@ body {
 }
 .setting__half:before {
   display: inline-block;
-  font-size: 35px;
+  font-size: 45px;
   padding: 5px;
   cursor: pointer;
   font-family: FontAwesome;
@@ -308,8 +309,8 @@ body {
   padding-right: 0;
   color: rgb(245, 243, 240);
 }
-.setting__label:hover ~ .setting__half:before, .setting__label:hover ~ .setting__label:before, .setting__half:hover ~ .setting__half:before, .setting__half:hover ~ .setting__label:before {
-  color: black;
+.setting__label:hover ~ .setting__half:before, .setting__label:hover ~ .setting__label:before, .setting__half:hover ~ .setting__half:before, .setting__half:hover ~ .setting__label:before, .setting__input:hover ~ .setting__label:before, .setting__input:hover ~ .setting__half:before {
+  color: rgb(101, 101, 101);
 }
 .setting__input:checked ~ .setting__label:before, .setting__input:checked ~ .setting__half:before {
   color: black;
@@ -326,7 +327,7 @@ body {
 }
 .plot__label:before {
   display: inline-block;
-  font-size: 35px;
+  font-size: 45px;
   padding: 5px;
   cursor: pointer;
   font-family: FontAwesome;
@@ -335,7 +336,7 @@ body {
 }
 .plot__half:before {
   display: inline-block;
-  font-size: 35px;
+  font-size: 45px;
   padding: 5px;
   cursor: pointer;
   font-family: FontAwesome;
@@ -344,8 +345,8 @@ body {
   padding-right: 0;
   color: rgb(245, 243, 240);
 }
-.plot__label:hover ~ .plot__half:before, .plot__label:hover ~ .plot__label:before, .plot__half:hover ~ .plot__half:before, .plot__half:hover ~ .plot__label:before {
-  color: black;
+.plot__label:hover ~ .plot__half:before, .plot__label:hover ~ .plot__label:before, .plot__half:hover ~ .plot__half:before, .plot__half:hover ~ .plot__label:before, .plot__input:hover ~ .plot__label:before, .plot__input:hover ~ .plot__half:before {
+  color: rgb(101, 101, 101);
 }
 .plot__input:checked ~ .plot__label:before, .plot__input:checked ~ .plot__half:before {
   color: black;
@@ -362,7 +363,7 @@ body {
 }
 .characters__label:before {
   display: inline-block;
-  font-size: 35px;
+  font-size: 45px;
   padding: 5px;
   cursor: pointer;
   font-family: FontAwesome;
@@ -371,7 +372,7 @@ body {
 }
 .characters__half:before {
   display: inline-block;
-  font-size: 35px;
+  font-size: 45px;
   padding: 5px;
   cursor: pointer;
   font-family: FontAwesome;
@@ -380,8 +381,8 @@ body {
   padding-right: 0;
   color: rgb(245, 243, 240);
 }
-.characters__label:hover ~ .characters__half:before, .characters__label:hover ~ .characters__label:before, .characters__half:hover ~ .characters__half:before, .characters__half:hover ~ .characters__label:before {
-  color: black;
+.characters__label:hover ~ .characters__half:before, .characters__label:hover ~ .characters__label:before, .characters__half:hover ~ .characters__half:before, .characters__half:hover ~ .characters__label:before, .characters__input:hover ~ .characters__label:before, .characters__input:hover ~ .characters__half:before {
+  color: rgb(101, 101, 101);
 }
 .characters__input:checked ~ .characters__label:before, .characters__input:checked ~ .characters__half:before {
   color: black;
@@ -398,7 +399,7 @@ body {
 }
 .style__label:before {
   display: inline-block;
-  font-size: 35px;
+  font-size: 45px;
   padding: 5px;
   cursor: pointer;
   font-family: FontAwesome;
@@ -407,7 +408,7 @@ body {
 }
 .style__half:before {
   display: inline-block;
-  font-size: 35px;
+  font-size: 45px;
   padding: 5px;
   cursor: pointer;
   font-family: FontAwesome;
@@ -416,8 +417,8 @@ body {
   padding-right: 0;
   color: rgb(245, 243, 240);
 }
-.style__label:hover ~ .style__half:before, .style__label:hover ~ .style__label:before, .style__half:hover ~ .style__half:before, .style__half:hover ~ .style__label:before {
-  color: black;
+.style__label:hover ~ .style__half:before, .style__label:hover ~ .style__label:before, .style__half:hover ~ .style__half:before, .style__half:hover ~ .style__label:before, .style__input:hover ~ .style__label:before, .style__input:hover ~ .style__half:before {
+  color: rgb(101, 101, 101);
 }
 .style__input:checked ~ .style__label:before, .style__input:checked ~ .style__half:before {
   color: black;
@@ -434,7 +435,7 @@ body {
 }
 .engagement__label:before {
   display: inline-block;
-  font-size: 35px;
+  font-size: 45px;
   padding: 5px;
   cursor: pointer;
   font-family: FontAwesome;
@@ -443,7 +444,7 @@ body {
 }
 .engagement__half:before {
   display: inline-block;
-  font-size: 35px;
+  font-size: 45px;
   padding: 5px;
   cursor: pointer;
   font-family: FontAwesome;
@@ -452,8 +453,8 @@ body {
   padding-right: 0;
   color: rgb(245, 243, 240);
 }
-.engagement__label:hover ~ .engagement__half:before, .engagement__label:hover ~ .engagement__label:before, .engagement__half:hover ~ .engagement__half:before, .engagement__half:hover ~ .engagement__label:before {
-  color: black;
+.engagement__label:hover ~ .engagement__half:before, .engagement__label:hover ~ .engagement__label:before, .engagement__half:hover ~ .engagement__half:before, .engagement__half:hover ~ .engagement__label:before, .engagement__input:hover ~ .engagement__label:before, .engagement__input:hover ~ .engagement__half:before {
+  color: rgb(101, 101, 101);
 }
 .engagement__input:checked ~ .engagement__label:before, .engagement__input:checked ~ .engagement__half:before {
   color: black;
@@ -470,7 +471,7 @@ body {
 }
 .overall__label:before {
   display: inline-block;
-  font-size: 35px;
+  font-size: 45px;
   padding: 5px;
   font-family: FontAwesome;
   content: "\f005";
@@ -478,7 +479,7 @@ body {
 }
 .overall__half:before {
   display: inline-block;
-  font-size: 35px;
+  font-size: 45px;
   padding: 5px;
   font-family: FontAwesome;
   content: "\f089";
@@ -680,7 +681,7 @@ body {
   }
 }
 .list-of-books__add-review {
-  display: block;
+  display: none;
   margin-bottom: 32px;
 }
 @media (max-width: 576px) {

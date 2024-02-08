@@ -86,7 +86,7 @@
                   <input class="plot__input" type="radio" id="plot-rating10" name="plot__rating" value="5" />
                   <label class="plot__label" for="plot-rating10" title="5 stars"></label>
                   <input class="plot__input" type="radio" id="plot-rating9" name="plot__rating" value="4.5" />
-                  <label class="plot__half" for="rplot-ating9" title="4 1/2 stars"></label>
+                  <label class="plot__half" for="plot-rating9" title="4 1/2 stars"></label>
                   <input class="plot__input" type="radio" id="plot-rating8" name="plot__rating" value="4" />
                   <label class="plot__label" for="plot-rating8" title="4 stars"></label>
                   <input class="plot__input" type="radio" id="plot-rating7" name="plot__rating" value="3.5" />
@@ -120,7 +120,7 @@
                   <label class="characters__label" for="characters-rating10" title="5 stars"></label>
                   <input class="characters__input" type="radio" id="characters-rating9" name="characters__rating"
                     value="4.5" />
-                  <label class="characters__half" for="rcharacters-ating9" title="4 1/2 stars"></label>
+                  <label class="characters__half" for="characters-rating9" title="4 1/2 stars"></label>
                   <input class="characters__input" type="radio" id="characters-rating8" name="characters__rating"
                     value="4" />
                   <label class="characters__label" for="characters-rating8" title="4 stars"></label>
@@ -230,7 +230,7 @@
                   <label class="overall__label" for="overall-rating10" title="5 stars"></label>
                   <input class="overall__input" disabled="true" type="radio" id="overall-rating9" name="overall__rating"
                     value="4.5" />
-                  <label class="overall__half" for="overall-ating9" title="4 1/2 stars"></label>
+                  <label class="overall__half" for="overall-rating9" title="4 1/2 stars"></label>
                   <input class="overall__input" disabled="true" type="radio" id="overall-rating8" name="overall__rating"
                     value="4" />
                   <label class="overall__label" for="overall-rating8" title="4 stars"></label>
@@ -338,12 +338,15 @@
                 ...
               </p>
               <div class="item__page-content">
-                <p class="item__page-text" contenteditable="true">
+                <p class="item__page-text">
                   page
                 </p>
                 <p class="item__page-num item__user-input" data-name="input8" contenteditable="true">
                   ##
                 </p>
+                <!-- <input class="item__page-num item__user-input" data-name="input8" contenteditable="true" type="text"
+                  oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                </input> -->
               </div>
             </div>
           </li>

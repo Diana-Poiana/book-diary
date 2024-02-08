@@ -282,6 +282,7 @@ body {
   }
 
   &__page-num {
+    width: 60px;
     font-size: 20px;
   }
 
@@ -346,7 +347,7 @@ body {
 
   &__label:before {
     display: inline-block;
-    font-size: 35px;
+    font-size: 45px;
     padding: 5px;
     cursor: pointer;
     font-family: FontAwesome;
@@ -356,7 +357,7 @@ body {
 
   &__half:before {
     display: inline-block;
-    font-size: 35px;
+    font-size: 45px;
     padding: 5px;
     cursor: pointer;
     font-family: FontAwesome;
@@ -369,13 +370,15 @@ body {
   &__label:hover~.setting__half:before,
   &__label:hover~.setting__label:before,
   &__half:hover~.setting__half:before,
-  &__half:hover~.setting__label:before {
-    color: black;
+  &__half:hover~.setting__label:before,
+  &__input:hover~.setting__label:before,
+  &__input:hover~.setting__half:before {
+    color: rgb(101, 101, 101);
   }
 
   &__input:checked~.setting__label:before,
   &__input:checked~.setting__half:before {
-    color: black
+    color: black;
   }
 }
 
@@ -394,7 +397,7 @@ body {
 
   &__label:before {
     display: inline-block;
-    font-size: 35px;
+    font-size: 45px;
     padding: 5px;
     cursor: pointer;
     font-family: FontAwesome;
@@ -404,7 +407,7 @@ body {
 
   &__half:before {
     display: inline-block;
-    font-size: 35px;
+    font-size: 45px;
     padding: 5px;
     cursor: pointer;
     font-family: FontAwesome;
@@ -417,13 +420,15 @@ body {
   &__label:hover~.plot__half:before,
   &__label:hover~.plot__label:before,
   &__half:hover~.plot__half:before,
-  &__half:hover~.plot__label:before {
-    color: black;
+  &__half:hover~.plot__label:before,
+  &__input:hover~.plot__label:before,
+  &__input:hover~.plot__half:before {
+    color: rgb(101, 101, 101);
   }
 
   &__input:checked~.plot__label:before,
   &__input:checked~.plot__half:before {
-    color: black
+    color: black;
   }
 }
 
@@ -442,7 +447,7 @@ body {
 
   &__label:before {
     display: inline-block;
-    font-size: 35px;
+    font-size: 45px;
     padding: 5px;
     cursor: pointer;
     font-family: FontAwesome;
@@ -452,7 +457,7 @@ body {
 
   &__half:before {
     display: inline-block;
-    font-size: 35px;
+    font-size: 45px;
     padding: 5px;
     cursor: pointer;
     font-family: FontAwesome;
@@ -465,13 +470,15 @@ body {
   &__label:hover~.characters__half:before,
   &__label:hover~.characters__label:before,
   &__half:hover~.characters__half:before,
-  &__half:hover~.characters__label:before {
-    color: black;
+  &__half:hover~.characters__label:before,
+  &__input:hover~.characters__label:before,
+  &__input:hover~.characters__half:before {
+    color: rgb(101, 101, 101);
   }
 
   &__input:checked~.characters__label:before,
   &__input:checked~.characters__half:before {
-    color: black
+    color: black;
   }
 }
 
@@ -490,7 +497,7 @@ body {
 
   &__label:before {
     display: inline-block;
-    font-size: 35px;
+    font-size: 45px;
     padding: 5px;
     cursor: pointer;
     font-family: FontAwesome;
@@ -500,7 +507,7 @@ body {
 
   &__half:before {
     display: inline-block;
-    font-size: 35px;
+    font-size: 45px;
     padding: 5px;
     cursor: pointer;
     font-family: FontAwesome;
@@ -513,13 +520,15 @@ body {
   &__label:hover~.style__half:before,
   &__label:hover~.style__label:before,
   &__half:hover~.style__half:before,
-  &__half:hover~.style__label:before {
-    color: black;
+  &__half:hover~.style__label:before,
+  &__input:hover~.style__label:before,
+  &__input:hover~.style__half:before {
+    color: rgb(101, 101, 101);
   }
 
   &__input:checked~.style__label:before,
   &__input:checked~.style__half:before {
-    color: black
+    color: black;
   }
 }
 
@@ -538,7 +547,7 @@ body {
 
   &__label:before {
     display: inline-block;
-    font-size: 35px;
+    font-size: 45px;
     padding: 5px;
     cursor: pointer;
     font-family: FontAwesome;
@@ -548,7 +557,7 @@ body {
 
   &__half:before {
     display: inline-block;
-    font-size: 35px;
+    font-size: 45px;
     padding: 5px;
     cursor: pointer;
     font-family: FontAwesome;
@@ -561,13 +570,15 @@ body {
   &__label:hover~.engagement__half:before,
   &__label:hover~.engagement__label:before,
   &__half:hover~.engagement__half:before,
-  &__half:hover~.engagement__label:before {
-    color: black;
+  &__half:hover~.engagement__label:before,
+  &__input:hover~.engagement__label:before,
+  &__input:hover~.engagement__half:before {
+    color: rgb(101, 101, 101);
   }
 
   &__input:checked~.engagement__label:before,
   &__input:checked~.engagement__half:before {
-    color: black
+    color: black;
   }
 }
 
@@ -586,7 +597,7 @@ body {
 
   &__label:before {
     display: inline-block;
-    font-size: 35px;
+    font-size: 45px;
     padding: 5px;
     font-family: FontAwesome;
     content: "\f005 ";
@@ -595,7 +606,7 @@ body {
 
   &__half:before {
     display: inline-block;
-    font-size: 35px;
+    font-size: 45px;
     padding: 5px;
     font-family: FontAwesome;
     content: "\f089 ";
@@ -606,7 +617,7 @@ body {
 
   &__input:checked~.overall__label:before,
   &__input:checked~.overall__half:before {
-    color: black
+    color: black;
   }
 }
 
@@ -843,7 +854,7 @@ body {
   }
 
   &__add-review {
-    display: block;
+    display: none;
     margin-bottom: 32px;
 
     @media(max-width: 576px) {

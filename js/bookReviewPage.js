@@ -43,7 +43,7 @@ let savedFinish;
 const listOfReviews = document.querySelector('.list-of-books__list');
 let arrayToUse;
 const messageForUser = document.querySelector('.list-of-books__message');
-const reviewPlaceholders = document.querySelectorAll('.list-of-books__placeholder');
+const addReviewBtn = document.querySelector('.list-of-books__add-review');
 
 // rating 
 function getRating(inputs, starsVariable) {
@@ -453,10 +453,7 @@ async function populateHtmlReview(data) {
   if (data.length === 0 && sessionStorage.getItem('user-creds')) {
     messageForUser.style.display = 'flex';
     messageForUser.textContent = 'You do not have any reviews';
-  } else {
-    reviewPlaceholders.forEach((reviewPlaceholder) => {
-      reviewPlaceholder.style.display = 'none';
-    })
+    addReviewBtn.style.display = 'block';
   }
 
   data.forEach((array) => {
