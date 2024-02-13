@@ -1,11 +1,16 @@
 @import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
 body {
+  overflow-x: hidden;
   color: #1f1b14;
   font-size: 16px;
   font-family: "Overpass", sans-serif;
   font-weight: 400;
   background-color: rgb(245, 243, 240);
   line-height: 1.2;
+}
+
+.content__wrapper {
+  overflow-x: hidden;
 }
 
 .container {
@@ -39,15 +44,11 @@ body {
 
 .header__content {
   padding: 40px 0;
+  max-width: 280px;
 }
 .header__review-name {
   font-size: 24px;
   text-transform: uppercase;
-}
-@media (max-width: 576px) {
-  .header__review-name {
-    font-size: 18px;
-  }
 }
 .header__book-title {
   font-family: "Cinzel Decorative", serif;
@@ -95,6 +96,11 @@ body {
 @media (max-width: 800px) {
   .review__content {
     grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 576px) {
+  .review__content {
+    grid-template-columns: 280px;
   }
 }
 .review__item {
@@ -290,7 +296,7 @@ body {
 }
 .setting__label:before {
   display: inline-block;
-  font-size: 45px;
+  font-size: 33px;
   padding: 5px;
   cursor: pointer;
   font-family: FontAwesome;
@@ -299,7 +305,7 @@ body {
 }
 .setting__half:before {
   display: inline-block;
-  font-size: 45px;
+  font-size: 33px;
   padding: 5px;
   cursor: pointer;
   font-family: FontAwesome;
@@ -326,7 +332,7 @@ body {
 }
 .plot__label:before {
   display: inline-block;
-  font-size: 45px;
+  font-size: 33px;
   padding: 5px;
   cursor: pointer;
   font-family: FontAwesome;
@@ -335,7 +341,7 @@ body {
 }
 .plot__half:before {
   display: inline-block;
-  font-size: 45px;
+  font-size: 33px;
   padding: 5px;
   cursor: pointer;
   font-family: FontAwesome;
@@ -362,7 +368,7 @@ body {
 }
 .characters__label:before {
   display: inline-block;
-  font-size: 45px;
+  font-size: 33px;
   padding: 5px;
   cursor: pointer;
   font-family: FontAwesome;
@@ -371,7 +377,7 @@ body {
 }
 .characters__half:before {
   display: inline-block;
-  font-size: 45px;
+  font-size: 33px;
   padding: 5px;
   cursor: pointer;
   font-family: FontAwesome;
@@ -398,7 +404,7 @@ body {
 }
 .style__label:before {
   display: inline-block;
-  font-size: 45px;
+  font-size: 33px;
   padding: 5px;
   cursor: pointer;
   font-family: FontAwesome;
@@ -407,7 +413,7 @@ body {
 }
 .style__half:before {
   display: inline-block;
-  font-size: 45px;
+  font-size: 33px;
   padding: 5px;
   cursor: pointer;
   font-family: FontAwesome;
@@ -434,7 +440,7 @@ body {
 }
 .engagement__label:before {
   display: inline-block;
-  font-size: 45px;
+  font-size: 33px;
   padding: 5px;
   cursor: pointer;
   font-family: FontAwesome;
@@ -443,7 +449,7 @@ body {
 }
 .engagement__half:before {
   display: inline-block;
-  font-size: 45px;
+  font-size: 33px;
   padding: 5px;
   cursor: pointer;
   font-family: FontAwesome;
@@ -470,7 +476,7 @@ body {
 }
 .overall__label:before {
   display: inline-block;
-  font-size: 45px;
+  font-size: 33px;
   padding: 5px;
   font-family: FontAwesome;
   content: "\f005";
@@ -478,7 +484,7 @@ body {
 }
 .overall__half:before {
   display: inline-block;
-  font-size: 45px;
+  font-size: 33px;
   padding: 5px;
   font-family: FontAwesome;
   content: "\f089";

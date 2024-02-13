@@ -153,9 +153,12 @@ function getRatingFromLocalStorage() {
 }
 
 // datepicker
+let startDate = {}
+let finishDate = {};
+
 function setDatepickerStartDate() {
   if (calendarStartDay) {
-    const startDate = datepicker(calendarStartDay, {
+    startDate = datepicker(calendarStartDay, {
       maxDate: new Date(maxDate),
       formatter: (input, date) => {
         const formattedDate = date.toLocaleDateString();
@@ -166,21 +169,15 @@ function setDatepickerStartDate() {
         input.value = formattedDate;
         savedStart = input.value;
         localStorage.setItem('start-date', savedStart);
-        const saveDate = checkNewMinDate();
-        finishDate.setMin(saveDate);
       },
       container: document.querySelector('.book-description__start-date'),
     });
-    checkNewMinDate();
   }
 }
 
-
-let finishDate = {};
 function setDatepickerFinishDate() {
   if (calendarFinishDay) {
     finishDate = datepicker(calendarFinishDay, {
-      // minDate: startDate,
       maxDate: new Date(maxDate),
       formatter: (input, date) => {
         const formattedDate = date.toLocaleDateString();
@@ -196,8 +193,6 @@ function setDatepickerFinishDate() {
     });
   }
 }
-
-
 
 function checkForDates() {
   if (calendarStartDay || calendarFinishDay) {
@@ -226,9 +221,6 @@ function checkForDates() {
   return dates;
 }
 
-checkForDates();
-setDatepickerStartDate();
-
 function checkNewMinDate() {
   const parts = savedStart.split('/');
   const saveDate = new Date(parts[2], parts[1] - 1, parts[0]);
@@ -236,14 +228,19 @@ function checkNewMinDate() {
   return saveDate;
 }
 
-checkNewMinDate();
+calendarFinishDay.addEventListener('click', () => {
+  const saveDate = checkNewMinDate();
+  finishDate.setMin(saveDate);
 
 
+  console.log(calendarFinishDay.value);
 
+
+});
+
+checkForDates();
+setDatepickerStartDate();
 setDatepickerFinishDate();
-
-
-
 
 // local storage collecting data
 function collectUserData() {

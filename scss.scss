@@ -8,12 +8,17 @@ $bg: rgb(245, 243, 240);
 $white: #ffffff;
 
 body {
+  overflow-x: hidden;
   color: $font-color;
   font-size: 16px;
   font-family: 'Overpass', sans-serif;
   font-weight: 400;
   background-color: $bg;
   line-height: 1.2;
+}
+
+.content__wrapper {
+  overflow-x: hidden;
 }
 
 .container {
@@ -48,15 +53,12 @@ body {
 .header {
   &__content {
     padding: 40px 0;
+    max-width: 280px;
   }
 
   &__review-name {
     font-size: 24px;
     text-transform: uppercase;
-
-    @media(max-width: 576px) {
-      font-size: 18px;
-    }
   }
 
   &__book-title {
@@ -87,7 +89,6 @@ body {
 
 .review {
 
-
   &__content {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -104,6 +105,10 @@ body {
 
     @media (max-width: 800px) {
       grid-template-columns: 1fr;
+    }
+
+    @media (max-width: 576px) {
+      grid-template-columns: 280px;
     }
   }
 
@@ -346,7 +351,7 @@ body {
 
   &__label:before {
     display: inline-block;
-    font-size: 45px;
+    font-size: 33px;
     padding: 5px;
     cursor: pointer;
     font-family: FontAwesome;
@@ -356,7 +361,7 @@ body {
 
   &__half:before {
     display: inline-block;
-    font-size: 45px;
+    font-size: 33px;
     padding: 5px;
     cursor: pointer;
     font-family: FontAwesome;
@@ -396,7 +401,7 @@ body {
 
   &__label:before {
     display: inline-block;
-    font-size: 45px;
+    font-size: 33px;
     padding: 5px;
     cursor: pointer;
     font-family: FontAwesome;
@@ -406,7 +411,7 @@ body {
 
   &__half:before {
     display: inline-block;
-    font-size: 45px;
+    font-size: 33px;
     padding: 5px;
     cursor: pointer;
     font-family: FontAwesome;
@@ -446,7 +451,7 @@ body {
 
   &__label:before {
     display: inline-block;
-    font-size: 45px;
+    font-size: 33px;
     padding: 5px;
     cursor: pointer;
     font-family: FontAwesome;
@@ -456,7 +461,7 @@ body {
 
   &__half:before {
     display: inline-block;
-    font-size: 45px;
+    font-size: 33px;
     padding: 5px;
     cursor: pointer;
     font-family: FontAwesome;
@@ -496,7 +501,7 @@ body {
 
   &__label:before {
     display: inline-block;
-    font-size: 45px;
+    font-size: 33px;
     padding: 5px;
     cursor: pointer;
     font-family: FontAwesome;
@@ -506,7 +511,7 @@ body {
 
   &__half:before {
     display: inline-block;
-    font-size: 45px;
+    font-size: 33px;
     padding: 5px;
     cursor: pointer;
     font-family: FontAwesome;
@@ -546,7 +551,7 @@ body {
 
   &__label:before {
     display: inline-block;
-    font-size: 45px;
+    font-size: 33px;
     padding: 5px;
     cursor: pointer;
     font-family: FontAwesome;
@@ -556,7 +561,7 @@ body {
 
   &__half:before {
     display: inline-block;
-    font-size: 45px;
+    font-size: 33px;
     padding: 5px;
     cursor: pointer;
     font-family: FontAwesome;
@@ -596,7 +601,7 @@ body {
 
   &__label:before {
     display: inline-block;
-    font-size: 45px;
+    font-size: 33px;
     padding: 5px;
     font-family: FontAwesome;
     content: "\f005 ";
@@ -605,7 +610,7 @@ body {
 
   &__half:before {
     display: inline-block;
-    font-size: 45px;
+    font-size: 33px;
     padding: 5px;
     font-family: FontAwesome;
     content: "\f089 ";
