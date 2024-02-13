@@ -1,5 +1,5 @@
 import { db, ref, set } from './firebaseConfiguration.js';
-import { applyUserData, updateDates, changeOverallRating, uploadImgToFirebase } from './bookReviewPage.js';
+import { applyUserData, changeOverallRating, uploadImgToFirebase, checkForDates } from './bookReviewPage.js';
 
 const saveBtn = document.querySelector('.review__save-btn');
 const loader = document.querySelector('.review__loader');
@@ -46,7 +46,7 @@ function saveAllDataAndSendToFirebase() {
   return new Promise(async function (resolve, reject) {
     try {
       const userDataForFirebase = await applyUserData();
-      const dates = await updateDates();
+      const dates = await checkForDates();
       const rating = await changeOverallRating();
       const userID = await getUserAuthorizationInfo();
       const { title, author } = await checkTitleAndAuthor();
@@ -69,7 +69,7 @@ function saveAllDataAndSendToFirebase() {
     }
   })
     .then(({ userDataForFirebase, dates, rating, userID, title, author, downloadURL }) => {
-      return set(ref(db, `users/${userID}/${title}-${author}`), {
+      return set(ref(db, `users/${userID}/${title}`), {
         userDataForFirebase,
         dates,
         rating,

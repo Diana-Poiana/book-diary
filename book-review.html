@@ -285,15 +285,13 @@
               <div class="book-description__dates">
                 <label class="book-description__start" for="start-date">
                   Start date
-                  <input class="book-description__start-date" name="start-date" type="text"
-                    placeholder="Enter start date">
+                  <input class="book-description__start-date" name="start-date" type="text">
                 </label>
 
 
                 <label class="book-description__finish" for="finish-date">
                   Finish date
-                  <input class="book-description__finish-date" name="finish-date" type="text"
-                    placeholder="Enter finish date">
+                  <input class="book-description__finish-date" name="finish-date" type="text">
                 </label>
 
               </div>
@@ -344,9 +342,6 @@
                 <p class="item__page-num item__user-input" data-name="input8" contenteditable="true">
                   ##
                 </p>
-                <!-- <input class="item__page-num item__user-input" data-name="input8" contenteditable="true" type="text"
-                  oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-                </input> -->
               </div>
             </div>
           </li>
@@ -399,7 +394,19 @@
   <script src="https://unpkg.com/js-datepicker"></script>
   <script type="module" src="js/bookReviewPage.js"></script>
   <script type="module" src="js/firebaseSaveSendData.js"></script>
-  <script></script>
+  <script type="module">
+    import { getDataForExcistingReview } from '/js/bookReviewPage.js';
+
+    window.onload = function () {
+      if (sessionStorage.getItem('user-creds') && sessionStorage.getItem('pageToOpen')) {
+        const userInfo = JSON.parse(sessionStorage.getItem('user-creds'));
+        const bookTitle = JSON.parse(sessionStorage.getItem('pageToOpen'));
+        const userID = userInfo.uid;
+
+        getDataForExcistingReview(userID, bookTitle);
+      }
+    };
+  </script>
 </body>
 
 </html>

@@ -282,7 +282,6 @@ body {
   }
 
   &__page-num {
-    width: 60px;
     font-size: 20px;
   }
 
@@ -718,6 +717,7 @@ body {
   &__start-date,
   &__finish-date {
     position: relative;
+    width: 140px;
   }
 
   &__start,
@@ -727,8 +727,8 @@ body {
     line-height: 2;
   }
 
-  .qs-datepicker-container {
-    left: -80px !important;
+  &__finish .qs-datepicker-container {
+    left: -133px !important;
   }
 
   @media(max-width: 400px) {

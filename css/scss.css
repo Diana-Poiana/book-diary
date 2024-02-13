@@ -242,7 +242,6 @@ body {
   margin-bottom: 6px;
 }
 .item__page-num {
-  width: 60px;
   font-size: 20px;
 }
 .item__png {
@@ -573,14 +572,15 @@ body {
 }
 .book-description__start-date, .book-description__finish-date {
   position: relative;
+  width: 140px;
 }
 .book-description__start, .book-description__finish {
   position: relative;
   width: 140px;
   line-height: 2;
 }
-.book-description .qs-datepicker-container {
-  left: -80px !important;
+.book-description__finish .qs-datepicker-container {
+  left: -133px !important;
 }
 @media (max-width: 400px) {
   .book-description__start, .book-description__finish {

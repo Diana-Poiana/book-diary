@@ -1,4 +1,4 @@
-import { dbref, get, child, storage, sRef, uploadBytesResumable, getDownloadURL } from './firebaseConfiguration.js';
+import { dbref, ref, db, get, child, storage, sRef, uploadBytesResumable, getDownloadURL, onValue } from './firebaseConfiguration.js';
 import { getUserAuthorizationInfo, hideLoader } from './firebaseSaveSendData.js';
 
 
@@ -19,10 +19,12 @@ let styleStars;
 let engagementStars;
 let overallStars = 0;
 // calendars
-const currentDate = new Date();
-const maxDate = currentDate.toISOString().split('T')[0];
-currentDate.setDate(currentDate.getDate() - 7);
-const minDate = currentDate.toISOString().split('T')[0];
+
+const maxDate = new Date();
+const minDate = new Date();
+minDate.setDate(minDate.getDate() - 7);
+
+
 // calendar html elements
 const calendarStartDay = document.querySelector('.book-description__start-date');
 const calendarFinishDay = document.querySelector('.book-description__finish-date');
@@ -44,6 +46,15 @@ const listOfReviews = document.querySelector('.list-of-books__list');
 let arrayToUse;
 const messageForUser = document.querySelector('.list-of-books__message');
 const addReviewBtn = document.querySelector('.list-of-books__add-review');
+
+const pageInput = document.querySelector('.item__page-num');
+
+if (pageInput) {
+  pageInput.addEventListener('input', function (e) {
+    let text = e.target.innerText;
+    e.target.innerText = text.replace(/\D/g, '');
+  });
+}
 
 // rating 
 function getRating(inputs, starsVariable) {
@@ -145,7 +156,6 @@ function getRatingFromLocalStorage() {
 function setDatepickerStartDate() {
   if (calendarStartDay) {
     const startDate = datepicker(calendarStartDay, {
-      minDate: new Date(minDate),
       maxDate: new Date(maxDate),
       formatter: (input, date) => {
         const formattedDate = date.toLocaleDateString();
@@ -156,17 +166,21 @@ function setDatepickerStartDate() {
         input.value = formattedDate;
         savedStart = input.value;
         localStorage.setItem('start-date', savedStart);
-        updateDates();
+        const saveDate = checkNewMinDate();
+        finishDate.setMin(saveDate);
       },
       container: document.querySelector('.book-description__start-date'),
     });
+    checkNewMinDate();
   }
 }
 
+
+let finishDate = {};
 function setDatepickerFinishDate() {
   if (calendarFinishDay) {
-    const finishDate = datepicker(calendarFinishDay, {
-      minDate: new Date(minDate),
+    finishDate = datepicker(calendarFinishDay, {
+      // minDate: startDate,
       maxDate: new Date(maxDate),
       formatter: (input, date) => {
         const formattedDate = date.toLocaleDateString();
@@ -177,24 +191,33 @@ function setDatepickerFinishDate() {
         input.value = formattedDate;
         savedFinish = input.value;
         localStorage.setItem('finish-date', savedFinish);
-        updateDates();
       },
-      container: document.querySelector('.book-description__dates'),
+      container: document.querySelector('.book-description__finish-date'),
     });
   }
 }
 
-function updateDates(start, finish) {
-  if (start) {
-    calendarStartDay.value = start;
-    savedStart = start;
-    localStorage.setItem('start-date', savedStart);
-  }
 
-  if (finish) {
-    calendarFinishDay.value = finish;
-    savedFinish = finish;
-    localStorage.setItem('finish-date', savedFinish);
+
+function checkForDates() {
+  if (calendarStartDay || calendarFinishDay) {
+    if (localStorage.getItem('start-date')) {
+      savedStart = localStorage.getItem('start-date');
+      calendarStartDay.value = savedStart;
+    } else {
+      savedStart = minDate.toLocaleDateString();
+      calendarStartDay.value = savedStart;
+      localStorage.setItem('start-date', savedStart);
+    }
+
+    if (localStorage.getItem('finish-date')) {
+      savedFinish = localStorage.getItem('finish-date');
+      calendarFinishDay.value = savedFinish;
+    } else {
+      savedFinish = maxDate.toLocaleDateString();
+      calendarFinishDay.value = savedFinish;
+      localStorage.setItem('finish-date', savedFinish);
+    }
   }
 
   dates['savedStart'] = savedStart;
@@ -202,6 +225,25 @@ function updateDates(start, finish) {
   console.log(dates);
   return dates;
 }
+
+checkForDates();
+setDatepickerStartDate();
+
+function checkNewMinDate() {
+  const parts = savedStart.split('/');
+  const saveDate = new Date(parts[2], parts[1] - 1, parts[0]);
+  saveDate.setDate(saveDate.getDate() + 1);
+  return saveDate;
+}
+
+checkNewMinDate();
+
+
+
+setDatepickerFinishDate();
+
+
+
 
 // local storage collecting data
 function collectUserData() {
@@ -234,7 +276,7 @@ function applyUserData() {
       storedUserData[dataAttribute] = storedData;
     }
   })
-  console.log(storedUserData);
+
   return storedUserData;
 }
 
@@ -280,9 +322,7 @@ async function uploadImgToFirebase() {
 
 getRatingFromLocalStorage();
 
-setDatepickerStartDate();
-setDatepickerFinishDate();
-updateDates();
+
 
 collectUserData();
 applyUserData();
@@ -334,11 +374,21 @@ if (bookCoverInput) {
   }
 }
 
-// UPLOAD EXCISTING REVIEW
+// UPLOAD LIST REVIEW && EXCISTING SINGLE REVIEW PAGE
+function checkUserInfoToShowMessages(data) {
+  if (data.length === 0 && sessionStorage.getItem('user-creds')) {
+    messageForUser.style.display = 'flex';
+    messageForUser.textContent = 'You do not have any reviews';
+  }
+
+  if (addReviewBtn && sessionStorage.getItem('user-creds')) {
+    addReviewBtn.style.display = 'block';
+  }
+}
 /// LIST BOOK
 
 // getting users data from firebase to create list of books
-async function applyUserProfileDataFromFB() {
+async function fetchData() {
   try {
     let userDataFromFirebase = [];
     const userID = getUserAuthorizationInfo();
@@ -348,6 +398,8 @@ async function applyUserProfileDataFromFB() {
       userDataFromFirebase.push(childSnapshot.val());
     });
 
+    getDataForNewReviewListItem(userDataFromFirebase);
+    checkUserInfoToShowMessages(userDataFromFirebase);
 
     return userDataFromFirebase;
   } catch (error) {
@@ -356,18 +408,9 @@ async function applyUserProfileDataFromFB() {
   }
 }
 
-async function fetchData() {
-  try {
-    const userInfoFromDatabase = await applyUserProfileDataFromFB();
-    createReviewToSee(userInfoFromDatabase);
-    populateHtmlReview(userInfoFromDatabase);
-  } catch (error) {
-    console.error('Error fetching data:', error);
-  }
-}
-
-function createReviewToSee(userInfoFromDatabase) {
-  userInfoFromDatabase.forEach((review) => {
+// getting data to create one (or more) list item
+function getDataForNewReviewListItem(userDataFromFirebase) {
+  userDataFromFirebase.forEach((review) => {
     const userDataToFetch = Object.entries(review);
 
     // imgURL
@@ -385,11 +428,12 @@ function createReviewToSee(userInfoFromDatabase) {
     // author
     const author = userDataToFetch[3][1]['input2'];
 
-    createNewReview(author, title, imgURL, rating);
+    createNewReviewListItem(author, title, imgURL, rating);
   });
 }
 
-function createNewReview(author, title, imgURL, rating) {
+// creatingone html for one (or more) list item
+function createNewReviewListItem(author, title, imgURL, rating) {
 
   if (listOfReviews) {
 
@@ -420,6 +464,7 @@ function createNewReview(author, title, imgURL, rating) {
   return { author, title, imgURL, rating };
 }
 
+// checking whicg review user wants to open
 function checkWhichBookClicked() {
   const linksToReviews = document.querySelectorAll('.list-of-books__link-to-review');
   const lastLink = linksToReviews[linksToReviews.length - 1];
@@ -428,61 +473,38 @@ function checkWhichBookClicked() {
     e.preventDefault();
     console.log(e.target);
     console.log(e.target.id);
-    sessionStorage.setItem('pageToOpen', e.target.id);
+    sessionStorage.setItem('pageToOpen', JSON.stringify(e.target.id));
+
     window.location.href = 'book-review.html';
   });
 }
 
 fetchData();
 
-
-
 // UPLOAD EXCISTING REVIEW
-function checkReviewName() {
-  let bookTitle;
-  if (sessionStorage.getItem('pageToOpen')) {
-    bookTitle = sessionStorage.getItem('pageToOpen');
+async function getDataForExcistingReview(userID, title) {
+  try {
+    const snapshot = await get(child(dbref, `users/${userID}/${title}`));
+    const reviewInfoToUpload = snapshot.val()
+    createSingleReviewPageFromData(reviewInfoToUpload);
+    return reviewInfoToUpload;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    return null;
   }
-  return bookTitle;
 }
 
-async function populateHtmlReview(data) {
+// uploading excisting review from data received from firebase
+function createSingleReviewPageFromData(arrayToUse) {
+  // console.log('Creating page with data:', arrayToUse);
 
-  const bookTitle = checkReviewName();
-  console.log(data.length);
-  if (data.length === 0 && sessionStorage.getItem('user-creds')) {
-    messageForUser.style.display = 'flex';
-    messageForUser.textContent = 'You do not have any reviews';
-    addReviewBtn.style.display = 'block';
-  }
+  const { dates, downloadURL, rating, userDataForFirebase } = arrayToUse;
 
-  data.forEach((array) => {
-    const userDataToApply = Object.entries(array);
-    const title = userDataToApply[3][1]['input1'];
+  const { savedStart, savedFinish } = dates;
 
-    if (bookTitle === title) {
-      arrayToUse = userDataToApply;
-      createPageFromData(arrayToUse);
-    }
-  });
-}
+  bookCover.src = downloadURL;
 
-function createPageFromData(arrayToUse) {
-  console.log('Creating page with data:', arrayToUse);
-
-  const { savedStart, savedFinish } = arrayToUse[0][1];
-  console.log(savedStart, savedFinish);
-
-  updateDates(savedStart, savedFinish);
-
-
-  const imgURL = arrayToUse[1][1];
-  console.log(imgURL);
-
-  bookCover.src = imgURL;
-
-  const { settingStars, charactersStars, plotStars, engagementStars, styleStars } = arrayToUse[2][1];
-  console.log(settingStars, charactersStars, plotStars, engagementStars, styleStars);
+  const { settingStars, charactersStars, plotStars, engagementStars, styleStars } = rating;
 
   localStorage.setItem('setting__rating', settingStars);
   localStorage.setItem('plot__rating', plotStars);
@@ -492,12 +514,7 @@ function createPageFromData(arrayToUse) {
 
   getRatingFromLocalStorage();
 
-  const textInputs = arrayToUse[3][1];
-  console.log(textInputs);
-
-  let arrayOfValues = Object.keys(textInputs);
-  console.log(arrayOfValues.length);
-
+  const textInputs = userDataForFirebase;
 
   const userInputs = document.querySelectorAll('[data-name]');
 
@@ -509,6 +526,55 @@ function createPageFromData(arrayToUse) {
     }
   })
 
+
+
+
+
+
+
+  // const imgURL = downloadURL;
+  // console.log(imgURL);
+
+
+  // const { savedStart, savedFinish } = arrayToUse[0][1];
+  // console.log(savedStart, savedFinish);
+
+  // updateDates(savedStart, savedFinish);
+
+
+  // const imgURL = arrayToUse[1][1];
+  // console.log(imgURL);
+
+  // bookCover.src = imgURL;
+
+  // const { settingStars, charactersStars, plotStars, engagementStars, styleStars } = arrayToUse[2][1];
+  // console.log(settingStars, charactersStars, plotStars, engagementStars, styleStars);
+
+  // localStorage.setItem('setting__rating', settingStars);
+  // localStorage.setItem('plot__rating', plotStars);
+  // localStorage.setItem('characters__rating', charactersStars);
+  // localStorage.setItem('style__rating', styleStars);
+  // localStorage.setItem('engagement__rating', engagementStars);
+
+  // getRatingFromLocalStorage();
+
+  // const textInputs = arrayToUse[3][1];
+  // console.log(textInputs);
+
+  // let arrayOfValues = Object.keys(textInputs);
+  // console.log(arrayOfValues.length);
+
+
+  // const userInputs = document.querySelectorAll('[data-name]');
+
+  // userInputs.forEach((input, i) => {
+  //   let key = `input${i + 1}`;
+
+  //   if (key === input.getAttribute('data-name')) {
+  //     input.textContent = textInputs[key];
+  //   }
+  // })
+
 }
 
-export { applyUserData, updateDates, changeOverallRating, uploadImgToFirebase };
+export { applyUserData, changeOverallRating, uploadImgToFirebase, getDataForExcistingReview, checkForDates };
