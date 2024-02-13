@@ -63,6 +63,8 @@ function saveAllDataAndSendToFirebase() {
         throw new Error('Some values are undefined');
       }
 
+
+
       resolve({ userDataForFirebase, dates, rating, userID, title, author, downloadURL });
     } catch (error) {
       reject(error);

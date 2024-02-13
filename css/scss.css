@@ -9,10 +9,6 @@ body {
   line-height: 1.2;
 }
 
-.content__wrapper {
-  overflow-x: hidden;
-}
-
 .container {
   padding: 0 20px;
   margin: 0 auto;
@@ -44,7 +40,6 @@ body {
 
 .header__content {
   padding: 40px 0;
-  max-width: 280px;
 }
 .header__review-name {
   font-size: 24px;
@@ -96,11 +91,6 @@ body {
 @media (max-width: 800px) {
   .review__content {
     grid-template-columns: 1fr;
-  }
-}
-@media (max-width: 576px) {
-  .review__content {
-    grid-template-columns: 280px;
   }
 }
 .review__item {

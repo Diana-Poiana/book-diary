@@ -403,17 +403,17 @@
     <script type="module" src="js/bookReviewPage.js"></script>
     <script type="module" src="js/firebaseSaveSendData.js"></script>
     <script type="module">
-      import { getDataForExcistingReview } from '/js/bookReviewPage.js';
+      // import { getDataForExcistingReview } from '/js/bookReviewPage.js';
 
-      window.onload = function () {
-        if (sessionStorage.getItem('user-creds') && sessionStorage.getItem('pageToOpen')) {
-          const userInfo = JSON.parse(sessionStorage.getItem('user-creds'));
-          const bookTitle = JSON.parse(sessionStorage.getItem('pageToOpen'));
-          const userID = userInfo.uid;
+      // window.onload = function () {
+      //   if (sessionStorage.getItem('user-creds') && sessionStorage.getItem('pageToOpen')) {
+      //     const userInfo = JSON.parse(sessionStorage.getItem('user-creds'));
+      //     const bookTitle = JSON.parse(sessionStorage.getItem('pageToOpen'));
+      //     const userID = userInfo.uid;
 
-          getDataForExcistingReview(userID, bookTitle);
-        }
-      };
+      //     getDataForExcistingReview(userID, bookTitle);
+      //   }
+      // };
     </script>
   </body>
 

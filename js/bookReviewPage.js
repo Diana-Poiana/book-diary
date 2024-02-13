@@ -228,15 +228,18 @@ function checkNewMinDate() {
   return saveDate;
 }
 
-calendarFinishDay.addEventListener('click', () => {
-  const saveDate = checkNewMinDate();
-  finishDate.setMin(saveDate);
+try {
+  calendarFinishDay.addEventListener('click', () => {
+    const saveDate = checkNewMinDate();
+    finishDate.setMin(saveDate);
+
+    console.log(calendarFinishDay.value);
+  });
+} catch (error) {
+  console.log(error);
+}
 
 
-  console.log(calendarFinishDay.value);
-
-
-});
 
 checkForDates();
 setDatepickerStartDate();
@@ -373,7 +376,7 @@ if (bookCoverInput) {
 
 // UPLOAD LIST REVIEW && EXCISTING SINGLE REVIEW PAGE
 function checkUserInfoToShowMessages(data) {
-  if (data.length === 0 && sessionStorage.getItem('user-creds')) {
+  if (data.length === 0 && sessionStorage.getItem('user-creds') && messageForUser) {
     messageForUser.style.display = 'flex';
     messageForUser.textContent = 'You do not have any reviews';
   }
