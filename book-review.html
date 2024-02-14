@@ -406,11 +406,12 @@
 
 
   <script type="module" src="https://unpkg.com/js-datepicker"></script>
-  <script type="module" src="js/bookReviewPage.js"></script>
   <script type="module" src="js/firebaseSaveSendData.js"></script>
+  <script type="module" src="js/bookReviewPage.js"></script>
+
   <script type="module">
 
-    import { getDataForExcistingReview, toggleMainLoader } from '/js/bookReviewPage.js';
+    import { getDataForExcistingReview, toggleMainLoader } from './js/bookReviewPage.js';
 
     function getUrlParams() {
       const urlParams = new URLSearchParams(window.location.search);
