@@ -353,14 +353,11 @@ try {
 
 if (bookCoverInput) {
   bookCoverInput.addEventListener('change', (e) => {
-    const loader = document.querySelector('.book-description__loader');
-    loader.style.display = 'block';
     files = e.target.files;
     reader.readAsDataURL(files[0]);
 
     reader.addEventListener('load', () => {
       bookCover.src = reader.result;
-      loader.style.display = 'none';
     });
   });
 
@@ -492,6 +489,15 @@ fetchData();
 
 //   return queryParams;
 // }
+const main = document.querySelector('.main');
+const header = document.querySelector('.header');
+const spinner = document.querySelector('.loader__wrapper');
+
+function toggleMainLoader() {
+  main.style.filter = 'none';
+  header.style.filter = 'none';
+  spinner.style.display = 'none';
+}
 
 // UPLOAD EXCISTING REVIEW
 async function getDataForExcistingReview(userID, title) {
@@ -504,6 +510,7 @@ async function getDataForExcistingReview(userID, title) {
     const snapshot = await get(child(dbref, `users/${userID}/` + queryParams.toString()));
     const reviewInfoToUpload = snapshot.val();
     createSingleReviewPageFromData(reviewInfoToUpload);
+    toggleMainLoader();
     return reviewInfoToUpload;
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -547,4 +554,4 @@ function createSingleReviewPageFromData(arrayToUse) {
   })
 }
 
-export { applyUserData, changeOverallRating, uploadImgToFirebase, getDataForExcistingReview, checkForDates };
+export { applyUserData, changeOverallRating, uploadImgToFirebase, getDataForExcistingReview, checkForDates, toggleMainLoader };

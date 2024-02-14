@@ -16,6 +16,34 @@ body {
   width: 100%;
 }
 
+.loader__wrapper {
+  position: absolute;
+  z-index: 20;
+  text-align: center;
+  top: 40%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 180px;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+}
+
+.loader {
+  height: 30px;
+  aspect-ratio: 6;
+  --c: #0000 64%, #000 66% 98%, #0000 101%;
+  background: radial-gradient(35% 146% at 50% 159%, var(--c)) 0 0, radial-gradient(35% 146% at 50% -59%, var(--c)) 25% 100%;
+  background-size: 33.3333333333% 50%;
+  background-repeat: repeat-x;
+  animation: l1 1s infinite linear;
+}
+
+@keyframes l1 {
+  to {
+    background-position: 50% 0, 75% 100%;
+  }
+}
 .btn {
   text-align: center;
   color: #1f1b14;
@@ -606,27 +634,6 @@ body {
   color: #1f1b14;
   font-size: 20px;
   font-weight: 700;
-}
-.book-description__loader {
-  display: none;
-  position: relative;
-  margin: 10px auto 0;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background: conic-gradient(#ad9d85, transparent);
-  animation: rotating 1s linear infinite;
-}
-.book-description__loader::before {
-  content: "";
-  width: 15px;
-  height: 15px;
-  border-radius: 50%;
-  position: absolute;
-  background-color: rgb(245, 243, 240);
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 }
 
 .quotes__content {
