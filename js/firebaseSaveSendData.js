@@ -7,7 +7,6 @@ const loader = document.querySelector('.review__loader');
 const bookTitle = document.querySelector('.header__book-title');
 const bookAuthor = document.querySelector('.header__book-author');
 
-
 function showLoader() {
   saveBtn.setAttribute('disabled', true);
   loader.style.display = 'flex';
@@ -30,7 +29,7 @@ function getUserAuthorizationInfo() {
 
 //check for title and author (required fields)
 function checkTitleAndAuthor() {
-  if (bookTitle.textContent === 'title' || bookTitle.textContent === '' || bookAuthor.textContent === 'author' || bookAuthor.textContent === '') {
+  if (bookTitle.textContent === 'title' || bookTitle.textContent === '' || bookAuthor.textContent === 'Author' || bookAuthor.textContent === '') {
     alert('Please enter the title and author of the book');
     hideLoader();
   } else {
@@ -51,6 +50,7 @@ function saveAllDataAndSendToFirebase() {
       const userID = await getUserAuthorizationInfo();
       const { title, author } = await checkTitleAndAuthor();
       const downloadURL = await uploadImgToFirebase();
+
       if (dates['savedStart'] === undefined || dates['savedFinish'] === undefined) {
         alert("Please enter start and finish dates");
         hideLoader();
@@ -63,24 +63,27 @@ function saveAllDataAndSendToFirebase() {
         throw new Error('Some values are undefined');
       }
 
+      const queryParams = new URLSearchParams({
+        userID: userID,
+        title: title
+      });
 
 
-      resolve({ userDataForFirebase, dates, rating, userID, title, author, downloadURL });
+      resolve({ userDataForFirebase, dates, rating, userID, title, author, downloadURL, queryParams });
     } catch (error) {
       reject(error);
     }
   })
-    .then(({ userDataForFirebase, dates, rating, userID, title, author, downloadURL }) => {
-      return set(ref(db, `users/${userID}/${title}`), {
+    .then(({ userDataForFirebase, dates, rating, userID, downloadURL, queryParams }) => {
+      return set(ref(db, `users/${userID}/` + queryParams.toString()), {
         userDataForFirebase,
         dates,
         rating,
         userID,
         downloadURL
-      });
+      })
     })
     .then(() => {
-      console.log('all sent! =)');
       localStorage.clear();
       window.location.href = 'index.html';
     })

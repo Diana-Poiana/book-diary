@@ -607,6 +607,27 @@ body {
   font-size: 20px;
   font-weight: 700;
 }
+.book-description__loader {
+  display: none;
+  position: relative;
+  margin: 10px auto 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: conic-gradient(#ad9d85, transparent);
+  animation: rotating 1s linear infinite;
+}
+.book-description__loader::before {
+  content: "";
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  position: absolute;
+  background-color: rgb(245, 243, 240);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 
 .quotes__content {
   position: relative;

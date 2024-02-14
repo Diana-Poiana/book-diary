@@ -284,7 +284,11 @@
             <li class="review__item book-description">
               <div class="book-description__content">
                 <div class="book-description__cover">
-                  <label class="book-description__cover-label" for="cover-input">Book cover here</label>
+                  <label class="book-description__cover-label" for="cover-input">
+                    Book cover here
+                    <div class="book-description__loader">
+                    </div>
+                  </label>
                   <input class="book-description__cover-input" name="cover-input" type="file">
                   <img class="book-description__cover-img">
                 </div>
@@ -294,7 +298,6 @@
                     Start date
                     <input class="book-description__start-date" name="start-date" type="text">
                   </label>
-
 
                   <label class="book-description__finish" for="finish-date">
                     Finish date
@@ -403,17 +406,24 @@
     <script type="module" src="js/bookReviewPage.js"></script>
     <script type="module" src="js/firebaseSaveSendData.js"></script>
     <script type="module">
-      // import { getDataForExcistingReview } from '/js/bookReviewPage.js';
 
-      // window.onload = function () {
-      //   if (sessionStorage.getItem('user-creds') && sessionStorage.getItem('pageToOpen')) {
-      //     const userInfo = JSON.parse(sessionStorage.getItem('user-creds'));
-      //     const bookTitle = JSON.parse(sessionStorage.getItem('pageToOpen'));
-      //     const userID = userInfo.uid;
+      import { getDataForExcistingReview } from '/js/bookReviewPage.js';
 
-      //     getDataForExcistingReview(userID, bookTitle);
-      //   }
-      // };
+      function getUrlParams() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const userID = urlParams.get('userID');
+        const title = urlParams.get('title');
+        return { userID, title };
+      }
+
+      const { userID, title } = getUrlParams();
+
+      window.onload = function () {
+        if (title !== null || userID !== null) {
+          getDataForExcistingReview(userID, title);
+        }
+      };
+
     </script>
   </body>
 

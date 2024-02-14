@@ -768,6 +768,29 @@ body {
     font-weight: 700;
   }
 
+
+  &__loader {
+    display: none;
+    position: relative;
+    margin: 10px auto 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: conic-gradient($accent-color, transparent);
+    animation: rotating 1s linear infinite;
+  }
+
+  &__loader::before {
+    content: '';
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    position: absolute;
+    background-color: $bg;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 }
 
 .quotes {
