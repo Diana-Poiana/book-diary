@@ -19,6 +19,10 @@
 </head>
 
 <body>
+  <div class="loader__wrapper" style="display: none">
+    Loading, please wait...
+    <div class="loader"></div>
+  </div>
   <!-- main -->
   <main class="main">
     <div class="container">
@@ -55,9 +59,11 @@
 
   <script type="module" src="js/userAuthorization.js"></script>
   <script type="module" src="js/firebaseSaveSendData.js"></script>
-  <script>
+  <script type="module">
+
     window.onload = localStorage.clear();
     window.onload = sessionStorage.removeItem('pageToOpen');
+
   </script>
 </body>
 
