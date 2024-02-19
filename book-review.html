@@ -44,7 +44,9 @@
   <!-- main -->
   <main class="main" style="filter: blur(10px)">
     <div class="container">
-
+      <h1 class="title sr-only">
+        Book Diary Main Page
+      </h1>
       <section class="review__section">
         <ul class="review__content">
 
@@ -52,9 +54,9 @@
             <div class="rating__content">
 
               <div class="rating__block">
-                <p class="rating__name">
+                <h2 class="rating__name">
                   Setting
-                </p>
+                </h2>
                 <p class="rating__description">
                   World-building, lore, atmosphere, etc.
                 </p>
@@ -232,34 +234,34 @@
                   Overall rating
                 </p>
                 <fieldset class="rating__stars" id="overall">
-                  <input class="overall__input" disabled="true" type="radio" id="overall-rating10"
-                    name="overall__rating" value="5" />
+                  <input class="overall__input" disabled type="radio" id="overall-rating10" name="overall__rating"
+                    value="5" />
                   <label class="overall__label" for="overall-rating10" title="5 stars"></label>
-                  <input class="overall__input" disabled="true" type="radio" id="overall-rating9" name="overall__rating"
+                  <input class="overall__input" disabled type="radio" id="overall-rating9" name="overall__rating"
                     value="4.5" />
                   <label class="overall__half" for="overall-rating9" title="4 1/2 stars"></label>
-                  <input class="overall__input" disabled="true" type="radio" id="overall-rating8" name="overall__rating"
+                  <input class="overall__input" disabled type="radio" id="overall-rating8" name="overall__rating"
                     value="4" />
                   <label class="overall__label" for="overall-rating8" title="4 stars"></label>
-                  <input class="overall__input" disabled="true" type="radio" id="overall-rating7" name="overall__rating"
+                  <input class="overall__input" disabled type="radio" id="overall-rating7" name="overall__rating"
                     value="3.5" />
                   <label class="overall__half" for="overall-rating7" title="3 1/2 stars"></label>
-                  <input class="overall__input" disabled="true" type="radio" id="overall-rating6" name="overall__rating"
+                  <input class="overall__input" disabled type="radio" id="overall-rating6" name="overall__rating"
                     value="3" />
                   <label class="overall__label" for="overall-rating6" title="3 stars"></label>
-                  <input class="overall__input" disabled="true" type="radio" id="overall-rating5" name="overall__rating"
+                  <input class="overall__input" disabled type="radio" id="overall-rating5" name="overall__rating"
                     value="2.5" />
                   <label class="overall__half" for="overall-rating5" title="2 1/2 stars"></label>
-                  <input class="overall__input" disabled="true" type="radio" id="overall-rating4" name="overall__rating"
+                  <input class="overall__input" disabled type="radio" id="overall-rating4" name="overall__rating"
                     value="2" />
                   <label class="overall__label" for="overall-rating4" title="2 stars"></label>
-                  <input class="overall__input" disabled="true" type="radio" id="overall-rating3" name="overall__rating"
+                  <input class="overall__input" disabled type="radio" id="overall-rating3" name="overall__rating"
                     value="1.5" />
                   <label class="overall__half" for="overall-rating3" title="1 1/2 stars"></label>
-                  <input class="overall__input" disabled="true" type="radio" id="overall-rating2" name="overall__rating"
+                  <input class="overall__input" disabled type="radio" id="overall-rating2" name="overall__rating"
                     value="1" />
                   <label class="overall__label" for="overall-rating2" title="1 star"></label>
-                  <input class="overall__input" disabled="true" type="radio" id="overall-rating1" name="overall__rating"
+                  <input class="overall__input" disabled type="radio" id="overall-rating1" name="overall__rating"
                     value="0.5" />
                   <label class="overall__half" for="overall-rating1" title="1/2 star"></label>
                 </fieldset>
@@ -270,9 +272,9 @@
 
           <li class="review__item notes">
             <div class="notes__content">
-              <p class="notes__name">
+              <h2 class="notes__name">
                 Thoughts and notes
-              </p>
+              </h2>
               <p class="notes__user-notes item__user-input" data-name="input3" contenteditable="true">
                 <img class="notes__png" src="images/star.png" alt="star">
                 Your thoughts and notes here
@@ -286,22 +288,22 @@
               <div class="book-description__cover">
                 <label class="book-description__cover-label" for="cover-input">
                   Book cover here
-                  <div class="book-description__loader">
-                  </div>
+                  <span class="book-description__loader">
+                  </span>
                 </label>
-                <input class="book-description__cover-input" name="cover-input" type="file">
+                <input class="book-description__cover-input" name="cover-input" id="cover-input" type="file">
                 <img class="book-description__cover-img">
               </div>
 
               <div class="book-description__dates">
                 <label class="book-description__start" for="start-date">
                   Start date
-                  <input class="book-description__start-date" name="start-date" type="text">
+                  <input class="book-description__start-date" name="start-date" id="start-date" type="text">
                 </label>
 
                 <label class="book-description__finish" for="finish-date">
                   Finish date
-                  <input class="book-description__finish-date" name="finish-date" type="text">
+                  <input class="book-description__finish-date" name="finish-date" id="finish-date" type="text">
                 </label>
 
               </div>
@@ -328,9 +330,9 @@
 
           <li class="review__item item  quotes__content">
             <div class="item__content">
-              <p class="item__name">
+              <h2 class="item__name">
                 Quotes to remember
-              </p>
+              </h2>
               <p class="item__user-input" data-name="input6" contenteditable="true">
                 ...
               </p>
@@ -339,9 +341,9 @@
 
           <li class="review__item item">
             <div class="item__content item__page">
-              <p class="item__name">
+              <h2 class="item__name">
                 Most surprising moment
-              </p>
+              </h2>
               <p class="item__user-input" data-name="input7" contenteditable="true">
                 ...
               </p>
@@ -358,9 +360,9 @@
 
           <li class="review__item item">
             <div class="item__content">
-              <p class="item__name">
+              <h2 class="item__name">
                 Favourite character
-              </p>
+              </h2>
               <p class="item__user-input" data-name="input9" contenteditable="true">
                 ...
               </p>
@@ -370,9 +372,9 @@
 
           <li class="review__item">
             <div class="item__content">
-              <p class="item__name">
+              <h2 class="item__name">
                 The ending
-              </p>
+              </h2>
               <p class="item__user-input" data-name="input10" contenteditable="true">
                 Liked it? Why? Why not? How should it have ended?
               </p>
@@ -381,13 +383,13 @@
 
           <li class="review__item item">
             <div class="item__content">
-              <p class="item__name">
+              <h2 class="item__name">
                 Least favourite character
-              </p>
+              </h2>
               <p class="item__user-input" data-name="input11" contenteditable="true">
                 ...
               </p>
-              <img class="item__png" src="images/clown.png" alt=heart">
+              <img class="item__png" src="images/clown.png" alt="heart">
             </div>
           </li>
 
@@ -395,8 +397,8 @@
 
         <button class="review__save-btn btn" type="submit">
           Save
-          <div class="review__loader">
-          </div>
+          <span class="review__loader">
+          </span>
         </button>
       </section>
 

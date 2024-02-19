@@ -233,10 +233,26 @@ function checkNewMinDate() {
   return saveDate;
 }
 
+function checkNewMaxDate() {
+  const parts = savedFinish.split('/');
+  const saveDate = new Date(parts[2], parts[1] - 1, parts[0]);
+  saveDate.setDate(saveDate.getDate() - 1);
+  return saveDate;
+}
+
 try {
   calendarFinishDay.addEventListener('click', () => {
     const saveDate = checkNewMinDate();
     finishDate.setMin(saveDate);
+  });
+} catch (error) {
+  console.log(error);
+}
+
+try {
+  calendarStartDay.addEventListener('click', () => {
+    const saveDate = checkNewMaxDate();
+    startDate.setMax(saveDate);
   });
 } catch (error) {
   console.log(error);

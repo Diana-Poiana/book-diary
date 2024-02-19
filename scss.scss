@@ -7,6 +7,18 @@ $second-accent: #e0dad1;
 $bg: rgb(245, 243, 240);
 $white: #ffffff;
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
 body {
   overflow-x: hidden;
   color: $font-color;
@@ -258,6 +270,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
     margin: 20px 0 50px 0;
   }
 }
@@ -1165,11 +1178,11 @@ body {
 .form__hide-button {
   color: #666666;
   display: flex;
-  align-items: center;
+  align-items: start;
 }
 
-.form__hide-svg,
-.form__show-svg {
+.form__hide-png,
+.form__show-png {
   padding-right: 3px;
 }
 
@@ -1234,8 +1247,8 @@ body {
   display: none;
   position: relative;
   margin-left: 15px;
-  width: 30px;
-  height: 30px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
   background: conic-gradient(lightgray, transparent);
   animation: rotating 1s linear infinite;
@@ -1265,20 +1278,20 @@ body {
 
 .review__loader {
   display: none;
-  position: relative;
+  position: absolute;
   margin-left: 15px;
-  width: 30px;
-  height: 30px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
   background: conic-gradient(rgb(133, 129, 129), transparent);
   animation: rotating 1s linear infinite;
-
+  right: 30px;
 }
 
 .review__loader::before {
   content: '';
-  width: 15px;
-  height: 15px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
   position: absolute;
   background-color: $btn-color;

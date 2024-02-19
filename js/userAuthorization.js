@@ -13,8 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // toggle password visability
   const hidePasswordBtn = document.querySelector('.form__hide-button');
   const btnTextInner = document.querySelector('.form__btn-txt');
-  const showSvg = document.querySelector('.form__show-svg');
-  const hideSvg = document.querySelector('.form__hide-svg');
+  const showPng = document.querySelector('.form__show-png');
+  const hidePng = document.querySelector('.form__hide-png');
   // if user authorized - hide some buttons
   const logInBtntoHide = document.querySelector('.list-of-books__autorization-btn');
   const userTextToShowAfterAutho = document.querySelector('.list-of-books__authorization-done');
@@ -31,14 +31,14 @@ document.addEventListener('DOMContentLoaded', () => {
       passwordInput.removeAttribute('type');
       passwordInput.setAttribute('type', 'text');
       btnTextInner.textContent = 'Show';
-      hideSvg.style.display = 'none';
-      showSvg.style.display = 'block';
+      hidePng.style.display = 'none';
+      showPng.style.display = 'block';
     } else if (passwordInput.getAttribute('type') == 'text') {
       passwordInput.removeAttribute('type');
       passwordInput.setAttribute('type', 'password');
       btnTextInner.textContent = 'Hide';
-      hideSvg.style.display = 'block';
-      showSvg.style.display = 'none';
+      hidePng.style.display = 'block';
+      showPng.style.display = 'none';
     }
   }
 
